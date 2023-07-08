@@ -1,0 +1,78 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{title}
+    // CSS link
+    link(rel="stylesheet", href="css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+
+  body
+    #container
+      // logo
+      #logo TírStats
+
+      // navbar
+      #navbar
+        ul.navbar-links
+          li: a(href="#") Home
+          li: a(href="#") About
+          li: a(href="#") News
+          li: a(href="#") Privacy
+          li: a(href="#") Contact
+
+        if user
+          #navbar-right
+            li#logout
+                | Logged in as: &nbsp;
+                span.user-name= user.name.split(' ')[0]
+                |
+                a.nav__el(href="/logout") Logout
+             
+        else
+          #navbar-right
+            li#signup
+              a.nav__el(href="/statsSignup1") Sign Up
+            li#login
+              a.nav__el(href="/statsLogin") Log in
+
+
+      // CONTENT
+      block content
+        h1 This is a placeholder heading
+
+      // icons
+      #icons
+        // visit => "fontawesome.com" for icons
+        a(href="#")
+          i.fab.fa-facebook-f
+        a(href="#")
+          i.fab.fa-instagram
+        a(href="#")
+          i.fab.fa-youtube
+        a(href="#")
+          i.fab.fa-twitter
+
+      // pagination
+      #pagination
+        // left arrow
+        a(href="#")
+          i.fas.fa-angle-left
+        // right arrow
+        a(href="#")
+          i.fas.fa-angle-right
+
+      // lines
+      #line1
+      #line2
+
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js")
+  scrtpt(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+  script(src="/js/statsLogin.js")
+  script(src="/js/signup.js")
+  script(src="/js/logout.js")
+  
+ 

@@ -1,0 +1,32 @@
+extends statsBase
+
+block content
+  // image
+  #image
+    img(src="./img/favpng_gaelic-football-sportart-irish.png", alt="football player png")
+
+  // content
+  #content
+    h1 Create an Account
+    form.signup-form(action="/api/v1/users/signup", method="POST")
+      // Add a div to display error messages
+      #error-message
+
+      .form-group
+        label(for="name") Name:
+        input(type="text", id="name", name="name", required)
+
+      .form-group
+        label(for="email") Email:
+        input(type="email", id="email", name="email", required)
+
+      .form-group
+        label(for="password") Password:
+        input(type="password", id="password", name="password", required)
+
+      .form-group
+        label(for="passwordConfirm") Confirm Password:
+        input(type="password", id="passwordConfirm", name="passwordConfirm", required)
+
+      .form-group
+        input(type="submit", value="Sign Up")
