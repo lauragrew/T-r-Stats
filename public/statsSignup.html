@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Website</title>
+    <!-- css link -->
+    <link rel="stylesheet" href="css/gaa.css">
+
+    <!-- script signup link -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- fontawesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <div id="container">
+        <!-- logo -->
+        <div id="logo">TírStats</div>
+
+        <!-- navbar -->
+        <div id="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Contact</a></li>
+                <!-- login Button -->
+                <li id="login"><a href="#">Login</a></li>
+
+
+            </ul>
+        </div>
+
+        <!-- image -->
+        <div id="image">
+            <img src="./img/favpng_gaelic-football-sportart-irish.png" alt="football player png">
+        </div>
+
+        <!-- content -->
+        <div id="content">
+            <h1>Create an Account</h1>
+            <form action="/api/v1/users/signup" method="POST" class="signup-form">
+                <!-- Add a div to display error messages -->
+                <div id="error-message"></div>
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordConfirm">Confirm Password:</label>
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Sign Up">
+                </div>
+            </form>
+            <div id="error-message"></div>
+        </div>
+
+
+
+        <!-- icons -->
+        <div id="icons">
+            <!-- visit => "fontawesome.com" for icons -->
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+
+        <!-- pagination -->
+        <div id="pagination">
+            <!-- left arrow -->
+            <a href="/"><i class="fas fa-angle-left"></i></a>
+            <!-- right arrow -->
+            <a href="#"><i class="fas fa-angle-right"></i></a>
+        </div>
+
+        <!-- lines -->
+        <div id="line1"></div>
+        <div id="line2"></div>
+    </div>
+    <script src="/signup.js"></script>
+
+</body>
+
+</html>
