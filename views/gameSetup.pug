@@ -1,0 +1,20 @@
+extends statsBase.pug
+
+block content
+  h1 Game Setup
+  form(action="/game", method="POST")
+    label(for="homeTeam") Home Team:
+    input(type="text", name="homeTeam", id="homeTeam", required)
+    br
+
+    label(for="awayTeam") Away Team:
+    input(type="text", name="awayTeam", id="awayTeam", required)
+    br
+
+    label(for="players") Players:
+    textarea(name="players", id="players", rows="5", required)
+    br
+
+    button(type="submit") Start Game
+
+  // Additional sections for displaying previous games, squads, and other functionalities
