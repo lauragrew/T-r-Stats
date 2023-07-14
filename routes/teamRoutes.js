@@ -9,11 +9,12 @@ router.use(authController.protect);
 router
   .route("/")
   .get(teamController.getAllTeams)
-  .post(teamController.createTeam);
+  .post(authController.restrictTo("user", "coach"), teamController.createTeam);
 
 router
   .route("/:id")
   .get(teamController.getTeam)
+  .patch(teamController.updateTeam)
   .delete(teamController.deleteTeam);
 
 module.exports = router;

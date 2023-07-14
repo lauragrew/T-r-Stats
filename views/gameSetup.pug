@@ -1,20 +1,46 @@
-extends statsBase.pug
+extends statsBase
 
 block content
-  h1 Game Setup
-  form(action="/game", method="POST")
-    label(for="homeTeam") Home Team:
-    input(type="text", name="homeTeam", id="homeTeam", required)
-    br
+  // Centered content
+  #game-setup
+    h1 Game Setup
 
-    label(for="awayTeam") Away Team:
-    input(type="text", name="awayTeam", id="awayTeam", required)
-    br
+    // Form for creating a team
+    form(action="/teams", method="POST")
+      label(for="teamName") Team Name:
+      input(type="text", name="teamName", id="teamName", required)
+      br
+      label(for="teamPlayers") Players:
+      input(type="text", name="teamPlayers", id="teamPlayers", required)
+      br
+      button(type="submit") Create Team
 
-    label(for="players") Players:
-    textarea(name="players", id="players", rows="5", required)
-    br
+    // Form for creating a player
+    form(action="/players", method="POST")
+      label(for="playerName") Player Name:
+      input(type="text", name="playerName", id="playerName", required)
+      br
+      label(for="playerTeam") Team:
+      select(name="playerTeam", id="playerTeam")
+        option(value="") Select a team
+        // Iterate over teams to populate the options
+        each team in teams
+          option(value=team._id) #{team.name}
+      br
+      button(type="submit") Create Player
 
-    button(type="submit") Start Game
+    // Section for displaying existing teams
+    h2 Existing Teams
+    each team in teams
+      div
+        h3 #{team.name}
+        p Players: #{team.players.join(', ')}
 
-  // Additional sections for displaying previous games, squads, and other functionalities
+    // Section for displaying existing players
+    h2 Existing Players
+    each player in players
+      div
+        h3 #{player.name}
+        p Team: #{player.team}
+
+    // Additional sections for delete and update operations
