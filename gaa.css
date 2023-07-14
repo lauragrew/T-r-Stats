@@ -1,0 +1,611 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  background: #e9e9eb;
+}
+
+/* logo */
+#container #logo {
+  position: absolute;
+  left: 7%;
+  top: 30px;
+  font-size: 35px;
+  z-index: 997;
+  font-weight: bold;
+  color: #07910b;
+}
+
+/* navbar */
+#navbar {
+  height: 90px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fdfefe;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+}
+
+#navbar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Center the links horizontally */
+  align-items: center; /* Center the links vertically */
+  flex-grow: 1; /* Allow the links to grow and take up remaining space */
+}
+
+#navbar ul li {
+  font-size: 20px;
+  margin: 0 32px;
+}
+
+#navbar ul li a {
+  text-decoration: none;
+  color: #000;
+}
+
+#navbar ul li a:hover {
+  color: #07910b;
+}
+
+/* navbar right */
+#navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+#navbar-right li {
+  font-size: 20px;
+  margin: 0 1px;
+}
+
+#navbar-right li a {
+  text-decoration: none;
+  color: white;
+}
+
+#navbar-right li a:hover {
+  color: #07910b;
+}
+
+#signup,
+#login {
+  list-style: none;
+}
+
+#signup a,
+#login a {
+  text-decoration: none;
+  color: white;
+  background-color: #07910b;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+#signup a:hover,
+#login a:hover {
+  background-color: black;
+}
+
+#logout {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+#logout .nav__el {
+  text-decoration: none;
+  color: white;
+  background-color: #07910b;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#logout .nav__el:hover {
+  background-color: black;
+}
+
+.user-name {
+  font-weight: bold;
+  color: black;
+  margin-right: 30px;
+}
+/* image */
+#image {
+  position: absolute;
+  top: calc(60% - 100px);
+  right: 10%;
+  transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+  z-index: 999;
+}
+
+#image img {
+  height: 600px;
+  filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
+  transition: 0.5s;
+}
+
+#image img:hover {
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+}
+
+/* content */
+#content {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  z-index: 996;
+}
+
+#content h2 {
+  font-size: 290px;
+  color: #07910b;
+  border-color: #000;
+}
+
+#content:hover h2 {
+  color: #000;
+  transition: 0.5s;
+}
+
+#content h4 {
+  font-size: 68px;
+  color: #000;
+}
+
+#content:hover h4 {
+  color: #07910b;
+  transition: 0.5s;
+}
+
+/* icons */
+#icons {
+  height: 500px;
+  width: 65px;
+  position: absolute;
+  left: 0;
+  top: calc(50% - 250px);
+  background: #07910b;
+  border-radius: 0 60px 60px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 998;
+}
+
+#icons:hover {
+  background: #000;
+}
+
+#icons a {
+  text-decoration: none;
+  height: 40px;
+  width: 40px;
+  font-size: 23px;
+  color: #e9e9eb;
+  display: grid;
+  place-items: center;
+  margin: 30px 0;
+}
+
+#icons a:hover {
+  color: #07910b;
+}
+
+/* pagination */
+#pagination {
+  position: absolute;
+  bottom: 4%;
+  right: 20%;
+  z-index: 995;
+}
+
+#pagination a {
+  text-decoration: none;
+  color: #000;
+  font-size: 70px;
+  margin: 0 30px;
+  transition: 0.5s;
+}
+
+#pagination a:hover {
+  color: #07910b;
+}
+
+/* lines */
+#line1,
+#line2 {
+  height: 150px;
+  width: 60px;
+  background: #000;
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  transform: skewX(-45deg);
+}
+
+#line2 {
+  height: 60px;
+  left: 26%;
+}
+
+@media (max-width: 1440px) {
+  /* CSS rules for MacBook Air screens */
+  html,
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  #image {
+    position: absolute;
+    top: calc(70% - 120px);
+    right: 8%;
+    transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+    z-index: 999;
+  }
+
+  #image img {
+    height: 450px;
+    filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
+    transition: 0.5s;
+  }
+
+  #image img:hover {
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+  }
+
+  #container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: #e9e9eb;
+  }
+
+  #content h2 {
+    font-size: 220px;
+    color: #07910b;
+    border-color: #000;
+  }
+
+  #content h4 {
+    font-size: 50px;
+    color: #000;
+  }
+
+  #line1,
+  #line2 {
+    height: 120px;
+    width: 60px;
+    background: #000;
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    transform: skewX(-45deg);
+  }
+
+  #line2 {
+    height: 50px;
+    left: 26%;
+  }
+
+  #navbar ul li {
+    font-size: 18px;
+    margin: 0 25px;
+    #navbar ul #signup {
+      right: 14%;
+    }
+  }
+
+  @media (max-width: 1180px) {
+    /* Your CSS rules for iPad screens */
+
+    html,
+    body {
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    #image {
+      position: absolute;
+      top: calc(55% - 20px);
+      right: 9%;
+      transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+      z-index: 999;
+    }
+
+    #image img {
+      height: 430px;
+      filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
+      transition: 0.5s;
+    }
+    #navbar ul li {
+      font-size: 16px;
+      margin: 0 17px;
+    }
+
+    #navbar ul #signup {
+      right: 15%;
+    }
+
+    #content h2 {
+      font-size: 185px;
+      color: #07910b;
+      border-color: #000;
+    }
+
+    #content h4 {
+      font-size: 45px;
+      color: #000;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    /* Your CSS rules for iPad mini screens */
+    html,
+    body {
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    #image {
+      position: absolute;
+      top: calc(55% - 20px);
+      right: 7%;
+      transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+      z-index: 999;
+    }
+
+    #image img {
+      height: 390px;
+      filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
+      transition: 0.5s;
+    }
+    #navbar ul li {
+      font-size: 14px;
+      margin: 0 15px;
+    }
+
+    #navbar ul #signup {
+      right: 16%;
+    }
+
+    #content h2 {
+      font-size: 165px;
+      color: #07910b;
+      border-color: #000;
+    }
+
+    #content h4 {
+      font-size: 40px;
+      color: #000;
+    }
+  }
+}
+
+/* signup form styles  */
+.signup-form {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.signup-form .form__group {
+  margin-bottom: 15px;
+}
+
+.signup-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.signup-form input[type="passwordConfirm"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: #fff;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.signup-form input[type="text"]:focus:valid,
+.signup-form input[type="email"]:focus:valid,
+.signup-form input[type="password"]:focus:valid,
+.signup-form input[type="passwordConfirm"]:focus:valid {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+.signup-form input[type="text"]:focus:invalid,
+.signup-form input[type="email"]:focus:invalid,
+.signup-form input[type="password"]:focus:invalid,
+.signup-form input[type="passwordConfirm"]:focus:invalid,
+.signup-form input[type="text"].invalid,
+.signup-form input[type="email"].invalid,
+.signup-form input[type="password"].invalid,
+.signup-form input[type="passwordConfirm"].invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+.form__button {
+  background-color: #07910b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form__button:hover {
+  background-color: black;
+}
+
+/* Login page specific styles */
+.login-form {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.login-form .form-group {
+  margin-bottom: 15px;
+}
+
+.login-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: white;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-form input[type="email"]:focus:valid,
+.login-form input[type="password"]:focus:valid {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+.login-form input[type="email"]:focus:invalid,
+.login-form input[type="password"]:focus:invalid,
+.login-form input[type="email"].invalid,
+.login-form input[type="password"].invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+/* Game Setup page styles */
+#game-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#game-setup h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#game-setup form {
+  width: 400px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+#game-setup label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#game-setup input[type="text"],
+#game-setup textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+#game-setup button[type="submit"] {
+  background-color: #07910b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#game-setup .team-list {
+  margin-bottom: 20px;
+}
+
+#game-setup .team-list-item {
+  margin-bottom: 10px;
+}
+
+#game-setup .existing-players {
+  margin-bottom: 20px;
+}
+
+#game-setup .player-list {
+  list-style: none;
+  padding: 0;
+}
+
+#game-setup .player-list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+#game-setup .player-list-item .player-name {
+  margin-right: 10px;
+}
+
+#game-setup .player-list-item .player-team {
+  color: #777;
+}
+
+#game-setup .error-message {
+  color: red;
+  margin-bottom: 10px;
+}

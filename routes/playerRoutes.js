@@ -12,7 +12,10 @@ router.use(authController.protect);
 router
   .route("/")
   .get(playerController.getAllPlayers)
-  .post(playerController.createPlayer);
+  .post(
+    authController.restrictTo("user", "coach"),
+    playerController.createPlayer
+  );
 
 router
   .route("/:id")

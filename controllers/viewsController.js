@@ -1,5 +1,25 @@
 const Tour = require("../models/tourModel");
 const catchAsync = require("../utils/catchAsync");
+const Team = require("../models/teamModel");
+const Player = require("../models/playerModel");
+
+exports.getGameSetup = async (req, res) => {
+  try {
+    // Retrieve teams and players from the database
+    const teams = await Team.find();
+    const players = await Player.find();
+
+    res.status(200).render("gameSetup", {
+      title: "Tír Stats | Game Setup",
+      teams: teams,
+      players: players,
+    });
+  } catch (error) {
+    // Handle any errors that occur
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) get tour data from collection
@@ -33,7 +53,7 @@ exports.getLoginForm = (req, res) => {
   });
 };
 
-// MY APP
+// MY APP ********************************************************
 
 exports.getStatsMain = (req, res) => {
   res.status(200).render("statsMain", {
@@ -58,6 +78,12 @@ exports.getStatsLogin = (req, res) => {
     title: "Tír Stats | Login",
   });
 };
+
+// exports.getGameSetup = (req, res) => {
+//   res.status(200).render("gameSetup", {
+//     title: "Tír Stats | Game Setup",
+//   });
+// };
 
 // this is the routes with catch async *********
 

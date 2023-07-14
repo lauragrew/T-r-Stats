@@ -36,33 +36,6 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
   });
 };
 
-// exports.signup = catchAsync(async (req, res, next) => {
-//   console.log("Request body:", req.body); // Log the request body to check the data being sent
-
-//   const newUser = await User.create(req.body);
-//   console.log("New user:", newUser); // Log the newly created user object
-
-//   createSendToken(newUser, 201, res, "/");
-// });
-
-// authController.js
-
-// exports.signup = catchAsync(async (req, res, next) => {
-//   try {
-//     const newUser = await User.create(req.body);
-//     createSendToken(newUser, 201, res, "/");
-//   } catch (err) {
-//     // Pass the error message to the frontend
-//     const errorMessages = err.message.split(":");
-//     const errorMessage = errorMessages[errorMessages.length - 1].trim();
-
-//     res.status(400).json({
-//       status: "error",
-//       error: errorMessage,
-//     });
-//   }
-// });
-
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
 
@@ -283,10 +256,3 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
   createSendToken(user, 200, res);
 });
-
-// name: req.body.name,
-// email: req.body.email,
-// password: req.body.password,
-// passwordConfirm: req.body.passwordConfirm,
-// passwordChangedAt: req.body.passwordChangedAt,
-// role: req.body.role,
