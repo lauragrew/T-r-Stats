@@ -18,13 +18,10 @@ const signup = async (name, email, password, passwordConfirm) => {
     });
 
     if (res.data.status === "success") {
-      alert("Account created and logged in successfully");
-      const redirectUrl = res.data.redirectUrl; // Get the redirect URL from the response
-      if (redirectUrl) {
-        location.assign(redirectUrl); // Redirect the user to the specified URL
-      } else {
-        location.assign("/"); // If no redirect URL provided, redirect to the home page
-      }
+      alert("Signed up successfully");
+      window.setTimeout(() => {
+        location.assign(redirectUrl); // Redirect to the gameSetup page
+      }, 1500);
     }
   } catch (err) {
     if (err.response && err.response.data && err.response.data.error) {
@@ -39,6 +36,8 @@ const signup = async (name, email, password, passwordConfirm) => {
     }
   }
 };
+// Get the redirect URL from your backend (e.g., using a template engine)
+const redirectUrl = "/gameSetup";
 
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();

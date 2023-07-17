@@ -31,8 +31,8 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
     token,
     data: {
       user: user,
+      redirectUrl: redirectUrl, // Include the redirect URL in the response
     },
-    redirectUrl: redirectUrl, // Include the redirect URL in the response
   });
 };
 
@@ -54,7 +54,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       passwordConfirm,
     });
 
-    createSendToken(newUser, 201, res, "/");
+    createSendToken(newUser, 201, res, "/gameSetup");
   } catch (err) {
     // Pass the error message to the frontend
     const errorMessages = err.message.split(":");
@@ -81,7 +81,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
   // 3) If user exists & password is correct, create and send a token back to the client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, res, "/gameSetup");
 });
 
 exports.logout = (req, res) => {

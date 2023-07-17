@@ -528,3 +528,110 @@ body {
   border-bottom-color: #ff7730; /* Orange color for invalid input */
   outline: none;
 }
+
+/* gameSetup.css */
+
+/* Centered content */
+#game-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden; /* Hide any content outside the viewport */
+}
+
+#game-setup h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow boxes to wrap to the next row if needed */
+  justify-content: space-between;
+  width: 80%;
+  margin: 30px; /* Add some margin for spacing between the boxes */
+}
+
+/* Box for creating a new team (left side) */
+#create-team-box {
+  flex: 0 0 40%; /* Adjust the width as needed */
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Right side containing game details and retrieve teams */
+.right-side {
+  flex: 0 0 58%; /* Adjust the width as needed */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Box for entering game details */
+#game-details-box {
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Styling for retrieving existing teams and adding players */
+#retrieve-teams-box {
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+#retrieve-teams-box form {
+  margin-top: 10px;
+}
+
+/* Styling for the dropdown select */
+select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Styling for the player name and number inputs */
+input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Styling for the submit button */
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+/* Styling for the player name and number inputs */
+.player-name {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Rest of the existing CSS styles (same as previous CSS) */

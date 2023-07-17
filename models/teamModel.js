@@ -8,8 +8,14 @@ const teamSchema = new mongoose.Schema({
   },
   players: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Player",
+      playerName: {
+        type: String,
+        required: [true, "Please enter the player's name"],
+      },
+      jerseyNumber: {
+        type: Number,
+        required: [true, "Please enter the player's number"],
+      },
     },
   ],
   matches: [

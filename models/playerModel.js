@@ -1,14 +1,18 @@
 const mongoose = require("mongoose");
 
 const playerSchema = new mongoose.Schema({
-  name: {
+  playerName: {
     type: String,
-    required: [true, "Please enter the player name"],
+    required: [true, "Please enter the player's name"],
+  },
+  jerseyNumber: {
+    type: Number,
+    required: [true, "Please enter the player's number"],
+    unique: true,
   },
   team: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
-    required: false,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
