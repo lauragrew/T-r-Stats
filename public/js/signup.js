@@ -1,16 +1,24 @@
 const signupForm = document.querySelector(".signup-form");
-const signupNameInput = document.getElementById("name");
+const signupFirstNameInput = document.getElementById("firstName");
+const signupLastNameInput = document.getElementById("lastName");
 const signupEmailInput = document.getElementById("email");
 const signupPasswordInput = document.getElementById("password");
 const signupPasswordConfirmInput = document.getElementById("passwordConfirm");
 
-const signup = async (name, email, password, passwordConfirm) => {
+const signup = async (
+  firstName,
+  lastName,
+  email,
+  password,
+  passwordConfirm
+) => {
   try {
     const res = await axios({
       method: "POST",
       url: "http://localhost:3000/api/v1/users/signup",
       data: {
-        name,
+        firstName,
+        lastName,
         email,
         password,
         passwordConfirm,
@@ -19,6 +27,7 @@ const signup = async (name, email, password, passwordConfirm) => {
 
     if (res.data.status === "success") {
       alert("Signed up successfully");
+      const redirectUrl = res.data.data.redirectUrl; // Get the redirect URL from the response
       window.setTimeout(() => {
         location.assign(redirectUrl); // Redirect to the gameSetup page
       }, 1500);
@@ -36,14 +45,13 @@ const signup = async (name, email, password, passwordConfirm) => {
     }
   }
 };
-// Get the redirect URL from your backend (e.g., using a template engine)
-const redirectUrl = "/gameSetup";
 
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const name = signupNameInput.value;
+  const firstName = signupFirstNameInput.value;
+  const lastName = signupLastNameInput.value;
   const email = signupEmailInput.value;
   const password = signupPasswordInput.value;
   const passwordConfirm = signupPasswordConfirmInput.value;
-  signup(name, email, password, passwordConfirm);
+  signup(firstName, lastName, email, password, passwordConfirm);
 });

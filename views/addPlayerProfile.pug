@@ -1,0 +1,25 @@
+extends statsBase
+
+block content
+  #add-player-profile-container
+    .heading-container
+      h1 Add Player Profile
+
+    form(action=`/createPlayerProfile/${squadId}`, method="POST", enctype="multipart/form-data")
+      .form-group
+        label(for="firstName") First Name:
+        input(type="text", name="firstName", required)
+
+      .form-group
+        label(for="lastName") Last Name:
+        input(type="text", name="lastName", required)
+
+      // Add player's photo
+      .form-group
+        label(for="photo") Player's Photo:
+        input(type="file", name="photo", id="photo", accept="image/*")
+        img(id="photo-preview" src="#" alt="Preview")
+
+      // Add other player details as needed (e.g., squad selection, etc.)
+
+      button.form__button(type="submit") Add Player

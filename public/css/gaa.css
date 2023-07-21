@@ -20,6 +20,11 @@ body {
   top: 0;
   left: 0;
   background: #e9e9eb;
+  /* Center the dashboard on all screen sizes */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* logo */
@@ -134,7 +139,7 @@ body {
 .user-name {
   font-weight: bold;
   color: black;
-  margin-right: 30px;
+  margin-right: 15px;
 }
 /* image */
 #image {
@@ -158,7 +163,7 @@ body {
 /* content */
 #content {
   position: absolute;
-  top: 30%;
+  top: 25%;
   left: 10%;
   z-index: 996;
 }
@@ -242,7 +247,7 @@ body {
 /* lines */
 #line1,
 #line2 {
-  height: 150px;
+  height: 140px;
   width: 60px;
   background: #000;
   position: absolute;
@@ -252,8 +257,454 @@ body {
 }
 
 #line2 {
-  height: 60px;
+  height: 50px;
   left: 26%;
+}
+
+/* Signup page specific styles */
+.signup-form {
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 30px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.signup-form .form__group {
+  margin-bottom: 10px;
+}
+
+.signup-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: #fff;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.signup-form input[type="text"]:focus:valid,
+.signup-form input[type="email"]:focus:valid,
+.signup-form input[type="password"]:focus:valid {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+.signup-form input[type="text"]:focus:invalid,
+.signup-form input[type="email"]:focus:invalid,
+.signup-form input[type="password"]:focus:invalid,
+.signup-form input[type="text"].invalid,
+.signup-form input[type="email"].invalid,
+.signup-form input[type="password"].invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+.form__button {
+  background-color: #07910b;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.form__button:hover {
+  background-color: black;
+}
+
+/* Login page specific styles */
+.login-form {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.login-form .form-group {
+  margin-bottom: 15px;
+}
+
+.login-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: white;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-form input[type="email"]:focus:valid,
+.login-form input[type="password"]:focus:valid {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+.login-form input[type="email"]:focus:invalid,
+.login-form input[type="password"]:focus:invalid,
+.login-form input[type="email"].invalid,
+.login-form input[type="password"].invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+/* Dashboard page specific styles */
+
+#dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #e9e9eb;
+}
+
+/* Styles for the heading */
+h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 900px;
+  margin: 0 auto; /* Center the dashboard grid on all screen sizes */
+  padding: 0 20px; /* Add some padding to the sides on smaller screens */
+}
+
+.dashboard-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  padding: 60px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dashboard-box a {
+  text-decoration: none;
+  color: #000;
+  font-size: 26px;
+}
+
+.dashboard-box:hover {
+  background-color: #07910b;
+}
+
+.dashboard-box:hover a {
+  color: #fff;
+}
+
+/* viewSquads.pug specific styles */
+
+#squad-container {
+  max-width: 800px;
+  padding: 20px;
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.heading-container {
+  text-align: center; /* Center the h1 element horizontally */
+}
+
+.squad-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  display: flex;
+  align-items: center; /* Center the content vertically */
+  justify-content: center; /* Center the content horizontally */
+}
+.squad-card a {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.squad-card:hover {
+  background-color: #e0e0e0; /* Change the background color on hover */
+}
+
+.no-squads {
+  text-align: center; /* Center the "No Squads" text horizontally */
+  padding: 20px;
+}
+
+.no-squads p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* New styles for the "Create New Squad" button */
+.create-squad-button {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 25px;
+  background-color: #07910b;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.create-squad-button:hover {
+  background-color: black;
+}
+
+/* createSquad page specific styles */
+#create-squad-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+#create-squad-container .heading-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#create-squad-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#create-squad-container input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: #fff;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#create-squad-container input[type="text"]:focus:valid {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+#create-squad-container input[type="text"]:focus:invalid,
+#create-squad-container input[type="text"].invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+#create-squad-container button[type="submit"] {
+  background-color: #07910b;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+#create-squad-container button[type="submit"]:hover {
+  background-color: black;
+}
+
+/* viewPlayers page specific styles */
+#players-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#players-container .heading-container {
+  text-align: center;
+}
+
+#players-container h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #07910b;
+}
+
+#players-container .no-players {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #07910b;
+}
+
+#players-container .no-players p {
+  margin-bottom: 10px;
+}
+
+#players-container .add-player-button {
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  background-color: #07910b;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+#players-container .add-player-button:hover {
+  background-color: black;
+}
+
+/* Player card styles */
+.player-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-card .player-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+.player-card .player-details {
+  display: flex;
+  align-items: center;
+}
+
+.player-card .player-details p {
+  margin-right: 15px;
+  font-size: 16px;
+  color: #000;
+}
+
+.player-card .delete-button {
+  padding: 8px 12px;
+  background-color: #ff5050;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.player-card .delete-button:hover {
+  background-color: #ff0000;
+}
+
+/* Specific CSS for the addPlayerProfile Pug file */
+#add-player-profile-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+#add-player-profile-container .heading-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#add-player-profile-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#add-player-profile-container input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: #fff;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#add-player-profile-container input[type="text"]:focus:valid {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+#add-player-profile-container input[type="text"]:focus:invalid,
+#add-player-profile-container input[type="text"].invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+#add-player-profile-container button[type="submit"] {
+  background-color: #07910b;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+#add-player-profile-container button[type="submit"]:hover {
+  background-color: black;
+}
+
+/* Style for the player's photo section */
+#add-player-profile-container .form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#add-player-profile-container .form-group label {
+  flex-basis: 150px;
+  margin-right: 10px;
+}
+
+#add-player-profile-container #photo-preview {
+  max-height: 200px;
+  max-width: 200px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
 @media (max-width: 1440px) {
@@ -306,332 +757,247 @@ body {
 
   #line1,
   #line2 {
-    height: 120px;
+    height: 100px;
     width: 60px;
-    background: #000;
-    position: absolute;
-    bottom: 0;
-    left: 20%;
-    transform: skewX(-45deg);
   }
 
   #line2 {
-    height: 50px;
+    height: 40px;
     left: 26%;
+  }
+
+  #content h1 {
+    font-size: 35px;
   }
 
   #navbar ul li {
     font-size: 18px;
     margin: 0 25px;
-    #navbar ul #signup {
-      right: 14%;
-    }
+  }
+  #navbar ul #signup {
+    right: 14%;
   }
 
-  @media (max-width: 1180px) {
-    /* Your CSS rules for iPad screens */
-
-    html,
-    body {
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
-
-    #image {
-      position: absolute;
-      top: calc(55% - 20px);
-      right: 9%;
-      transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
-      z-index: 999;
-    }
-
-    #image img {
-      height: 430px;
-      filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
-      transition: 0.5s;
-    }
-    #navbar ul li {
-      font-size: 16px;
-      margin: 0 17px;
-    }
-
-    #navbar ul #signup {
-      right: 15%;
-    }
-
-    #content h2 {
-      font-size: 185px;
-      color: #07910b;
-      border-color: #000;
-    }
-
-    #content h4 {
-      font-size: 45px;
-      color: #000;
-    }
+  #dashboard-container {
+    margin-left: 20%; /* Center the container on iPad mini screens */
+  }
+  /* Styles for the dashboard boxes */
+  .dashboard-box {
+    padding: 50px;
   }
 
-  @media (max-width: 1024px) {
-    /* Your CSS rules for iPad mini screens */
-    html,
-    body {
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
+  .dashboard-box a {
+    font-size: 25px;
+  }
+  .signup-form {
+    max-width: 350px;
+    padding: 14px;
+  }
+  .signup-form input[type="text"],
+  .signup-form input[type="email"],
+  .signup-form input[type="password"] {
+    font-size: 14px;
+    padding: 6px;
+  }
 
-    #image {
-      position: absolute;
-      top: calc(55% - 20px);
-      right: 7%;
-      transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
-      z-index: 999;
-    }
-
-    #image img {
-      height: 390px;
-      filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
-      transition: 0.5s;
-    }
-    #navbar ul li {
-      font-size: 14px;
-      margin: 0 15px;
-    }
-
-    #navbar ul #signup {
-      right: 16%;
-    }
-
-    #content h2 {
-      font-size: 165px;
-      color: #07910b;
-      border-color: #000;
-    }
-
-    #content h4 {
-      font-size: 40px;
-      color: #000;
-    }
+  #squad-container {
+    max-width: 800px;
+    margin: 100px auto 0; /* Updated: Added 100px top margin to move it down */
+    padding: 20px;
+  }
+  /* createSquad specific styles */
+  #create-squad-container {
+    margin-top: 150px;
+  }
+  /* viewPlayers page specific styles */
+  #players-container {
+    margin-top: 130px;
+  }
+  /* Specific CSS for the addPlayerProfile Pug file */
+  #add-player-profile-container {
+    margin-top: 130px;
   }
 }
 
-/* signup form styles  */
-.signup-form {
-  max-width: 400px;
-  margin: 10px auto;
-  padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
+@media (max-width: 1180px) {
+  /* Your CSS rules for iPad screens */
+
+  html,
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  #image {
+    position: absolute;
+    top: calc(55% - 20px);
+    right: 9%;
+    transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+    z-index: 999;
+  }
+
+  #image img {
+    height: 430px;
+    filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
+    transition: 0.5s;
+  }
+  #navbar ul li {
+    font-size: 16px;
+    margin: 0 17px;
+  }
+
+  #navbar ul #signup {
+    right: 15%;
+  }
+
+  #content h2 {
+    font-size: 185px;
+    color: #07910b;
+    border-color: #000;
+  }
+
+  #content h4 {
+    font-size: 45px;
+    color: #000;
+  }
+
+  #content h1 {
+    font-size: 35px;
+  }
+  #line1,
+  #line2 {
+    height: 100px;
+    width: 60px;
+  }
+
+  #line2 {
+    height: 40px;
+    left: 26%;
+  }
+  #dashboard-container {
+    margin-left: 20%; /* Center the container on iPad mini screens */
+  }
+  /* Styles for the dashboard boxes */
+  .dashboard-box {
+    padding: 40px;
+  }
+
+  .dashboard-box a {
+    font-size: 23px;
+  }
+  .signup-form {
+    max-width: 350px;
+    padding: 20px;
+  }
+  .signup-form input[type="text"],
+  .signup-form input[type="email"],
+  .signup-form input[type="password"] {
+    font-size: 14px;
+    padding: 6px;
+  }
+  #squad-container {
+    max-width: 800px;
+    margin: 100px auto 0; /* Updated: Added 100px top margin to move it down */
+    padding: 20px;
+  }
+  .squad-card {
+    padding: 18px;
+  }
+  /* viewPlayers page specific styles */
+  #players-container {
+    margin-top: 120px;
+  }
 }
 
-.signup-form .form__group {
-  margin-bottom: 15px;
-}
+@media (max-width: 1024px) {
+  /* Your CSS rules for iPad mini screens */
+  html,
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
 
-.signup-form label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
+  #image {
+    position: absolute;
+    top: calc(55% - 20px);
+    right: 7%;
+    transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+    z-index: 999;
+  }
 
-.signup-form input[type="text"],
-.signup-form input[type="email"],
-.signup-form input[type="password"],
-.signup-form input[type="passwordConfirm"] {
-  width: 100%;
-  padding: 8px;
-  border: none;
-  border-bottom: 3px solid transparent;
-  background-color: #fff;
-  transition: border-bottom-color 0.3s;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+  #image img {
+    height: 390px;
+    filter: drop-shadow(-100px 0px 5px rgba(0, 0, 0, 0.5));
+    transition: 0.5s;
+  }
+  #navbar ul li {
+    font-size: 14px;
+    margin: 0 15px;
+  }
 
-.signup-form input[type="text"]:focus:valid,
-.signup-form input[type="email"]:focus:valid,
-.signup-form input[type="password"]:focus:valid,
-.signup-form input[type="passwordConfirm"]:focus:valid {
-  border-bottom-color: #55c57a; /* Green color for valid input */
-  outline: none;
-}
+  #navbar ul #signup {
+    right: 16%;
+  }
 
-.signup-form input[type="text"]:focus:invalid,
-.signup-form input[type="email"]:focus:invalid,
-.signup-form input[type="password"]:focus:invalid,
-.signup-form input[type="passwordConfirm"]:focus:invalid,
-.signup-form input[type="text"].invalid,
-.signup-form input[type="email"].invalid,
-.signup-form input[type="password"].invalid,
-.signup-form input[type="passwordConfirm"].invalid {
-  border-bottom-color: #ff7730; /* Orange color for invalid input */
-  outline: none;
-}
+  #content h2 {
+    font-size: 165px;
+    color: #07910b;
+    border-color: #000;
+  }
 
-.form__button {
-  background-color: #07910b;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-}
+  #content h4 {
+    font-size: 40px;
+    color: #000;
+  }
+  #line1,
+  #line2 {
+    height: 100px;
+    width: 60px;
+  }
 
-.form__button:hover {
-  background-color: black;
-}
+  #line2 {
+    height: 40px;
+    left: 26%;
+  }
+  #content h1 {
+    font-size: 30px;
+  }
 
-/* Login page specific styles */
-.login-form {
-  max-width: 400px;
-  margin: 10px auto;
-  padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-}
+  #dashboard-container {
+    margin-left: 20%; /* Center the container on iPad mini screens */
+  }
+  /* Styles for the dashboard boxes */
+  .dashboard-box {
+    padding: 30px;
+  }
 
-.login-form .form-group {
-  margin-bottom: 15px;
+  .dashboard-box a {
+    font-size: 22px;
+  }
+  .signup-form {
+    max-width: 280px;
+    padding: 15px;
+  }
+  .signup-form input[type="text"],
+  .signup-form input[type="email"],
+  .signup-form input[type="password"] {
+    font-size: 12px;
+    padding: 4px;
+  }
+  #squad-container {
+    max-width: 800px;
+    margin: 100px auto 0; /* Updated: Added 100px top margin to move it down */
+    padding: 16px;
+  }
+  .squad-card {
+    padding: 16px;
+  }
+  /* viewPlayers page specific styles */
+  #players-container {
+    margin-top: 110px;
+  }
 }
-
-.login-form label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.login-form input[type="email"],
-.login-form input[type="password"] {
-  width: 100%;
-  padding: 8px;
-  border: none;
-  border-bottom: 3px solid transparent;
-  background-color: white;
-  transition: border-bottom-color 0.3s;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.login-form input[type="email"]:focus:valid,
-.login-form input[type="password"]:focus:valid {
-  border-bottom-color: #55c57a; /* Green color for valid input */
-  outline: none;
-}
-
-.login-form input[type="email"]:focus:invalid,
-.login-form input[type="password"]:focus:invalid,
-.login-form input[type="email"].invalid,
-.login-form input[type="password"].invalid {
-  border-bottom-color: #ff7730; /* Orange color for invalid input */
-  outline: none;
-}
-
-/* gameSetup.css */
-
-/* Centered content */
-#game-setup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  overflow: hidden; /* Hide any content outside the viewport */
-}
-
-#game-setup h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.flex-container {
-  display: flex;
-  flex-wrap: wrap; /* Allow boxes to wrap to the next row if needed */
-  justify-content: space-between;
-  width: 80%;
-  margin: 30px; /* Add some margin for spacing between the boxes */
-}
-
-/* Box for creating a new team (left side) */
-#create-team-box {
-  flex: 0 0 40%; /* Adjust the width as needed */
-  padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-/* Right side containing game details and retrieve teams */
-.right-side {
-  flex: 0 0 58%; /* Adjust the width as needed */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Box for entering game details */
-#game-details-box {
-  padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-/* Styling for retrieving existing teams and adding players */
-#retrieve-teams-box {
-  padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-#retrieve-teams-box form {
-  margin-top: 10px;
-}
-
-/* Styling for the dropdown select */
-select {
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-/* Styling for the player name and number inputs */
-input[type="text"] {
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-/* Styling for the submit button */
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-/* Styling for the player name and number inputs */
-.player-name {
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-/* Rest of the existing CSS styles (same as previous CSS) */

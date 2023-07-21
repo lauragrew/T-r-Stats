@@ -1,0 +1,12 @@
+extends statsBase
+
+block content
+  // Rest of the content for the createSquad page
+  #create-squad-container
+    .heading-container
+      h1 Create New Squad
+
+    form(action="/api/v1/squads/createSquad" method="POST")
+      label(for="name") Squad Name:
+      input(type="text" id="name" name="name" required)
+      button(type="submit") Create Squad

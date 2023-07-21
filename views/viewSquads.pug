@@ -1,0 +1,18 @@
+extends statsBase
+
+block content
+  #squad-container
+    .heading-container
+      h1 View Squads
+
+      // Add "Create New Squad" button to link to the form to create a new squad
+      a.create-squad-button(href="/createSquad") Create New Squad
+
+    if squads.length > 0
+      each squad in squads
+        .squad-card
+          a(href=`/viewPlayers/${squad._id}`)= squad.name
+          // Add more squad details here as needed
+    else
+      .no-squads
+        p You currently have no squads. Please create one.

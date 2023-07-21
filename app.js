@@ -14,7 +14,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const viewRouter = require("./routes/viewRoutes");
 const userRouter = require("./routes/userRoutes");
 const playerRouter = require("./routes/playerRoutes");
-const teamRouter = require("./routes/teamRoutes");
+const squadRouter = require("./routes/squadRoutes");
 
 const app = express();
 
@@ -75,7 +75,7 @@ app.use((req, res, next) => {
 app.use("/", viewRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/players", playerRouter);
-app.use("/api/v1/teams", teamRouter);
+app.use("/api/v1/squads", squadRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

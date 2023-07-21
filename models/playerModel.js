@@ -1,25 +1,29 @@
+// models/playerModel.js
+
 const mongoose = require("mongoose");
 
 const playerSchema = new mongoose.Schema({
-  playerName: {
+  firstName: {
     type: String,
-    required: [true, "Please enter the player's name"],
+    required: [true, "Please provide a first name"],
   },
-  jerseyNumber: {
-    type: Number,
-    required: [true, "Please enter the player's number"],
-    unique: true,
+  lastName: {
+    type: String,
+    required: [true, "Please provide a last name"],
   },
-  team: {
+  photo: String,
+  squad: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Team",
+    ref: "Squad",
+    required: [true, "A player must belong to a squad"],
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: [true, "A player must belong to a user"],
   },
 });
 
 const Player = mongoose.model("Player", playerSchema);
+
 module.exports = Player;
