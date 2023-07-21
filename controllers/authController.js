@@ -37,7 +37,7 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { name, email, password, passwordConfirm } = req.body;
+  const { firstName, lastName, email, password, passwordConfirm } = req.body;
 
   if (password !== passwordConfirm) {
     return res.status(400).json({
@@ -48,13 +48,14 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   try {
     const newUser = await User.create({
-      name,
+      firstName,
+      lastName,
       email,
       password,
       passwordConfirm,
     });
 
-    createSendToken(newUser, 201, res, "/gameSetup");
+    createSendToken(newUser, 201, res, "/dashboard");
   } catch (err) {
     // Pass the error message to the frontend
     const errorMessages = err.message.split(":");
@@ -81,7 +82,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
   // 3) If user exists & password is correct, create and send a token back to the client
-  createSendToken(user, 200, res, "/gameSetup");
+  createSendToken(user, 200, res, "/dashboard");
 });
 
 exports.logout = (req, res) => {
@@ -132,7 +133,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-// Only for rendered pages, no errors
 exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
@@ -153,6 +153,7 @@ exports.isLoggedIn = async (req, res, next) => {
         return next();
       }
       // There is a logged in user
+      console.log("Authenticated User:", currentUser); // Add this line to log the authenticated user
       res.locals.user = currentUser;
       return next();
     } catch (err) {

@@ -1,95 +1,68 @@
 // controllers/playerController.js
 const Player = require("../models/playerModel");
 const catchAsync = require("../utils/catchAsync");
-
 const AppError = require("../utils/appError");
+const Squad = require("../models/squadModel");
+const multer = require("multer");
 
-exports.createPlayer = catchAsync(async (req, res, next) => {
-  const { playerName, jerseyNumber, teamId } = req.body;
-  const player = await Player.create({
-    name: playerName,
-    number: jerseyNumber,
-    team: teamId,
-    user: req.user._id,
-  });
-
-  res.status(201).json({
-    status: "success",
-    data: {
-      player,
-    },
-  });
-});
-
-// WORKING
-exports.getAllPlayersCreatedByUser = catchAsync(async (req, res, next) => {
-  const userId = req.user._id;
-
-  const players = await Player.find({ user: userId });
-
-  res.status(200).json({
-    status: "success",
-    result: players.length,
-    data: {
-      players,
-    },
-  });
-});
-
-// WORKING
-exports.getOnePlayer = catchAsync(async (req, res, next) => {
-  const playerId = req.params.id;
-
-  const player = await Player.findOne({ _id: playerId, user: req.user._id });
-
-  if (!player) {
-    return next(new AppError("No player found with this ID!", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      player,
-    },
-  });
-});
-
-exports.updatePlayer = catchAsync(async (req, res, next) => {
-  const { playerId } = req.params;
-  const { playerName, jerseyNumber } = req.body;
-
-  const player = await Player.findById(playerId);
-  if (!player) {
-    return next(new AppError("No player found with this ID!", 404));
-  }
-
-  // Check if the logged-in user owns the player's team
-  if (player.user.toString() !== req.user._id.toString()) {
-    return next(
-      new AppError("You are not authorized to update this player.", 403)
+// Define storage for the uploaded files
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Set the destination folder where the uploaded files will be stored
+    cb(null, "public/uploads/"); // Change the folder path as needed
+  },
+  filename: function (req, file, cb) {
+    // Set the file name for the uploaded file
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
     );
-  }
-
-  // Update player's details
-  player.name = playerName;
-  player.number = jerseyNumber;
-  await player.save();
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      player,
-    },
-  });
+  },
 });
 
-exports.deletePlayer = catchAsync(async (req, res, next) => {
-  const player = await Player.findByIdAndDelete(req.params.playerId);
-  if (!player) {
-    return next(new AppError("No player found with this ID!", 404));
-  }
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-});
+// Create the multer middleware
+const upload = multer({ storage: storage });
+
+// Now you can use the "upload" middleware in the createPlayer route
+
+exports.createPlayer = [
+  // Use the "upload" middleware here to handle file upload
+  upload.single("photo"),
+
+  async (req, res) => {
+    try {
+      // Extract the player details from the request body
+      const { firstName, lastName } = req.body;
+      // Get the squad ID from the request params
+      const squadId = req.params.squadId;
+      // Get the user ID of the currently logged-in user (you may have this in the session or token)
+      const userId = req.user._id;
+
+      // Get the file name from the uploaded file (if multer is configured correctly)
+      const photo = req.file ? req.file.filename : undefined;
+
+      // Create the player and associate it with the squad and user
+      const player = await Player.create({
+        firstName,
+        lastName,
+        photo,
+        squad: squadId,
+        user: userId,
+      });
+
+      // Set a flash success message
+      req.flash("success", "Player created successfully!");
+
+      // Redirect the user back to the "viewPlayers" page for the squad (squadId)
+      return res.redirect(`/viewPlayers/${squadId}`);
+    } catch (err) {
+      // Handle any errors that occur during player creation
+      return res.status(500).json({
+        status: "error",
+        message: "Failed to create player",
+        error: err.message,
+      });
+    }
+  },
+];

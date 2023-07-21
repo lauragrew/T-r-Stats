@@ -1,0 +1,29 @@
+extends statsBase
+
+block content
+  #players-container
+    .heading-container
+      h1 View Players for #{squad.name}
+
+    // Add a section to display flash messages
+    if success
+      .alert.alert-success
+        | #{success}
+
+    if players.length > 0
+      each player in players
+        // Display player details here
+        .player-card
+          .player-details
+            p.player-name= player.firstName + " " + player.lastName
+            // Add more player details here as needed
+          .delete-button Delete Player
+    else
+      // Display a message when there are no players in the squad
+      .no-players
+        p You currently have no players in this squad. Please add one.
+
+    // Add a button to add a player to the squad
+    a.add-player-button(href=`/addPlayerProfile/${squad._id}`) Add Player
+
+

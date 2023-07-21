@@ -1,12 +1,11 @@
-doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title #{title}
+    title= title
     // CSS link
-    link(rel="stylesheet", href="css/gaa.css")
+    link(rel="stylesheet", href="/css/gaa.css")
     // Font Awesome CDN
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
 
@@ -27,18 +26,16 @@ html(lang="en")
         if user
           #navbar-right
             li#logout
-                | Logged in as: &nbsp;
-                span.user-name= user.name.split(' ')[0]
-                |
-                a.nav__el(href="/logout") Logout
-             
+              | Logged in as: &nbsp;
+              span.user-name= user.firstName
+              span.user-name= user.lastName
+              a.nav__el(href="/logout") Logout
         else
           #navbar-right
             li#signup
               a.nav__el(href="/statsSignup1") Sign Up
             li#login
               a.nav__el(href="/statsLogin") Log in
-
 
       // CONTENT
       block content
@@ -56,13 +53,13 @@ html(lang="en")
         a(href="#")
           i.fab.fa-twitter
 
-      // pagination
+      // pagination - use JavaScript function for the back button
       #pagination
         // left arrow
-        a(href="#")
+        a(href="javascript:history.go(-1)", id="back-btn")
           i.fas.fa-angle-left
         // right arrow
-        a(href="#")
+        a(href="javascript:history.forward()")
           i.fas.fa-angle-right
 
       // lines
@@ -74,6 +71,6 @@ html(lang="en")
   script(src="/js/statsLogin.js")
   script(src="/js/signup.js")
   script(src="/js/logout.js")
-  
-  
- 
+  script(src="/js/pagination.js")
+
+
