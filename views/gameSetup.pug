@@ -1,10 +1,196 @@
+
 extends statsBase
 
 block content
-  // image
-  
-
-  // content
-  #content
+  .container.game-setup-container
     h1 Game Setup
 
+    // Form for creating or updating game setup
+    form#gameSetupForm(action="/api/v1/gameSetups", method="POST", enctype="application/json")
+      // Two-column layout for the form
+      .form-section.two-column-layout
+        // Names and description section
+        .names-section.form-section
+          h2 Game Info
+          label(for="team1Name") Team 1 Name:
+          input(type="text", name="team1Name", value=gameSetup && gameSetup.team1Name, required)
+
+          label(for="team2Name") Team 2 Name:
+          input(type="text", name="team2Name", value=gameSetup && gameSetup.team2Name, required)
+
+          label(for="gameDescription") Game Description:
+          textarea(name="gameDescription", rows="2", required)= gameSetup && gameSetup.gameDescription
+
+      // Squad and player selection section
+      .squad-player-section.form-section
+        h2 Squad and Player Selection
+        label(for="selectedTeam") Select Your Squad:
+        select#selectedTeam(name="selectedTeam")
+          option(value="") -- Select Squad --
+          each squad in squads
+            option(value=squad._id)= squad.name
+
+        // Virtual scroller for player selection
+        .players-list
+          each position in playerPositions
+            .player-setup-item(data-position=position)
+              // Display the selected player's position and dropdown in a flexbox
+              .player-info
+                span.selected-player-position Position: #{position}
+                select.custom-dropdown(id=`selectedPlayer_${position}`, onchange="selectPlayer(event)")
+                  option(value="", disabled, selected) -- Select Player --
+                  each player in players
+                    option(value=player._id, data-playername=`${player.firstName} ${player.lastName}`)= `${player.firstName} ${player.lastName}`
+                input(type="hidden", class="playerId", id=`playerId_${position}`, value="")
+                input(type="hidden", class="playerName", id=`playerName_${position}`, value="")
+
+              // Display the selected player's name
+              .selected-player-container
+                span.selected-player-name(data-position=position) -- Select Player --
+
+        // Save button moved to the bottom of this section
+        .button-container
+          button.save-button(type="submit") Save Game Setup
+
+        // Hidden input field for playerSetup data
+        input(type="hidden", name="playerSetup", id="playerSetup", value="")
+
+  // Script section
+  block scripts
+    // Pass the squads data to the updatePlayersDropdown function
+    script.
+      const squads = !{JSON.stringify(squads)}; // Convert the squads object to a JavaScript variable
+
+      async function updatePlayersDropdown() {
+        const selectedSquadId = document.querySelector("#selectedTeam").value;
+        console.log("Selected Squad ID:", selectedSquadId); // Log the selected squad ID
+
+        const playerDropdowns = document.querySelectorAll('.custom-dropdown');
+        playerDropdowns.forEach((dropdown) => {
+          dropdown.querySelectorAll('option').forEach((option, index) => {
+            if (index === 0) {
+              option.textContent = "-- Select Player --"; // Set the default text for the first option
+              option.selected = true; // Select the "-- Select Player --" option by default
+            } else {
+              option.style.display = "none"; // Hide all other player options
+            }
+          });
+        });
+
+        if (selectedSquadId) {
+          try {
+            // Fetch the players associated with the selected squad
+            const response = await fetch(`/api/v1/players?squad=${selectedSquadId}`);
+            const playersData = await response.json();
+
+            // Add players to the respective player dropdowns
+            playerDropdowns.forEach((dropdown) => {
+              playersData.data.players.forEach((player) => {
+                const fullName = `${player.firstName} ${player.lastName}`;
+                const option = new Option(fullName, player._id, false, false);
+                option.dataset.playername = fullName; // Store player's full name in the dataset
+                dropdown.add(option); // Append options to the correct dropdown
+              });
+            });
+          } catch (error) {
+            console.error("Error fetching players:", error);
+          }
+        }
+      }
+
+      // Custom dropdown function
+      function selectPlayer(event) {
+        const selectedPlayer = event.target.value;
+        const position = event.target.closest('.player-setup-item').getAttribute('data-position');
+
+        const selectedPlayerDisplay = document.querySelector(`.selected-player-name[data-position="${position}"]`);
+
+        // Show the placeholder option and hide the selected player's option
+        const playerOptions = event.target.querySelectorAll('option');
+        playerOptions.forEach((option) => {
+          if (option.value === selectedPlayer) {
+            option.style.display = 'none'; // Hide the selected player's option
+          } else {
+            option.style.display = 'block'; // Show all other player options
+          }
+        });
+
+        // Update the selected player's name display
+        if (selectedPlayer) {
+          const selectedPlayerOption = event.target.options[event.target.selectedIndex];
+          const selectedPlayerName = selectedPlayerOption.dataset.playername; // Get player's full name from the dataset
+          selectedPlayerDisplay.textContent = selectedPlayerName;
+        } else {
+          selectedPlayerDisplay.textContent = "-- Select Player --";
+        }
+
+        // Store the selected player's ID and name in hidden input fields
+        document.querySelector(`#playerId_${position}`).value = selectedPlayer;
+        document.querySelector(`#playerName_${position}`).value = selectedPlayerDisplay.textContent;
+
+        // Log the selected player's ID and name
+        console.log(`Selected Player ID for position ${position}:`, selectedPlayer);
+        console.log(`Selected Player Name for position ${position}:`, selectedPlayerDisplay.textContent);
+      }
+
+      // Add event listener to the squad dropdown
+      document.querySelector("#selectedTeam").addEventListener("change", updatePlayersDropdown);
+
+      // Manually trigger the change event to populate player dropdowns on initial load
+      document.querySelector("#selectedTeam").dispatchEvent(new Event("change"));
+
+      // Collect playerSetup data
+      function collectPlayerSetup() {
+        const playerSetup = [];
+        const playerItems = document.querySelectorAll(".player-setup-item");
+
+        playerItems.forEach((item) => {
+          const position = item.getAttribute("data-position");
+          const playerId = document.querySelector(`#playerId_${position}`).value;
+          const playerName = document.querySelector(`#playerName_${position}`).value;
+
+          if (playerId && playerName) {
+            playerSetup.push({ position, playerId, playerName });
+          }
+        });
+
+        return playerSetup;
+      }
+
+      // Add event listener to the form's submit event
+      document.querySelector("#gameSetupForm").addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Collect the playerSetup data
+        const playerSetup = collectPlayerSetup();
+
+        // Update the value of the hidden input field with the collected playerSetup data
+        document.querySelector("#playerSetup").value = JSON.stringify(playerSetup);
+
+        try {
+          // Submit the form using fetch API
+          const response = await fetch("/api/v1/gameSetups", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              team1Name: document.querySelector("input[name='team1Name']").value,
+              team2Name: document.querySelector("input[name='team2Name']").value,
+              gameDescription: document.querySelector("textarea[name='gameDescription']").value,
+              selectedTeam: document.querySelector("#selectedTeam").value,
+              playerSetup: JSON.stringify(playerSetup),
+            }),
+          });
+
+          if (response.ok) {
+            // If the form submission is successful, redirect to the Record Game page
+            window.location.href = "/recordGames";
+          } else {
+            // If the form submission fails, display an error message
+            console.error("Failed to save game setup.");
+          }
+        } catch (error) {
+          console.error("Error submitting form:", error);
+        }
+      });
