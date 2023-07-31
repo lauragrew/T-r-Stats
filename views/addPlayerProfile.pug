@@ -5,7 +5,8 @@ block content
     .heading-container
       h1 Add Player Profile
 
-    form(action=`/createPlayerProfile/${squadId}`, method="POST", enctype="multipart/form-data")
+    form(id="add-player-form", action=`/api/v1/players/createPlayerProfile/${squadId}`, method="POST")
+
       .form-group
         label(for="firstName") First Name:
         input(type="text", name="firstName", required)
@@ -14,12 +15,12 @@ block content
         label(for="lastName") Last Name:
         input(type="text", name="lastName", required)
 
-      // Add player's photo
-      .form-group
-        label(for="photo") Player's Photo:
-        input(type="file", name="photo", id="photo", accept="image/*")
-        img(id="photo-preview" src="#" alt="Preview")
-
-      // Add other player details as needed (e.g., squad selection, etc.)
+      // Add hidden input field for squadId
+      input(type="hidden", name="squadId", value=squadId)
 
       button.form__button(type="submit") Add Player
+
+    // Container to display success message
+    #success-message(style="display: none;")
+      p Player created successfully!
+

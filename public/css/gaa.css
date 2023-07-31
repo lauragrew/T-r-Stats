@@ -707,6 +707,324 @@ h1 {
   margin-top: 10px;
 }
 
+/* Specific CSS for the Game Setup page */
+
+.game-setup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #e9e9eb;
+}
+
+.game-setup-container h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+.game-setup-container form {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-setup-container .form-section {
+  flex: 1;
+  padding: 12px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+.game-setup-container .form-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #07910b;
+}
+
+.game-setup-container .form-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+.game-setup-container .form-section select,
+.game-setup-container .form-section input[type="text"],
+.game-setup-container .form-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: #fff;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.game-setup-container .form-section select:focus,
+.game-setup-container .form-section input[type="text"]:focus,
+.game-setup-container .form-section textarea:focus {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+.game-setup-container .form-section select:focus:invalid,
+.game-setup-container .form-section input[type="text"]:focus:invalid,
+.game-setup-container .form-section textarea:focus:invalid,
+.game-setup-container .form-section select.invalid,
+.game-setup-container .form-section input[type="text"].invalid,
+.game-setup-container .form-section textarea.invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+.game-setup-container .players-list {
+  height: 250px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.game-setup-container .player-setup-item {
+  /* Remove the flexbox display and margin-bottom */
+  /* Adjust the margin-top to create space between players */
+  margin-top: 10px;
+}
+
+/* Adjusted styles for player selection */
+.game-setup-container .player-setup-item label {
+  /* Remove the flex-basis and margin-right to eliminate the label */
+  display: none; /* Hide the label */
+}
+
+.game-setup-container .player-setup-item select {
+  flex: 1; /* Expand the width of the select element to fill the entire space */
+  padding: 8px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: #fff;
+  transition: border-bottom-color 0.3s;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.game-setup-container .player-setup-item select:focus {
+  border-bottom-color: #55c57a; /* Green color for valid input */
+  outline: none;
+}
+
+.game-setup-container .player-setup-item select:focus:invalid,
+.game-setup-container .player-setup-item select.invalid {
+  border-bottom-color: #ff7730; /* Orange color for invalid input */
+  outline: none;
+}
+
+/* Remove the selected-player-container styles, which were showing the top box */
+.game-setup-container .selected-player-container {
+  display: none;
+}
+
+/* Adjusted styles for player position display */
+.game-setup-container .selected-player-position {
+  display: block; /* Display the player position in a block to occupy a new line */
+  margin-bottom: 5px;
+  font-weight: 700;
+  color: black; /* Green text color for the player position */
+}
+
+/* Adjusted styles for player selection display */
+.game-setup-container .selected-player-name {
+  display: block; /* Display the selected player's name in a block to occupy a new line */
+  padding: 8px 12px;
+  border: 1px solid #07910b; /* Green border for the selected player's name */
+  background-color: #fff; /* White background color for the selected player's name */
+  color: #07910b; /* Green text color for the selected player's name */
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.game-setup-container .selected-player-name:hover {
+  background-color: #07910b; /* Green background color on hover */
+  color: #fff; /* White text color on hover */
+}
+
+.game-setup-container .button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px; /* Add some margin at the bottom */
+}
+
+/* Adjusted styles for the Save Game Setup button */
+.game-setup-container button.save-button {
+  background-color: #07910b;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.game-setup-container button.save-button:hover {
+  background-color: black;
+}
+
+/* Specific CSS for the Record Game page */
+#record-game-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #e9e9eb;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#record-game-container {
+  max-width: 100%;
+  width: 800px; /* You can adjust this width as needed */
+  margin-left: 200px;
+}
+
+#record-game-container h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+#record-game-setup-container {
+  max-height: 500px; /* Set the desired height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #f9f9f9; /* Add background color for the container */
+  padding: 10px; /* Add padding for spacing */
+  border: 1px solid #ccc; /* Add border for visual separation */
+  border-radius: 8px; /* Add border radius for rounded corners */
+}
+
+/* Game setup cards */
+.game-setup-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 400px; /* Adjust width as needed */
+  position: relative; /* Set the game setup card as a positioning context */
+  margin-bottom: 10px;
+}
+
+.game-setup-card:hover {
+  background-color: #e0e0e0;
+}
+
+.game-setup-card h2 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #010502;
+}
+
+.game-setup-card p {
+  font-size: 16px;
+  color: #000;
+}
+
+/* Improved button styles */
+.view-players-btn,
+.delete-btn,
+.record-stats-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 8px;
+}
+
+.view-players-btn {
+  background-color: #07910b;
+  color: #fff;
+}
+
+.delete-btn {
+  background-color: #e1192d;
+  color: #fff;
+}
+
+.record-stats-btn {
+  background-color: #07910b;
+  color: #fff;
+  margin-left: 10px; /* Add margin to create space between delete and record-stats buttons */
+}
+
+.view-players-btn:hover,
+.delete-btn:hover,
+.record-stats-btn:hover {
+  background-color: #060606;
+}
+
+.button-space {
+  margin: 0 6px; /* Adjust the margin value to control the space */
+}
+
+/* Create New Game Setup button */
+.create-setup-button {
+  display: block;
+  width: 200px;
+  padding: 12px 20px;
+  background-color: #07910b;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.create-setup-button:hover {
+  background-color: black;
+}
+/* Hidden player list styles */
+.player-list {
+  display: none;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  top: 0; /* Position the player list at the top of the game setup card */
+  left: calc(
+    100% + 10px
+  ); /* Position the player list to the right of the game setup card */
+  width: 300px; /* Adjust the width of the player list as needed */
+}
+
+.player-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.player-list li {
+  margin-bottom: 5px;
+}
+
+/* Show the player list when it's not hidden */
+.player-list:not(.hidden) {
+  display: block;
+}
+
 @media (max-width: 1440px) {
   /* CSS rules for MacBook Air screens */
   html,
@@ -817,6 +1135,16 @@ h1 {
   #add-player-profile-container {
     margin-top: 130px;
   }
+  .game-setup-container .team-section,
+  .game-setup-container .player-section {
+    margin-top: 160px;
+    margin-left: 100px;
+  }
+
+  .container.game-setup-container {
+    margin-left: 350px;
+    margin-bottom: 40px;
+  }
 }
 
 @media (max-width: 1180px) {
@@ -909,6 +1237,9 @@ h1 {
   #players-container {
     margin-top: 120px;
   }
+  .container.game-setup-container {
+    margin-left: 190px;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -955,13 +1286,19 @@ h1 {
   }
   #line1,
   #line2 {
-    height: 100px;
+    height: 70px;
     width: 60px;
   }
 
   #line2 {
-    height: 40px;
+    height: 25px;
     left: 26%;
+  }
+
+  /* pagination */
+  #pagination {
+    position: absolute;
+    bottom: 1%;
   }
   #content h1 {
     font-size: 30px;
@@ -999,5 +1336,8 @@ h1 {
   /* viewPlayers page specific styles */
   #players-container {
     margin-top: 110px;
+  }
+  .container.game-setup-container {
+    margin-right: 150px;
   }
 }

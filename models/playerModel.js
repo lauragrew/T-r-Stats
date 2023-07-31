@@ -11,7 +11,6 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a last name"],
   },
-  photo: String,
   squad: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Squad",

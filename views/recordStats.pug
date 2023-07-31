@@ -37,32 +37,23 @@ html(lang="en")
 
       // CONTENT
       block content
-        h1 This is a placeholder heading
+        // Specific content for the Record Stats page
+        div#record-stats-page
+          h1 Record Game Stats
 
-      // icons
-      #icons
-        // visit => "fontawesome.com" for icons
-        a(href="#")
-          i.fab.fa-facebook-f
-        a(href="#")
-          i.fab.fa-instagram
-        a(href="#")
-          i.fab.fa-youtube
-        a(href="#")
-          i.fab.fa-twitter
+          // Add your pitch layout and buttons for recording stats here
+          // For example:
+          div#pitch-layout
+            // Your pitch layout code goes here
 
-      // pagination - use JavaScript function for the back button
-      #pagination
-        // left arrow
-        a(href="javascript:history.go(-1)", id="back-btn")
-          i.fas.fa-angle-left
-        // right arrow
-        a(href="javascript:history.forward()")
-          i.fas.fa-angle-right
+          // Example buttons to record stats
+          button.record-stat-btn.btn.btn-primary(type="button") Record Goal
+          button.record-stat-btn.btn.btn-primary(type="button") Record Assist
+          // Add more buttons for other stats as needed
 
-      // lines
-      #line1
-      #line2
+          // Back to Record Games button (to go back to the list of game setups)
+          a.back-to-record-games-btn.btn.btn-secondary(href="/recordGames") Back to Record Games
+
 
   script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js")
   script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
@@ -75,4 +66,3 @@ html(lang="en")
   script(src="/js/recordGames.js")
   script(src="/js/deleteGameSetup.js")
   script(src="/js/recordStats.js")
-

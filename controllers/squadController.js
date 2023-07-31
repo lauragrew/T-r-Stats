@@ -21,11 +21,6 @@ exports.createSquad = catchAsync(async (req, res) => {
   // Populate the user field with the actual user data (name and id)
   await newSquad.populate("user", "firstName lastName").execPopulate();
   res.redirect("/viewSquads");
-
-  // res.status(201).json({
-  //   status: "success",
-  //   data: {
-  //     squad: newSquad,
 });
 
 // Controller function to get all squads created by the logged-in user

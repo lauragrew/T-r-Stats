@@ -1,6 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const Squad = require("../models/squadModel");
 const Player = require("../models/playerModel");
+const GameSetup = require("../models/gameSetupModel");
 const factory = require("../controllers/handlerFactory");
 
 // MY APP ********************************************************
@@ -70,15 +71,84 @@ exports.getCreateSquad = (req, res) => {
   res.render("createSquad"); // Assuming the Pug file is named "createSquad.pug"
 };
 
-exports.getAddPlayer = (req, res) => {
+exports.getAddPlayerProfile = (req, res) => {
   const squadId = req.params.squadId; // Make sure the parameter name matches the one in the route
+  console.log(squadId); // Add this line to check the value of squadId
 
   // Render the "addPlayerProfile" view with the squadId
   res.render("addPlayerProfile", { squadId });
 };
 
-exports.getGameSetup = async (req, res) => {
-  res.status(200).render("gameSetup", {
-    title: "Tír Stats | Game Setup",
+// View controller - get game setup page
+exports.getGameSetup = async (req, res, next) => {
+  try {
+    // Fetch the squads associated with the current user
+    const squads = await Squad.find({ user: req.user._id }).exec();
+
+    // Fetch the player positions and other relevant data needed for the view
+    const playerPositions = [
+      "GK",
+      "LB",
+      "FB",
+      "RB",
+      "LWB",
+      "CHB",
+      "RWB",
+      "MF1",
+      "MF2",
+      "LHF",
+      "CHF",
+      "RHF",
+      "LCF",
+      "FF",
+      "RCF",
+    ];
+
+    // Fetch the gameSetup data based on the provided ID (req.params.id)
+    const gameSetup = await GameSetup.findById(req.params.id).exec();
+
+    // Get the selected squad's players to populate the player dropdowns
+    let players = [];
+    if (gameSetup && gameSetup.selectedTeam) {
+      // Fetch players by squad ID directly within the getGameSetup function
+      players = await Player.find({ squad: gameSetup.selectedTeam }).exec();
+    }
+
+    // Render the view with the data
+    res.render("gameSetup", {
+      title: "Game Setup",
+      squads,
+      playerPositions,
+      gameSetup,
+      players,
+      // Other data to pass to the view if needed
+    });
+  } catch (err) {
+    console.error("Error fetching game setup data:", err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.getRecordGames = catchAsync(async (req, res) => {
+  try {
+    // Fetch the game setups from the database or wherever they are stored
+    const gameSetups = await GameSetup.find().populate("playerSetup.playerId");
+
+    res.render("recordGames", { gameSetups });
+  } catch (error) {
+    console.error("Error fetching game setups:", error);
+    res
+      .status(500)
+      .render("error", { message: "Failed to fetch game setups." });
+  }
+});
+
+// Method to render the "recordStats" page
+exports.getRecordStats = (req, res) => {
+  res.render("recordStats", {
+    title: "Record Game Stats", // Add any data that you want to pass to the view
   });
 };

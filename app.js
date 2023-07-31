@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
@@ -15,17 +16,18 @@ const viewRouter = require("./routes/viewRoutes");
 const userRouter = require("./routes/userRoutes");
 const playerRouter = require("./routes/playerRoutes");
 const squadRouter = require("./routes/squadRoutes");
+const gameSetupRouter = require("./routes/gameSetupRoutes");
 
 const app = express();
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10kb" }));
 app.use(cookieParser());
-
-app.use(express.json());
 
 // serving static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -72,10 +74,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(methodOverride("_method"));
+
 app.use("/", viewRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/players", playerRouter);
 app.use("/api/v1/squads", squadRouter);
+app.use("/api/v1/gameSetups", gameSetupRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

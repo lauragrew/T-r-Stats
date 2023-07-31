@@ -1,6 +1,5 @@
 const express = require("express");
 const viewsController = require("../controllers/viewsController");
-
 const authController = require("../controllers/authController");
 
 const router = express.Router();
@@ -38,7 +37,21 @@ router.get(
 router.get(
   "/addPlayerProfile/:squadId", // Use the "squadId" parameter in the URL
   authController.protect, // Add the necessary authentication middleware if required
-  viewsController.getAddPlayer
+  viewsController.getAddPlayerProfile
+);
+
+// Route to display all the game setups for recording games
+router.get(
+  "/recordGames",
+  authController.protect,
+  viewsController.getRecordGames
+);
+
+// Route to render the "recordStats" page
+router.get(
+  "/recordStats", // Add the route path here
+  authController.protect,
+  viewsController.getRecordStats
 );
 
 module.exports = router;
