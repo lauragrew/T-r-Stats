@@ -13,6 +13,13 @@ block content
         .squad-card
           a(href=`/viewPlayers/${squad._id}`)= squad.name
           // Add more squad details here as needed
+
+          // Add Delete Squad button
+          button.delete-squad-btn(type="button", onclick=`deleteSquad('${squad._id}')`) Delete Squad
+
+
+
+
     else
       .no-squads
         p You currently have no squads. Please create one.

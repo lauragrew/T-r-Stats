@@ -434,6 +434,7 @@ h1 {
 }
 
 .squad-card {
+  width: 400px;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 25px;
@@ -444,6 +445,8 @@ h1 {
   display: flex;
   align-items: center; /* Center the content vertically */
   justify-content: center; /* Center the content horizontally */
+  padding-right: 20px; /* Add padding on the right side to make space for the button */
+  position: relative; /* Add position relative to the squad card to position the delete button */
 }
 .squad-card a {
   text-decoration: none;
@@ -483,6 +486,32 @@ h1 {
 
 .create-squad-button:hover {
   background-color: black;
+}
+
+/* New styles for the "Delete Squad" button */
+.delete-squad-btn {
+  position: absolute;
+  top: 50%; /* Position the button in the vertical center of the squad card */
+  right: 10px;
+  background-color: #e93b35;
+  color: #fff;
+  border: none;
+  border-radius: 7px; /* Adjust the border radius to make the button more rectangular */
+  padding: 8px 12px; /* Add some padding to cover the text */
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translateY(
+    -50%
+  ); /* Adjust the button position to be vertically centered */
+  transition: background-color 0.3s ease;
+}
+
+.delete-squad-btn:hover {
+  background-color: #cc0d06;
 }
 
 /* createSquad page specific styles */
@@ -629,6 +658,45 @@ h1 {
 
 .player-card .delete-button:hover {
   background-color: #ff0000;
+}
+.scroller-container {
+  height: 300px; /* Set the height of the container to control the visible area */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.scroller {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scroller li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Optional: Add some hover effect for the list items */
+.scroller li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style for the "Back to View Squad" button container */
+.back-button-container {
+  margin-top: 80px;
+  margin-left: 590px; /* Add margin to move the button down */
+}
+
+/* Style for the "Back to View Squad" button */
+.btn-custom {
+  background-color: #07910b;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.btn-custom:hover {
+  background-color: #060606;
 }
 
 /* Specific CSS for the addPlayerProfile Pug file */
@@ -1023,6 +1091,51 @@ h1 {
 /* Show the player list when it's not hidden */
 .player-list:not(.hidden) {
   display: block;
+}
+
+/* Specific CSS for the RecordStats page */
+#record-stats-page {
+  display: flex;
+  margin-top: 120px;
+  align-items: center;
+  flex-wrap: wrap; /* To wrap buttons to the next line if necessary */
+  justify-content: center; /* To horizontally center the buttons */
+}
+
+.record-stat-btn {
+  background-color: #e83c11;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 10px 10px; /* Add space between buttons vertically */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-size: 15px 15px;
+}
+
+.record-stat-btn:hover {
+  background-color: #b30502;
+}
+
+/* Style for the "Back to Record Games" button */
+.back-to-record-games-btn {
+  display: block;
+  margin: 140px auto; /* Center the button horizontally with top and bottom margin */
+  padding: 10px 20px;
+  background-color: #07910b; /* Blue background color */
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Remove underline */
+}
+
+.back-to-record-games-btn:hover {
+  background-color: #060606;
+  color: #07910b;
 }
 
 @media (max-width: 1440px) {

@@ -36,33 +36,26 @@ html(lang="en")
               a.nav__el(href="/statsLogin") Log in
 
       // CONTENT
-      block content
-        // Specific content for the Record Stats page
-        div#record-stats-page
-          h1 Record Game Stats
+      // Specific content for the Record Stats page
+      div#record-stats-page
+        h1 Record Game Stats
 
-          // Add your pitch layout and buttons for recording stats here
-          // For example:
-          div#pitch-layout
-            // Your pitch layout code goes here
+        // Add your pitch layout and buttons for recording stats here
+        // For example:
+        div#pitch-layout
+          // Your pitch layout code goes here
 
-          // Example buttons to record stats
-          button.record-stat-btn.btn.btn-primary(type="button") Record Goal
-          button.record-stat-btn.btn.btn-primary(type="button") Record Assist
-          // Add more buttons for other stats as needed
+        // Flex container for the buttons
+        div#buttons-container
+          // Dynamically generate buttons for each player's position
+          each playerSetup in gameSetupData.playerSetup
+            button.record-stat-btn.btn.btn-primary(type="button" data-player-id=playerSetup.playerId data-position=playerSetup.position) Record Stat for #{playerSetup.position}
 
-          // Back to Record Games button (to go back to the list of game setups)
-          a.back-to-record-games-btn.btn.btn-secondary(href="/recordGames") Back to Record Games
+        // Back to Record Games button (to go back to the list of game setups)
+        a.back-to-record-games-btn.btn.btn-secondary(href="/recordGames") Back to Record Games
 
-
+  // Add any additional JavaScript specific to the recordStats page here
   script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js")
   script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
-  script(src="/js/statsLogin.js")
-  script(src="/js/signup.js")
-  script(src="/js/logout.js")
-  script(src="/js/pagination.js")
-  script(src="/js/addPlayer.js")
-  script(src="/js/deletePlayer.js")
-  script(src="/js/recordGames.js")
-  script(src="/js/deleteGameSetup.js")
   script(src="/js/recordStats.js")
+  script(src="/js/deleteSquad.js")

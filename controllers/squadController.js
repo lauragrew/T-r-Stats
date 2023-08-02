@@ -4,12 +4,17 @@ const catchAsync = require("../utils/catchAsync");
 exports.createSquad = catchAsync(async (req, res) => {
   const { name } = req.body;
 
-  // Check if a squad with the same name already exists
-  const existingSquad = await Squad.findOne({ name });
+  // Check if a squad with the same name already exists but is owned by another user
+  const existingSquad = await Squad.findOne({
+    name,
+    user: { $ne: req.user._id },
+  });
   if (existingSquad) {
-    return res
-      .status(400)
-      .json({ error: "A squad with that name already exists" });
+    // A squad with the same name exists but is owned by another user
+    // You can choose to display an error message or take appropriate action
+    return res.status(400).json({
+      error: "A squad with that name already exists for another user",
+    });
   }
 
   // Create a new squad
@@ -83,18 +88,23 @@ exports.updateSquad = catchAsync(async (req, res) => {
   });
 });
 
-// Controller function to delete a squad by its ID
-exports.deleteSquad = catchAsync(async (req, res) => {
-  const squadId = req.params.id;
+// Function to delete a squad by ID
+exports.deleteSquad = async (req, res, next) => {
+  try {
+    console.log("Delete Squad function called");
+    const squadId = req.params.squadId;
 
-  const deletedSquad = await Squad.findByIdAndDelete(squadId);
+    // Implement your logic to delete the squad from the database
+    // For example, using Mongoose:
+    await Squad.findByIdAndDelete(squadId);
 
-  if (!deletedSquad) {
-    return res.status(404).json({ error: "Squad not found" });
+    // Respond with a success message
+    res.status(200).json({
+      status: "success",
+      data: null,
+    });
+  } catch (error) {
+    // Handle errors
+    next(error);
   }
-
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-});
+};

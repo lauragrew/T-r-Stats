@@ -61,3 +61,13 @@ exports.deleteGameSetup = catchAsync(async (req, res) => {
       .json({ message: "Error deleting game setup. Please try again." });
   }
 });
+
+exports.fetchGameSetupById = async (gameSetupId) => {
+  // Implement logic to fetch the game setup data by ID and is used for getting recordStats
+  try {
+    const gameSetup = await GameSetup.findById(gameSetupId);
+    return gameSetup;
+  } catch (error) {
+    throw new Error("Error fetching game setup data");
+  }
+};
