@@ -12,7 +12,6 @@ const squadSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "A squad must be associated with a user"],
   },
-  // Add more fields as needed for the squad details
 });
 
 const Squad = mongoose.model("Squad", squadSchema);

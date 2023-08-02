@@ -12,10 +12,7 @@ router.get("/mySquads", squadController.getAllUserSquads); // Route to get all s
 
 router.post("/createSquad", squadController.createSquad); // Route to create a new squad
 
-router
-  .route("/:id")
-  .get(squadController.getSquadById) // Route to get a single squad by its ID
-  .patch(squadController.updateSquad) // Route to update a squad
-  .delete(squadController.deleteSquad); // Route to delete a squad
+// Route to handle DELETE request to delete a squad by ID
+router.delete("/:squadId", squadController.deleteSquad);
 
 module.exports = router;

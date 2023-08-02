@@ -18,7 +18,7 @@ block content
               h2= gameSetup.team1Name + " vs " + gameSetup.team2Name
               p= gameSetup.gameDescription
               // View Players Button
-              button.view-players-btn.btn.btn-primary(type="button", onclick="togglePlayerList('" + gameSetup._id + "')") View Players
+              button.view-players-btn.btn.btn-primary(type="button", data-game-setup-id=gameSetup._id) View Players
               // Add some space between buttons
               span.button-space
               // Delete Button
