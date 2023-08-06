@@ -17,6 +17,7 @@ const userRouter = require("./routes/userRoutes");
 const playerRouter = require("./routes/playerRoutes");
 const squadRouter = require("./routes/squadRoutes");
 const gameSetupRouter = require("./routes/gameSetupRoutes");
+const statRouter = require("./routes/statRoutes");
 
 const app = express();
 
@@ -81,6 +82,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/players", playerRouter);
 app.use("/api/v1/squads", squadRouter);
 app.use("/api/v1/gameSetups", gameSetupRouter);
+app.use("/api/v1/stats", statRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

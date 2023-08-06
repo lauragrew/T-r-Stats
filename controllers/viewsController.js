@@ -3,6 +3,7 @@ const Squad = require("../models/squadModel");
 const Player = require("../models/playerModel");
 const GameSetup = require("../models/gameSetupModel");
 const { fetchGameSetupById } = require("../controllers/gameSetupController");
+
 const factory = require("../controllers/handlerFactory");
 
 // MY APP ********************************************************
@@ -147,8 +148,26 @@ exports.getRecordGames = catchAsync(async (req, res) => {
   }
 });
 
-// Controller function to render the recordStats page
-exports.getRecordStats = async (req, res, next) => {
+// exports.getRecordStats = async (req, res, next) => {
+//   try {
+//     // Retrieve the game setup ID from the query parameter
+//     const { gameSetupId } = req.query;
+
+//     // Fetch the game setup data by its ID
+//     const gameSetupData = await fetchGameSetupById(gameSetupId);
+
+//     // Render the recordStats.pug page with the game setup data and stat types
+//     res.render("recordStats", {
+//       title: "Record Game Stats",
+//       gameSetupData,
+//     });
+//   } catch (error) {
+//     // Handle errors
+//     next(error);
+//   }
+// };
+
+exports.getRecordStats = catchAsync(async (req, res) => {
   try {
     // Retrieve the game setup ID from the query parameter
     const { gameSetupId } = req.query;
@@ -156,10 +175,14 @@ exports.getRecordStats = async (req, res, next) => {
     // Fetch the game setup data by its ID
     const gameSetupData = await fetchGameSetupById(gameSetupId);
 
-    // Render the recordStats.pug page with the game setup data
-    res.render("recordStats", { title: "Record Game Stats", gameSetupData });
+    // Render the recordStats.pug page with the game setup data and stat types
+    res.render("recordStats", {
+      title: "Record Game Stats",
+      gameSetupData,
+    });
   } catch (error) {
     // Handle errors
-    next(error);
+    console.log(error);
+    res.status(500).json({ message: "Error fetching game setup data" });
   }
-};
+});
