@@ -1096,10 +1096,10 @@ h1 {
 /* Specific CSS for the RecordStats page */
 #record-stats-page {
   display: flex;
-  margin-top: 120px;
+  flex-direction: column; /* Set flex direction to column */
   align-items: center;
-  flex-wrap: wrap; /* To wrap buttons to the next line if necessary */
-  justify-content: center; /* To horizontally center the buttons */
+  justify-content: center;
+  min-height: 100vh; /* Set minimum height to full viewport height */
 }
 
 .record-stat-btn {
@@ -1136,6 +1136,68 @@ h1 {
 .back-to-record-games-btn:hover {
   background-color: #060606;
   color: #07910b;
+}
+
+#record-stats-heading {
+  margin-top: 200px; /* Add some top margin for the heading */
+}
+
+#timer-section {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Add some top margin for the timer */
+  margin-bottom: 25px;
+}
+
+/* Style the timer display */
+#timer {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+#start-timer-btn,
+#pause-timer-btn,
+#reset-timer-btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#start-timer-btn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+}
+
+#pause-timer-btn {
+  background-color: #e95625;
+  color: #000;
+  border: none;
+}
+
+#reset-timer-btn {
+  background-color: #ffc107;
+  color: #000;
+  border: none;
+}
+
+#half-duration-dropdown {
+  padding: 8px;
+  font-size: 16px;
+}
+
+#timer-container {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/* Timer formatting */
+#timer {
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
 }
 
 @media (max-width: 1440px) {
