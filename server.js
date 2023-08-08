@@ -1,15 +1,20 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+// Importing required modules
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-dotenv.config({ path: './config.env' });
-const app = require('./app');
+// Loading Environment Variables: The dotenv.config() method is used to load environment variables from the config.env file.
+dotenv.config({ path: "./config.env" });
 
+// Importing express app
+const app = require("./app");
+
+// Database connection setup
 const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
+  "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
 
-// connecting to the hosted database
+// connecting to the mongoose database and success message
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -17,23 +22,23 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  // eslint-disable-next-line no-console
-  .then(() => console.log('DB connection successful'));
+  .then(() => console.log("DB connection successful"));
 
+// Server setup and listening on port 3000 with message displayed
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  // eslint-disable-next-line no-console
   console.log(`App listening at http://localhost:${port}`);
 });
 
-process.on('unhandledRejection', (err) => {
-  console.log('UNHANDLED REJECTION ... SHUTDOWN 🔥');
+// Unhandled rejection and uncaught exception handlers - logs errors
+process.on("unhandledRejection", (err) => {
+  console.log("UNHANDLED REJECTION ... SHUTDOWN 🔥");
   console.log(err.name, err.message);
   server.close(() => process.exit(1));
 });
 
-process.on('uncaughtException', (err) => {
-  console.log('UNCAUGHT REJECTION ... SHUTDOWN 🔥');
+process.on("uncaughtException", (err) => {
+  console.log("UNCAUGHT REJECTION ... SHUTDOWN 🔥");
   console.log(err.name, err.message);
   server.close(() => process.exit(1));
 });

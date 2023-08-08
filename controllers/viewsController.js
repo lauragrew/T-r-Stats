@@ -4,38 +4,37 @@ const Player = require("../models/playerModel");
 const GameSetup = require("../models/gameSetupModel");
 const { fetchGameSetupById } = require("../controllers/gameSetupController");
 
-const factory = require("../controllers/handlerFactory");
-
-// MY APP ********************************************************
-
+// function to view the statsMain page
 exports.getStatsMain = (req, res) => {
   res.status(200).render("statsMain", {
     title: "Tír Stats",
   });
 };
-
+// function to view the statsSignup1 page
 exports.getStatsSignup1 = (req, res) => {
   res.status(200).render("statsSignup1", {
     title: "Tír Stats | Signup ",
   });
 };
 
+// function to view the statsLogin page
 exports.getStatsLogin = (req, res) => {
   res.status(200).render("statsLogin", {
     title: "Tír Stats | Login",
   });
 };
 
+// function to view the dashboard page
 exports.getDashboard = async (req, res) => {
   res.status(200).render("dashboard", {
     title: "Tír Stats | Dashboard",
   });
 };
 
-// Your route handler in squadController.js
+// // function to view the viewSquads page
 exports.getViewSquads = catchAsync(async (req, res) => {
   console.log("Inside getViewSquads route handler");
-  console.log("Authenticated User:", req.user); // Log the req.user object
+  console.log("Authenticated User:", req.user);
 
   const squads = await Squad.find({ user: req.user._id }).populate(
     "user",
@@ -48,40 +47,41 @@ exports.getViewSquads = catchAsync(async (req, res) => {
   });
 });
 
+// function to view the viewPlayers page
 exports.getViewPlayers = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  console.log(id); // Add this line to check the squad ID received
+  console.log(id); // check the squad ID is correct
 
-  // Find the squad by ID (assuming you have the Squad model imported)
+  // Find the squad by ID
   const squad = await Squad.findById(id);
 
   if (!squad) {
-    // Handle the case when the squad is not found
+    // error when the squad is not found
     return res.status(404).json({ error: "Squad not found" });
   }
 
   // Find the players associated with the squad
   const players = await Player.find({ squad: id });
 
-  // Render the "viewPlayers" template and pass both squad and players data to it
+  // View the "viewPlayers" page and pass both squad and players data to it
   res.render("viewPlayers", { squad, players });
 });
 
-// In viewsController.js
+// function to view the createSquad page
 exports.getCreateSquad = (req, res) => {
-  res.render("createSquad"); // Assuming the Pug file is named "createSquad.pug"
+  res.render("createSquad");
 };
 
+// function to view the addPlayerProfile page
 exports.getAddPlayerProfile = (req, res) => {
-  const squadId = req.params.squadId; // Make sure the parameter name matches the one in the route
-  console.log(squadId); // Add this line to check the value of squadId
+  const squadId = req.params.squadId;
+  console.log(squadId); // checking the value of squadId is correct
 
-  // Render the "addPlayerProfile" view with the squadId
   res.render("addPlayerProfile", { squadId });
 };
 
-// View controller - get game setup page
+// function to view the gameSetup page
 exports.getGameSetup = async (req, res, next) => {
   try {
     // Fetch the squads associated with the current user
@@ -106,7 +106,7 @@ exports.getGameSetup = async (req, res, next) => {
       "RCF",
     ];
 
-    // Fetch the gameSetup data based on the provided ID (req.params.id)
+    // Fetch the gameSetup data based on the gamesetup ID (req.params.id)
     const gameSetup = await GameSetup.findById(req.params.id).exec();
 
     // Get the selected squad's players to populate the player dropdowns
@@ -116,14 +116,12 @@ exports.getGameSetup = async (req, res, next) => {
       players = await Player.find({ squad: gameSetup.selectedTeam }).exec();
     }
 
-    // Render the view with the data
     res.render("gameSetup", {
       title: "Game Setup",
       squads,
       playerPositions,
       gameSetup,
       players,
-      // Other data to pass to the view if needed
     });
   } catch (err) {
     console.error("Error fetching game setup data:", err);
@@ -133,10 +131,10 @@ exports.getGameSetup = async (req, res, next) => {
     });
   }
 };
-
+// function to view the recordGames
 exports.getRecordGames = catchAsync(async (req, res) => {
   try {
-    // Fetch the game setups from the database or wherever they are stored
+    // Fetch the game setups from the database
     const gameSetups = await GameSetup.find().populate("playerSetup.playerId");
 
     res.render("recordGames", { gameSetups });
@@ -147,42 +145,49 @@ exports.getRecordGames = catchAsync(async (req, res) => {
       .render("error", { message: "Failed to fetch game setups." });
   }
 });
-
-// exports.getRecordStats = async (req, res, next) => {
-//   try {
-//     // Retrieve the game setup ID from the query parameter
-//     const { gameSetupId } = req.query;
-
-//     // Fetch the game setup data by its ID
-//     const gameSetupData = await fetchGameSetupById(gameSetupId);
-
-//     // Render the recordStats.pug page with the game setup data and stat types
-//     res.render("recordStats", {
-//       title: "Record Game Stats",
-//       gameSetupData,
-//     });
-//   } catch (error) {
-//     // Handle errors
-//     next(error);
-//   }
-// };
-
+// function to view the recordStats page
 exports.getRecordStats = catchAsync(async (req, res) => {
   try {
-    // Retrieve the game setup ID from the query parameter
+    // Retrieve the game setup ID
     const { gameSetupId } = req.query;
 
     // Fetch the game setup data by its ID
     const gameSetupData = await fetchGameSetupById(gameSetupId);
 
-    // Render the recordStats.pug page with the game setup data and stat types
     res.render("recordStats", {
       title: "Record Game Stats",
       gameSetupData,
     });
   } catch (error) {
-    // Handle errors
     console.log(error);
     res.status(500).json({ message: "Error fetching game setup data" });
   }
 });
+
+// function for viewing game stats in the gameStats page
+exports.viewGameSetups = async (req, res, next) => {
+  try {
+    // Fetch all game setups from your database
+    const gameSetups = await GameSetup.find();
+
+    res.render("viewStats", { gameSetups });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// This function handles the route that displays game statistics for a specific game setup.
+exports.viewGameStats = async (req, res, next) => {
+  try {
+    const { gameSetupId } = req.params;
+
+    // Fetch game stats for the provided gameSetupId
+    const gameStats = await Stat.find({ gameSetup: gameSetupId }).populate(
+      "player"
+    );
+
+    res.render("gameStats", { gameStats });
+  } catch (err) {
+    next(err);
+  }
+};

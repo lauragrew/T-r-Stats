@@ -1,0 +1,37 @@
+extends statsBase
+
+block content
+  // Specific content for the Record Game page
+  div#record-game-page
+    div#record-game-container
+      h1 All Game Setups 
+
+      // Check if there are any game setups to display
+      if gameSetups.length === 0
+        p No game setups found.
+      else
+        // Virtual Scroller Container with a unique ID
+        div#record-game-setup-container
+          each gameSetup in gameSetups
+            div.game-setup-card
+              // Game setup card content
+              h2= gameSetup.team1Name + " vs " + gameSetup.team2Name
+              p= gameSetup.gameDescription
+              // View Players Button
+              button.view-players-btn.btn.btn-primary(type="button", data-game-setup-id=gameSetup._id) View Players
+              // Add some space between buttons
+              span.button-space
+              // Delete Button
+              button.delete-btn.btn.btn-danger(type="button", onclick="deleteGameSetup('" + gameSetup._id + "')") Delete
+              // Game Stats Button
+              a.game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetup._id}`) Game Stats
+
+              // Hidden Player List
+              div.player-list.hidden(id="playerList_" + gameSetup._id)
+                each playerSetup in gameSetup.playerSetup
+                  p
+                    span.player-position= playerSetup.position
+                    |  &nbsp; 
+                    span.player-name= playerSetup.playerName
+
+        

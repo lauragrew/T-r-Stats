@@ -3,6 +3,7 @@ const Squad = require("../models/squadModel");
 const Player = require("../models/playerModel");
 const Stat = require("../models/statModel");
 
+// function to fetch the gamesetup and squad IDs
 exports.fetchGameSetupAndSquadIds = async (req, res) => {
   try {
     const { gameSetupId } = req.query;
@@ -11,7 +12,7 @@ exports.fetchGameSetupAndSquadIds = async (req, res) => {
     const gameSetup = await GameSetup.findById(gameSetupId);
 
     // Get the Squad ID from the GameSetup document
-    const squadId = gameSetup.selectedTeam; // Assuming selectedTeam is the Squad ID
+    const squadId = gameSetup.selectedTeam; // the selectedTeam here is the Squad ID
 
     res.status(200).json({ gameSetupId, squadId });
   } catch (error) {
@@ -31,7 +32,7 @@ exports.saveStat = async (req, res) => {
       statType,
     });
 
-    // Respond with a success message or return the recorded stat
+    // success or error message
     res.status(201).json({
       status: "success",
       data: {
@@ -39,7 +40,6 @@ exports.saveStat = async (req, res) => {
       },
     });
   } catch (error) {
-    // Handle errors
     res.status(500).json({ error: "Failed to save stat." });
   }
 };

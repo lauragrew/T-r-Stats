@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Define the PlayerSetup schema
 const playerSetupSchema = new mongoose.Schema({
   position: {
     type: String,
@@ -34,7 +33,6 @@ const playerSetupSchema = new mongoose.Schema({
   },
 });
 
-// Define the GameSetup schema
 const gameSetupSchema = new mongoose.Schema({
   team1Name: {
     type: String,

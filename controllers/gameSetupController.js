@@ -2,6 +2,7 @@ const GameSetup = require("../models/gameSetupModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
+// function for saving a game setup
 exports.saveGameSetup = catchAsync(async (req, res) => {
   console.log("Received request body:", req.body);
 
@@ -32,7 +33,7 @@ exports.saveGameSetup = catchAsync(async (req, res) => {
   res.redirect("/recordGames");
 });
 
-// New route handler to delete a game setup by its ID
+// function to delete a game setup
 exports.deleteGameSetup = catchAsync(async (req, res) => {
   const { gameSetupId } = req.params;
   console.log("Received gameSetupId:", gameSetupId);
@@ -62,8 +63,8 @@ exports.deleteGameSetup = catchAsync(async (req, res) => {
   }
 });
 
+// function to fetch the gamesetup by its ID - used for getting recordStats page
 exports.fetchGameSetupById = async (gameSetupId) => {
-  // Implement logic to fetch the game setup data by ID and is used for getting recordStats
   try {
     const gameSetup = await GameSetup.findById(gameSetupId);
     return gameSetup;

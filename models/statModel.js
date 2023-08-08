@@ -30,7 +30,6 @@ const statSchema = new mongoose.Schema({
       "Free Conceded",
       "Kickout Won",
       "Kickout Lost",
-      // Add more stat types as needed
     ],
     required: true,
   },

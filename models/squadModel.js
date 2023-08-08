@@ -1,4 +1,3 @@
-// models/squadModel.js
 const mongoose = require("mongoose");
 
 const squadSchema = new mongoose.Schema({
