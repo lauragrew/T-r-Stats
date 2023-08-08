@@ -8,32 +8,19 @@ head
   link(rel="stylesheet", href="/css/gaa.css")
   // Font Awesome CDN
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+  // Add the link to the custom CSS file for RecordStats page
+  link(rel="stylesheet", href="/css/gaa.css")
 
 body
   #container
     // logo
     #logo TírStats
 
-    // navbar
-    #navbar
-      ul.navbar-links
-        li: a(href="/dashboard") Home
-        li: a(href="#") About
-        li: a(href="#") Contact
-
-      if user
-        #navbar-right
-          li#logout
-            | Logged in as: &nbsp;
-            span.user-name= user.firstName
-            span.user-name= user.lastName
-            a.nav__el(href="/logout") Logout
-      else
-        #navbar-right
-          li#signup
-            a.nav__el(href="/statsSignup1") Sign Up
-          li#login
-            a.nav__el(href="/statsLogin") Log in
+    // Navigation buttons
+    #navigation-buttons
+      a.back-to-record-games-btn.btn.btn-secondary(href="/recordGames") Back to Record Games
+      a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
+      a.logout-btn.btn.btn-secondary(href="/logout") Logout
 
     // CONTENT
     // Specific content for the Record Stats page
@@ -56,34 +43,17 @@ body
         div#timer
           | 00:00
 
-      // Add your pitch layout and buttons for recording stats here
-      // For example:
-      div#pitch-layout
-        // Your pitch layout code goes here
+      // Pitch image container
+      div#pitch-container
+        // Replace "path_to_pitch_image" with the correct image path
+        img.pitch-image(src="/img/pitch.jpg", alt="Pitch Image")
 
-      // Flex container for the buttons
-      div#buttons-container
-        // Dynamically generate buttons for each player's position
-        each playerSetup in gameSetupData.playerSetup
-          button.record-stat-btn.btn.btn-primary(type="button" data-player-id=playerSetup.playerId data-position=playerSetup.position class="record-stat") Record Stat for #{playerSetup.position}
-          // Dropdown menu for stat types
-          select.stat-dropdown
-            option(value="") -- Select Stat Type --
-            option(value="Tackle") Tackle
-            option(value="Save") Save
-            option(value="Turnover for") Turnover for
-            option(value="Turnover Against") Turnover Against
-            option(value="Goal") Goal
-            option(value="Point") Point
-            option(value="Dropped Short") Dropped Short
-            option(value="Wide") Wide
-            option(value="Free Conceded") Free Conceded
-            option(value="Kickout Won") Kickout Won
-            option(value="Kickout Lost") Kickout Lost
-            // Add more stat types as needed
-
-      // Back to Record Games button (to go back to the list of game setups)
-      a.back-to-record-games-btn.btn.btn-secondary(href="/recordGames") Back to Record Games
+        // Buttons container
+        div#buttons-container
+          // Dynamically generate buttons for each player's position
+          each playerSetup in gameSetupData.playerSetup
+            // Add appropriate class for each player's position
+            div.record-stat-btn.btn.btn-primary(data-player-id=playerSetup.playerId data-position=playerSetup.position class=`record-stat ${playerSetup.position}`) Record Stat for #{playerSetup.position}
 
   // Add any additional JavaScript specific to the recordStats page here
   script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js")

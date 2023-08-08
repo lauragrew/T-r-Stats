@@ -1,4 +1,4 @@
-// get all the record stat buttons
+// JS for the recordStat page including a timer function, recording a stat function, fetching the the gamesetup and squad IDs and saving the stat information
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get all the "Record Stat" buttons
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", handleRecordStat);
   });
 
-  // timer function
+  // Timer function
 
   // Timer variables
   let timerInterval;
@@ -92,21 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // fucntion to handle recording a stat
   async function handleRecordStat(event) {
-    // Get the selected stat type from the dropdown menu
-    const dropdown = event.target.nextElementSibling;
-    const statType = dropdown.value;
-
-    // If no stat type is selected, show an error message
-    if (!statType) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Please select a stat type.",
-      });
-      return;
-    }
-
     // Get the player ID and position from the button's data attributes
     const playerId = event.target.dataset.playerId;
     const position = event.target.dataset.position;
@@ -115,35 +102,75 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Player ID:", playerId);
     console.log("Position:", position);
 
-    // Fetch the GameSetup ID and Squad ID from the backend
+    // Fetch the GameSetup ID and Squad ID from the backend - function to fetch this below
     const { gameSetupId, squadId } = await fetchGameSetupAndSquadIds(
       playerId,
-      position,
-      statType
+      position
     );
 
-    // Save the stat
-    saveStat(gameSetupId, playerId, position, squadId, statType);
+    // Create the dropdown menu for stat types
+    const statDropdown = document.createElement("select");
+    statDropdown.classList.add("stat-dropdown");
+    statDropdown.innerHTML = `
+      <option value="">-- Select Stat Type --</option>
+      <option value="Tackle">Tackle</option>
+      <option value="Save">Save</option>
+      <option value="Turnover for">Turnover for</option>
+      <option value="Turnover Against">Turnover Against</option>
+      <option value="Goal">Goal</option>
+      <option value="Point">Point</option>
+      <option value="Dropped Short">Dropped Short</option>
+      <option value="Wide">Wide</option>
+      <option value="Free Conceded">Free Conceded</option>
+      <option value="Kickout Won">Kickout Won</option>
+      <option value="Kickout Lost">Kickout Lost</option>
+      <!-- Add more stat types as needed -->
+    `;
+
+    // Show the dropdown menu as a SweetAlert modal
+    Swal.fire({
+      title: `Record Stat for ${position}`,
+      html: statDropdown,
+      confirmButtonText: "Save",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+      preConfirm: () => {
+        const statType = statDropdown.value;
+        if (!statType) {
+          Swal.showValidationMessage("Please select a stat type.");
+        }
+        return { statType };
+      },
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      const { statType } = result.value;
+      // Save the stat
+      saveStat(gameSetupId, playerId, position, squadId, statType);
+    });
   }
 
+  // function to get the gamesetup and squad IDs
   async function fetchGameSetupAndSquadIds(playerId, position, statType) {
     try {
       // Get the gameSetupId from the URL query parameters
       const urlParams = new URLSearchParams(window.location.search);
       const gameSetupId = urlParams.get("gameSetupId");
 
-      // Make an API request to fetch the required data
+      // Make an API request to fetch the gamesetupID and squadID
       const response = await axios.get(
         `/api/v1/stats/fetchGameSetupAndSquadIds?gameSetupId=${gameSetupId}`
       );
 
-      // Extract the required data from the response
-      const { squadId } = response.data; // Remove the second declaration of gameSetupId
+      // Take the squadID from the response
+      const { squadId } = response.data;
 
-      // Return the extracted data
+      // Return the gamesetupID and squadID
       return { gameSetupId, squadId };
     } catch (error) {
-      // If there's an error, show an error message to the user
+      // handle errors
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -152,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // function to save a stat to the database with the gamesetupID, playerID, position, squadID and stat type
   async function saveStat(gameSetupId, playerId, position, squadId, statType) {
     try {
       // Make an API request to save the stat
@@ -163,14 +191,14 @@ document.addEventListener("DOMContentLoaded", () => {
         statType,
       });
 
-      // If the stat is saved successfully, show a success message to the user
+      // If the stat is saved successfully, show a success message to the user (sweetAlert)
       Swal.fire({
         icon: "success",
         title: "Stat Saved!",
         text: `You recorded a ${statType} for ${position}.`,
       });
     } catch (error) {
-      // If there's an error, show an error message to the user
+      // handle errors
       Swal.fire({
         icon: "error",
         title: "Error",

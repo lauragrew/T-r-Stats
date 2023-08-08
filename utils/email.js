@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const nodemailer = require('nodemailer');
+// This code provides a reusable function (sendEmail) that abstracts the process of sending emails using the Nodemailer library. It simplifies the process of creating and configuring a transporter, defining email options, and sending the email. The function can be used to send emails with various content and recipients by passing appropriate options as an argument
+
+const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
   // 1) create a transport
@@ -14,7 +15,7 @@ const sendEmail = async (options) => {
 
   // 2) define the email options
   const mailOptions = {
-    from: 'Jonas Schmedtmann <hello@jonas.io>', // sender address
+    from: "Jonas Schmedtmann <hello@jonas.io>", // sender address
     to: options.email, // list of receivers
     subject: options.subject, // Subject line
     text: options.message, // plain text body

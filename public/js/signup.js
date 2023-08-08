@@ -1,3 +1,6 @@
+// this is signup fucntionality
+
+// selecting elements in statSignup1.pug by their IDs/Classes
 const signupForm = document.querySelector(".signup-form");
 const signupFirstNameInput = document.getElementById("firstName");
 const signupLastNameInput = document.getElementById("lastName");
@@ -5,6 +8,7 @@ const signupEmailInput = document.getElementById("email");
 const signupPasswordInput = document.getElementById("password");
 const signupPasswordConfirmInput = document.getElementById("passwordConfirm");
 
+// signup function and its parameters
 const signup = async (
   firstName,
   lastName,
@@ -13,6 +17,7 @@ const signup = async (
   passwordConfirm
 ) => {
   try {
+    // send POST req using axios to API (authController)
     const res = await axios({
       method: "POST",
       url: "http://localhost:3000/api/v1/users/signup",
@@ -24,14 +29,15 @@ const signup = async (
         passwordConfirm,
       },
     });
-
+    // if successful show a message to the user and then redirect to the dashboard
     if (res.data.status === "success") {
       alert("Signed up successfully");
-      const redirectUrl = res.data.data.redirectUrl; // Get the redirect URL from the response
+      const redirectUrl = res.data.data.redirectUrl;
       window.setTimeout(() => {
-        location.assign(redirectUrl); // Redirect to the gameSetup page
+        location.assign(redirectUrl);
       }, 1500);
     }
+    // handle any errors
   } catch (err) {
     if (err.response && err.response.data && err.response.data.error) {
       const errorMessage = err.response.data.error;
@@ -45,9 +51,10 @@ const signup = async (
     }
   }
 };
-
+// event listener to the signupForm
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  // recieves the input values and calls the signup function
   const firstName = signupFirstNameInput.value;
   const lastName = signupLastNameInput.value;
   const email = signupEmailInput.value;

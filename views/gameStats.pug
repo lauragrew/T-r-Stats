@@ -1,0 +1,23 @@
+extends statsBase
+
+block content
+  .container
+    h1 Game Stats
+
+    // Display game setup information
+    p Game Setup: #{gameSetup && gameSetup.team1Name} vs #{gameSetup && gameSetup.team2Name}
+
+    // Display game stats table
+    table
+      thead
+        tr
+          th Player
+          th Stat Type
+          th Timestamp
+      tbody
+        each stat in gameStats
+          tr
+            td= stat.player
+            td= stat.statType
+            td= stat.timestamp
+

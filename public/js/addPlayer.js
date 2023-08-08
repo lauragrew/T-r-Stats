@@ -1,12 +1,16 @@
+// JS to add a player form viewPlayers.pug
+// event listener that waits for document to be fully loaded before continuing with the code inside
 document.addEventListener("DOMContentLoaded", () => {
+  // get the form element with the ID add-player-form in addPlayerProfile.pug
   const addPlayerForm = document.getElementById("add-player-form");
 
   if (addPlayerForm) {
-    // Add a submit event listener to the form to handle form submission
+    // Add a submit event listener to the form
     addPlayerForm.addEventListener("submit", () => {
-      // Hide the success message when the form is submitted (if it exists)
+      // Check if success-message element exists
       const successMessage = document.getElementById("success-message");
       if (successMessage) {
+        // hide the success message
         successMessage.style.display = "none";
       }
     });

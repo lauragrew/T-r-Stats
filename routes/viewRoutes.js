@@ -9,7 +9,7 @@ router.get("/", viewsController.getStatsMain);
 router.get("/statsSignup1", viewsController.getStatsSignup1);
 router.get("/statsLogin", viewsController.getStatsLogin);
 
-// Authentication middleware
+// Authentication middleware - routes below this need to be logged in
 router.use(authController.isLoggedIn);
 
 // Protected routes (require authentication)
@@ -33,25 +33,30 @@ router.get(
   viewsController.getViewPlayers
 );
 
-// Route to render the player profile creation page
+// Route to view player profile
 router.get(
-  "/addPlayerProfile/:squadId", // Use the "squadId" parameter in the URL
-  authController.protect, // Add the necessary authentication middleware if required
+  "/addPlayerProfile/:squadId",
+  authController.protect,
   viewsController.getAddPlayerProfile
 );
 
-// Route to display all the game setups for recording games
+// Route to view all the game setups for recording games
 router.get(
   "/recordGames",
   authController.protect,
   viewsController.getRecordGames
 );
 
-// Route to render the "recordStats" page
+// Route to view the recordStats page
 router.get(
-  "/recordStats", // Add the route path here
+  "/recordStats",
   authController.protect,
   viewsController.getRecordStats
 );
 
+// route for viewing the gamesetups to then get the stats
+router.get("/viewStats", viewsController.viewGameSetups);
+
+// Route to view game stats for a specific game setup
+router.get("/viewStats/:gameSetupId", viewsController.viewGameStats);
 module.exports = router;

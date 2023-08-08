@@ -1,6 +1,7 @@
 const Squad = require("../models/squadModel");
 const catchAsync = require("../utils/catchAsync");
 
+// function to create a new squad
 exports.createSquad = catchAsync(async (req, res) => {
   const { name } = req.body;
 
@@ -10,8 +11,7 @@ exports.createSquad = catchAsync(async (req, res) => {
     user: { $ne: req.user._id },
   });
   if (existingSquad) {
-    // A squad with the same name exists but is owned by another user
-    // You can choose to display an error message or take appropriate action
+    // A squad with the same name exists but is owned by another user - error message
     return res.status(400).json({
       error: "A squad with that name already exists for another user",
     });
@@ -20,15 +20,15 @@ exports.createSquad = catchAsync(async (req, res) => {
   // Create a new squad
   const newSquad = await Squad.create({
     name,
-    user: req.user._id, // Assuming you are storing the user ID in the req.user object after authentication
+    user: req.user._id, // I am storing the user ID in the req.user object after authentication
   });
 
-  // Populate the user field with the actual user data (name and id)
+  // Populate the user field with the user data (name and id)
   await newSquad.populate("user", "firstName lastName").execPopulate();
   res.redirect("/viewSquads");
 });
 
-// Controller function to get all squads created by the logged-in user
+// function to get all squads created by the logged-in user
 exports.getAllUserSquads = catchAsync(async (req, res) => {
   // Get all squads created by the logged-in user (using user ID)
   const squads = await Squad.find({ user: req.user._id }).populate(
@@ -44,7 +44,7 @@ exports.getAllUserSquads = catchAsync(async (req, res) => {
   });
 });
 
-// Controller function to get a single squad by its ID
+// function to get a single squad by its ID
 exports.getSquadById = catchAsync(async (req, res) => {
   const squadId = req.params.id;
 
@@ -65,7 +65,7 @@ exports.getSquadById = catchAsync(async (req, res) => {
   });
 });
 
-// Controller function to update a squad by its ID
+// function to update a squad by its ID
 exports.updateSquad = catchAsync(async (req, res) => {
   const squadId = req.params.id;
   const { name } = req.body;
@@ -94,17 +94,12 @@ exports.deleteSquad = async (req, res, next) => {
     console.log("Delete Squad function called");
     const squadId = req.params.squadId;
 
-    // Implement your logic to delete the squad from the database
-    // For example, using Mongoose:
     await Squad.findByIdAndDelete(squadId);
-
-    // Respond with a success message
     res.status(200).json({
       status: "success",
       data: null,
     });
   } catch (error) {
-    // Handle errors
     next(error);
   }
 };

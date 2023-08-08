@@ -6,11 +6,13 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const sendEmail = require("../utils/email");
 
+// function to sign a JWN token
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
+// function to create and send a JWT token
 const createSendToken = (user, statusCode, res, redirectUrl) => {
   const token = signToken(user._id);
   const cookieOptions = {
@@ -21,24 +23,27 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
+  // set the JWT token as a cookie
   res.cookie("jwt", token, cookieOptions);
 
-  // remove password from output
+  // hide the password from the user before sending the response
   user.password = undefined;
 
+  // send the response with the token and user data
   res.status(statusCode).json({
     status: "success",
     token,
     data: {
       user: user,
-      redirectUrl: redirectUrl, // Include the redirect URL in the response
+      redirectUrl: redirectUrl,
     },
   });
 };
 
+// signup function
 exports.signup = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password, passwordConfirm } = req.body;
-
+  // check if the passwords match
   if (password !== passwordConfirm) {
     return res.status(400).json({
       status: "error",
@@ -47,6 +52,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 
   try {
+    // create a new user in the database
     const newUser = await User.create({
       firstName,
       lastName,
@@ -54,10 +60,10 @@ exports.signup = catchAsync(async (req, res, next) => {
       password,
       passwordConfirm,
     });
-
+    // create and send the JWT token
     createSendToken(newUser, 201, res, "/dashboard");
   } catch (err) {
-    // Pass the error message to the frontend
+    // Pass the error message to the frontend if one occurs
     const errorMessages = err.message.split(":");
     const errorMessage = errorMessages[errorMessages.length - 1].trim();
 
@@ -68,6 +74,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 });
 
+// login function
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -85,7 +92,9 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res, "/dashboard");
 });
 
+// logout function
 exports.logout = (req, res) => {
+  // Clear the JWT token cookie to log the user out
   res.cookie("jwt", "logged out", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
@@ -105,11 +114,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
-
+  // if there is no token return an error
   if (!token) {
-    return next(
-      new AppError("You are not logged in! Please log in to get access", 401)
-    );
+    return res.redirect("/statsLogin");
   }
   // 2) Verification of token - if someone has manipulated the token or is has expired
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -133,6 +140,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+// function to check if user is already logged in
 exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
@@ -148,12 +156,12 @@ exports.isLoggedIn = async (req, res, next) => {
         return next();
       }
 
-      // 4) Check if user changed password after the token was issued
+      // 3) Check if user changed password after the token was issued
       if (currentUser.changedPasswordAfter(decoded.iat)) {
         return next();
       }
       // There is a logged in user
-      console.log("Authenticated User:", currentUser); // Add this line to log the authenticated user
+      console.log("Authenticated User:", currentUser);
       res.locals.user = currentUser;
       return next();
     } catch (err) {
@@ -163,10 +171,11 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 
+// function to restrict access based on user roles
 exports.restrictTo =
   (...roles) =>
   (req, res, next) => {
-    // roles is an array ['admin,]'lead-guide,]. role = user
+    // roles is an array ['user', 'coach'] role = user
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
@@ -175,6 +184,7 @@ exports.restrictTo =
     next();
   };
 
+// function for forget password
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
@@ -213,6 +223,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
+// function to reset password
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on token
   const hashedToken = crypto
@@ -243,6 +254,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+// function to update password
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
   const user = await User.findById(req.user.id).select("+password");
