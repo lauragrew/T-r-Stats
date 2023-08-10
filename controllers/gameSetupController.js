@@ -2,11 +2,10 @@ const GameSetup = require("../models/gameSetupModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
-// function for saving a game setup
 exports.saveGameSetup = catchAsync(async (req, res) => {
   console.log("Received request body:", req.body);
 
-  const { team1Name, team2Name, gameDescription, selectedTeam, playerSetup } =
+  const { oppositionName, gameDescription, selectedTeam, playerSetup } =
     req.body;
 
   console.log("Received playerSetup data:", playerSetup); // Log the playerSetup data
@@ -16,8 +15,7 @@ exports.saveGameSetup = catchAsync(async (req, res) => {
 
   // Create a new GameSetup object with the parsed playerSetup data
   const gameSetup = new GameSetup({
-    team1Name,
-    team2Name,
+    oppositionName,
     gameDescription,
     selectedTeam,
     playerSetup: parsedPlayerSetup, // Save the parsed playerSetup data

@@ -1,45 +1,45 @@
 const GameSetup = require("../models/gameSetupModel");
-const Squad = require("../models/squadModel");
-const Player = require("../models/playerModel");
-const Stat = require("../models/statModel");
 
-// function to fetch the gamesetup and squad IDs
-exports.fetchGameSetupAndSquadIds = async (req, res) => {
+async function saveStat(req, res) {
+  const { gameSetupId, playerId, position, statType } = req.body;
+
   try {
-    const { gameSetupId } = req.query;
-
-    // Fetch the GameSetup document from the database
     const gameSetup = await GameSetup.findById(gameSetupId);
 
-    // Get the Squad ID from the GameSetup document
-    const squadId = gameSetup.selectedTeam; // the selectedTeam here is the Squad ID
+    if (!gameSetup) {
+      return res.status(404).json({ message: "Game setup not found." });
+    }
 
-    res.status(200).json({ gameSetupId, squadId });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch data." });
-  }
-};
+    const playerSetup = gameSetup.playerSetup.find(
+      (player) => player.playerId.toString() === playerId
+    );
 
-exports.saveStat = async (req, res) => {
-  try {
-    const { gameSetupId, playerId, squadId, statType } = req.body;
+    if (!playerSetup) {
+      return res.status(404).json({ message: "Player setup not found." });
+    }
 
-    // Create a new Stat document and save it to the database
-    const newStat = await Stat.create({
-      gameSetup: gameSetupId,
-      player: playerId,
-      squad: squadId,
-      statType,
-    });
+    const stat = playerSetup.stats.find((s) => s.statType === statType);
 
-    // success or error message
-    res.status(201).json({
-      status: "success",
-      data: {
-        stat: newStat,
-      },
+    if (stat) {
+      stat.count += 1;
+    } else {
+      playerSetup.stats.push({ statType, count: 1 });
+    }
+
+    await gameSetup.save();
+
+    return res.status(200).json({
+      message: "Stat saved successfully.",
+      gameSetup: gameSetup, // Include the updated gameSetup
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to save stat." });
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Failed to save stat. Please try again." });
   }
+}
+
+module.exports = {
+  saveStat,
 };
