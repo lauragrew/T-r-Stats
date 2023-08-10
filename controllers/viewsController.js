@@ -3,6 +3,7 @@ const Squad = require("../models/squadModel");
 const Player = require("../models/playerModel");
 const GameSetup = require("../models/gameSetupModel");
 const { fetchGameSetupById } = require("../controllers/gameSetupController");
+const Stat = require("../models/statModel");
 
 // function to view the statsMain page
 exports.getStatsMain = (req, res) => {
@@ -132,12 +133,25 @@ exports.getGameSetup = async (req, res, next) => {
   }
 };
 // function to view the recordGames
+
 exports.getRecordGames = catchAsync(async (req, res) => {
   try {
     // Fetch the game setups from the database
     const gameSetups = await GameSetup.find().populate("playerSetup.playerId");
 
-    res.render("recordGames", { gameSetups });
+    // Fetch selected team names
+    const selectedTeamNames = await Promise.all(
+      gameSetups.map(async (setup) => {
+        if (setup.selectedTeam) {
+          const selectedTeam = await Squad.findById(setup.selectedTeam);
+          return selectedTeam ? selectedTeam.name : null;
+        }
+        return null;
+      })
+    );
+
+    // Render the "recordGames" template with game setups and selected team names
+    res.render("recordGames", { gameSetups, selectedTeamNames });
   } catch (error) {
     console.error("Error fetching game setups:", error);
     res
@@ -145,6 +159,7 @@ exports.getRecordGames = catchAsync(async (req, res) => {
       .render("error", { message: "Failed to fetch game setups." });
   }
 });
+
 // function to view the recordStats page
 exports.getRecordStats = catchAsync(async (req, res) => {
   try {
@@ -164,17 +179,32 @@ exports.getRecordStats = catchAsync(async (req, res) => {
   }
 });
 
-// function for viewing game stats in the gameStats page
-exports.viewGameSetups = async (req, res, next) => {
+// function for viewing game setups in the viewStats page
+exports.viewStats = catchAsync(async (req, res) => {
   try {
-    // Fetch all game setups from your database
+    // Fetch the game setups from the database
     const gameSetups = await GameSetup.find();
 
-    res.render("viewStats", { gameSetups });
-  } catch (err) {
-    next(err);
+    // Fetch selected team names
+    const selectedTeamNames = await Promise.all(
+      gameSetups.map(async (setup) => {
+        if (setup.selectedTeam) {
+          const selectedTeam = await Squad.findById(setup.selectedTeam);
+          return selectedTeam ? selectedTeam.name : null;
+        }
+        return null;
+      })
+    );
+
+    // Render the "viewStats" template with game setups and selected team names
+    res.render("gameStats", { gameSetups, selectedTeamNames });
+  } catch (error) {
+    console.error("Error fetching game setups:", error);
+    res
+      .status(500)
+      .render("error", { message: "Failed to fetch game setups." });
   }
-};
+});
 
 // This function handles the route that displays game statistics for a specific game setup.
 exports.viewGameStats = async (req, res, next) => {

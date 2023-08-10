@@ -953,7 +953,7 @@ h1 {
 }
 
 #record-game-setup-container {
-  max-height: 500px; 
+  max-height: 300px; 
   overflow-y: auto;
   background-color: #f9f9f9; 
   padding: 10px; 
@@ -1088,6 +1088,8 @@ h1 {
 .player-list:not(.hidden) {
   display: block;
 }
+
+
 
 /*recordStats page specific styles */
 #record-stats-page {

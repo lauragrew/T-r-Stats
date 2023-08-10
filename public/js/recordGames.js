@@ -17,3 +17,13 @@ viewPlayersButtons.forEach((button) => {
     togglePlayerList(gameSetupId);
   });
 });
+
+// Calculate the height of each game setup card
+const cardHeight = 100; // Adjust this based on your actual card height
+
+// Calculate the total height of the game setups
+const totalHeight = cardHeight * viewPlayersButtons.length;
+
+// Set the container's height to the total height
+const container = document.querySelector("#record-game-setup-container");
+container.style.height = `${totalHeight}px`;

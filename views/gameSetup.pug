@@ -1,4 +1,3 @@
-
 extends statsBase
 
 block content
@@ -12,11 +11,8 @@ block content
         // Names and description section
         .names-section.form-section
           h2 Game Info
-          label(for="team1Name") Team 1 Name:
-          input(type="text", name="team1Name", value=gameSetup && gameSetup.team1Name, required)
-
-          label(for="team2Name") Team 2 Name:
-          input(type="text", name="team2Name", value=gameSetup && gameSetup.team2Name, required)
+          label(for="oppositionName") Opposition Name:
+          input(type="text", name="oppositionName", value=gameSetup && gameSetup.oppositionName, required)
 
           label(for="gameDescription") Game Description:
           textarea(name="gameDescription", rows="2", required)= gameSetup && gameSetup.gameDescription
@@ -175,8 +171,7 @@ block content
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              team1Name: document.querySelector("input[name='team1Name']").value,
-              team2Name: document.querySelector("input[name='team2Name']").value,
+              oppositionName: document.querySelector("input[name='oppositionName']").value,
               gameDescription: document.querySelector("textarea[name='gameDescription']").value,
               selectedTeam: document.querySelector("#selectedTeam").value,
               playerSetup: JSON.stringify(playerSetup),
@@ -194,3 +189,6 @@ block content
           console.error("Error submitting form:", error);
         }
       });
+
+  
+

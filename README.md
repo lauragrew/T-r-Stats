@@ -23,7 +23,7 @@ The GAA Stats Application is a web-based tool designed to help manage (GAA/LGFA)
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/yourusername/gaa-stats-app.git`
+1. Clone the repository: `git clone https://github.com/lauragrew/T-r-Stats.git`
 2. Navigate to the project directory: `cd GAA Stats`
 3. Install dependencies: `npm install`
 4. Set up environment variables by creating a `.env` file based on `.env.example`.

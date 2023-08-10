@@ -1,5 +1,29 @@
 const mongoose = require("mongoose");
 
+const playerStatsSchema = new mongoose.Schema({
+  statType: {
+    type: String,
+    enum: [
+      "Tackle",
+      "Save",
+      "Turnover for",
+      "Turnover Against",
+      "Goal",
+      "Point",
+      "Dropped Short",
+      "Wide",
+      "Free Conceded",
+      "Kickout Won",
+      "Kickout Lost",
+    ],
+    required: true,
+  },
+  count: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const playerSetupSchema = new mongoose.Schema({
   position: {
     type: String,
@@ -31,14 +55,11 @@ const playerSetupSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  stats: [playerStatsSchema], // Array to store player stats
 });
 
 const gameSetupSchema = new mongoose.Schema({
-  team1Name: {
-    type: String,
-    required: true,
-  },
-  team2Name: {
+  oppositionName: {
     type: String,
     required: true,
   },
@@ -51,7 +72,7 @@ const gameSetupSchema = new mongoose.Schema({
     ref: "Team",
     required: true,
   },
-  playerSetup: [playerSetupSchema],
+  playerSetup: [playerSetupSchema], // Array to store player setups including stats
 });
 
 const GameSetup = mongoose.model("GameSetup", gameSetupSchema);

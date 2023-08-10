@@ -12,10 +12,10 @@ block content
       else
         // Virtual Scroller Container with a unique ID
         div#record-game-setup-container
-          each gameSetup in gameSetups
+          each gameSetup, index in gameSetups
             div.game-setup-card
               // Game setup card content
-              h2= gameSetup.team1Name + " vs " + gameSetup.team2Name
+              h2= `${selectedTeamNames[index]} vs ${gameSetup.oppositionName}`
               p= gameSetup.gameDescription
               // View Players Button
               button.view-players-btn.btn.btn-primary(type="button", data-game-setup-id=gameSetup._id) View Players
