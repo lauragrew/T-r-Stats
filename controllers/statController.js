@@ -1,6 +1,8 @@
 const GameSetup = require("../models/gameSetupModel");
+const catchAsync = require("../utils/catchAsync");
 
-async function saveStat(req, res) {
+// Function to save a player's stat
+exports.saveStat = catchAsync(async (req, res) => {
   const { gameSetupId, playerId, position, statType } = req.body;
 
   try {
@@ -38,8 +40,19 @@ async function saveStat(req, res) {
       .status(500)
       .json({ message: "Failed to save stat. Please try again." });
   }
-}
+});
 
-module.exports = {
-  saveStat,
-};
+// Function to view all game setups and their stats
+exports.viewStats = catchAsync(async (req, res) => {
+  try {
+    const gameSetups = await GameSetup.find();
+    const validStatTypes = GameSetup.schema.path(
+      "playerSetup.stats.statType"
+    ).enumValues;
+
+    res.render("viewStats", { gameSetups, statTypes: validStatTypes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});

@@ -1,0 +1,73 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= "Game Stats"
+    // CSS link
+    link(rel="stylesheet", href="/css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+  body
+    div#container
+      // logo
+      div#logo TírStats
+
+      // Navigation buttons
+      div#navigation-buttons
+        a.back-to-record-games-btn.btn.btn-secondary(href="/viewStats") Back to Game Setups
+        a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
+        a.back-to-record-stats-btn.btn.btn-secondary(href=`/recordStats?gameSetupId=${gameSetup._id}`) Back to Record Stats
+        a.logout-btn.btn.btn-secondary(href="/logout") Logout
+        
+       
+
+      // Specific content for the Game Stats page
+      div#game-stats-page
+        div#game-stats-container
+          h1.game-title Game Stats
+
+          // Display the game setup information
+          h2.game-info= `${selectedTeamName} vs ${gameSetup.oppositionName}`
+          p.game-description= gameSetup.gameDescription
+
+          // Check if there are any player setups to display
+          if gameSetup.playerSetup.length === 0
+            p No player setups found.
+          else
+            // Get an array of all available stat types
+            - const statTypes = Array.from(new Set(gameSetup.playerSetup.flatMap(playerSetup => playerSetup.stats.map(stat => stat.statType))))
+
+            // Calculate totals for each stat type
+            - const statTotals = statTypes.map(statType => {
+            -   return gameSetup.playerSetup.reduce((acc, playerSetup) => {
+            -     const playerStat = playerSetup.stats.find(s => s.statType === statType);
+            -     return acc + (playerStat ? playerStat.count : 0);
+            -   }, 0);
+            - });
+
+            // Container for the table with a maximum width and centered alignment
+            div#table-container
+              // Table to display player stats
+              table#player-stats-table
+                thead
+                  tr
+                    th Player
+                    each statType in statTypes
+                      th(class=statType)= statType
+                tbody
+                  each playerSetup in gameSetup.playerSetup
+                    tr
+                      td(class="player-name")= playerSetup.playerName
+                      each statType in statTypes
+                        - const playerStat = playerSetup.stats.find(s => s.statType === statType)
+                        td(class=statType)= playerStat ? playerStat.count : ''
+
+                // Add the row for displaying stat totals
+                tfoot
+                  tr
+                    th Total
+                    each total in statTotals
+                      th= total
+

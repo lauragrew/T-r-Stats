@@ -26,6 +26,7 @@ block content
               // Game Stats Button
               a.game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetup._id}`) Game Stats
 
+
               // Hidden Player List
               div.player-list.hidden(id="playerList_" + gameSetup._id)
                 each playerSetup in gameSetup.playerSetup
