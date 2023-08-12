@@ -197,7 +197,7 @@ exports.viewStats = catchAsync(async (req, res) => {
     );
 
     // Render the "viewStats" template with game setups and selected team names
-    res.render("gameStats", { gameSetups, selectedTeamNames });
+    res.render("viewStats", { gameSetups, selectedTeamNames });
   } catch (error) {
     console.error("Error fetching game setups:", error);
     res
@@ -206,18 +206,50 @@ exports.viewStats = catchAsync(async (req, res) => {
   }
 });
 
-// This function handles the route that displays game statistics for a specific game setup.
-exports.viewGameStats = async (req, res, next) => {
+exports.viewGameStats = catchAsync(async (req, res) => {
+  const gameSetupId = req.params.gameSetupId;
+
   try {
-    const { gameSetupId } = req.params;
+    // Fetch the game setup based on the provided ID
+    const gameSetup = await GameSetup.findById(gameSetupId);
 
-    // Fetch game stats for the provided gameSetupId
-    const gameStats = await Stat.find({ gameSetup: gameSetupId }).populate(
-      "player"
+    if (!gameSetup) {
+      return res.status(404).json({ message: "Game setup not found." });
+    }
+
+    // Fetch selected team name (assuming setup.selectedTeam is an ObjectId)
+    let selectedTeamName = null;
+    if (gameSetup.selectedTeam) {
+      const selectedTeam = await Squad.findById(gameSetup.selectedTeam);
+      selectedTeamName = selectedTeam ? selectedTeam.name : null;
+    }
+
+    // Calculate totals for each stat type
+    const statTypes = Array.from(
+      new Set(
+        gameSetup.playerSetup.flatMap((playerSetup) =>
+          playerSetup.stats.map((stat) => stat.statType)
+        )
+      )
     );
+    const statTotals = statTypes.map((statType) => {
+      return gameSetup.playerSetup.reduce((acc, playerSetup) => {
+        const playerStat = playerSetup.stats.find(
+          (s) => s.statType === statType
+        );
+        return acc + (playerStat ? playerStat.count : 0);
+      }, 0);
+    });
 
-    res.render("gameStats", { gameStats });
-  } catch (err) {
-    next(err);
+    // Render the "viewGameStats" template with the game setup data, selected team name, and stat totals
+    res.render("viewGameStats", {
+      gameSetup,
+      selectedTeamName,
+      statTypes,
+      statTotals,
+    });
+  } catch (error) {
+    console.error("Error fetching game setup:", error);
+    res.status(500).render("error", { message: "Failed to fetch game setup." });
   }
-};
+});

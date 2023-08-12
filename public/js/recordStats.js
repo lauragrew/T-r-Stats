@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <option value="Turnover against">Turnover against</option>
       <option value="Goal">Goal</option>
       <option value="Point">Point</option>
-      <option value="Free Conceded>Free Conceded</option>
+      <option value="Free conceded">Free Conceded</option>
       <option value="Dropped short">Dropped short</option>
       <option value="Wide">Wide</option>
-      <Kickout value="Kickout won">Kickout won</option>
+      <option value="Kickout won">Kickout won</option>
       <option value="Kickout lost">Kickout lost</option>
       <!-- Add more stat types as needed -->
     `;
