@@ -23,6 +23,33 @@ body
       a.view-game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetupData._id}`) Game Stats
       a.logout-btn.btn.btn-secondary(href="/logout") Logout
 
+    
+    // Score display
+    #score-display
+      div#home-score
+       h2= selectedTeamName 
+       p#home-score-text 0:0
+      div#opposition-score(style="margin-right: 10px") 
+      div#opposition-score
+       h2 #{gameSetupData.oppositionName}
+       p#opposition-score-text 0:0
+
+
+
+    // Score recording form
+    div#score-recording
+      form#home-score-form
+        label(for="home-goals") #{selectedTeamName}
+        button#record-selected-team-goal.btn.btn-primary(type="button") Record Goal
+        button#record-selected-team-point.btn.btn-primary(type="button") Record Point
+        button#reset-home-team-scores.btn.btn-danger(type="button") Reset #{selectedTeamName} Score
+
+      form#opposition-score-form
+        label(for="opposition-goals") #{gameSetupData.oppositionName} 
+        button#record-opposition-team-goal.btn.btn-primary(type="button") Record Goal
+        button#record-opposition-team-point.btn.btn-primary(type="button") Record Point
+         button#reset-opposition-team-scores.btn.btn-danger(type="button") Reset #{gameSetupData.oppositionName} Score
+
     // CONTENT
     // Specific content for the Record Stats page
     div#record-stats-page
@@ -60,4 +87,5 @@ body
   script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js")
   script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
   script(type="module", src="/js/recordStats.js")
-
+  script(type="module", src="/js/score.js")
+  script(type="module", src="/js/statTimer.js")
