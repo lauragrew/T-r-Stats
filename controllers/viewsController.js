@@ -161,6 +161,25 @@ exports.getRecordGames = catchAsync(async (req, res) => {
 });
 
 // function to view the recordStats page
+// exports.getRecordStats = catchAsync(async (req, res) => {
+//   try {
+//     // Retrieve the game setup ID
+//     const { gameSetupId } = req.query;
+
+//     // Fetch the game setup data by its ID
+//     const gameSetupData = await fetchGameSetupById(gameSetupId);
+
+//     res.render("recordStats", {
+//       title: "Record Game Stats",
+//       gameSetupData,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Error fetching game setup data" });
+//   }
+// });
+
+// Function to view the recordStats page
 exports.getRecordStats = catchAsync(async (req, res) => {
   try {
     // Retrieve the game setup ID
@@ -169,9 +188,14 @@ exports.getRecordStats = catchAsync(async (req, res) => {
     // Fetch the game setup data by its ID
     const gameSetupData = await fetchGameSetupById(gameSetupId);
 
+    // Fetch the selected team name
+    const selectedTeam = await Squad.findById(gameSetupData.selectedTeam);
+    const selectedTeamName = selectedTeam ? selectedTeam.name : "";
+
     res.render("recordStats", {
       title: "Record Game Stats",
       gameSetupData,
+      selectedTeamName,
     });
   } catch (error) {
     console.log(error);
@@ -241,7 +265,7 @@ exports.viewGameStats = catchAsync(async (req, res) => {
       }, 0);
     });
 
-    // Render the "viewGameStats" template with the game setup data, selected team name, and stat totals
+    // view the "viewGameStats" page with the game setup data, selected team name, and stat totals
     res.render("viewGameStats", {
       gameSetup,
       selectedTeamName,
