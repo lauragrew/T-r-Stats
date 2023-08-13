@@ -36,6 +36,7 @@ body
 
 
 
+    
     // Score recording form
     div#score-recording
       form#home-score-form
@@ -45,10 +46,14 @@ body
         button#reset-home-team-scores.btn.btn-danger(type="button") Reset #{selectedTeamName} Score
 
       form#opposition-score-form
+        br 
         label(for="opposition-goals") #{gameSetupData.oppositionName} 
         button#record-opposition-team-goal.btn.btn-primary(type="button") Record Goal
         button#record-opposition-team-point.btn.btn-primary(type="button") Record Point
-         button#reset-opposition-team-scores.btn.btn-danger(type="button") Reset #{gameSetupData.oppositionName} Score
+        button#reset-opposition-team-scores.btn.btn-danger(type="button") Reset #{gameSetupData.oppositionName} Score
+
+
+
 
     // CONTENT
     // Specific content for the Record Stats page

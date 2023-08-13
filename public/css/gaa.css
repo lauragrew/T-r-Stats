@@ -1245,7 +1245,7 @@ h1 {
 #score-display {
   position: absolute;
   top: 70px; 
-  right:60px;
+  right: 10px;
   display: flex;
   margin-left: 60px;
   justify-content: space-around;
@@ -1279,14 +1279,15 @@ h1 {
 }
 
 
-
 /* Styles for the score recording buttons */
 #score-recording {
   position: absolute;
   top: 160px; 
   right: 10px;
   display: flex;
-  margin-left: 60px;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: flex-start; /* Align items to the start of the container */
+  gap: 10px; /* Add spacing between the forms */
 }
 
 form#home-score-form,
@@ -1297,6 +1298,7 @@ form#opposition-score-form {
   border-radius: 5px;
   background-color: #f9f9f9;
   font-size: 14px;
+  width: 100%; /
 }
 
 label {
@@ -1329,6 +1331,7 @@ button#record-opposition-team-goal:hover,
 button#record-opposition-team-point:hover {
   background-color: #0056b3;
 }
+
 
 .back-to-record-games-btn,
 .dashboard-btn,
@@ -1617,6 +1620,21 @@ button#record-opposition-team-point:hover {
     margin-left: 350px;
     margin-bottom: 40px;
   }
+
+  #pitch-container {
+    max-width: 90%;
+  }
+
+  form#home-score-form,
+  form#opposition-score-form {
+  width: 90%; 
+ 
+  
+
+
+
+
+
 }
 
 @media (max-width: 1180px) {
@@ -1721,6 +1739,27 @@ button#record-opposition-team-point:hover {
   .logout-btn {
     padding: 4px 9px;
   }
+
+  #pitch-container {
+    max-width: 80%;
+    margin-left: 30px;
+    margin-top: 20px;
+   
+  }
+
+  #score-recording {
+  margin-left: 5px;
+  }
+
+  form#home-score-form,
+form#opposition-score-form {
+  width: 80%; 
+  
+}
+
+h1#record-stats-heading {
+  margin-top: 40px;
+}
 }
 
 @media (max-width: 1024px) {
@@ -1826,18 +1865,18 @@ button#record-opposition-team-point:hover {
 
 /* Goalkeeper */
 .record-stat[data-position="GK"] {
-  top: 280px; 
+  top: 260px; 
   left: calc(4%); 
 }
 
 /* Full-Backs */
 .record-stat[data-position="RB"] {
-  top: 460px; 
+  top: 380px; 
   left: calc(13%); 
 }
 
 .record-stat[data-position="FB"] {
-  top: 280px; 
+  top: 260px; 
   left: calc(13%); 
 }
 
@@ -1848,11 +1887,11 @@ button#record-opposition-team-point:hover {
 
 /* Half-Backs */
 .record-stat[data-position="RWB"] {
-  top: 460px; 
+  top: 380px; 
   left: calc(31%); 
 }
 .record-stat[data-position="CHB"] {
-  top: 280px; 
+  top: 260px; 
   left: calc(31%); 
 }
 .record-stat[data-position="LWB"] {
@@ -1862,23 +1901,23 @@ button#record-opposition-team-point:hover {
 
 /* Midfielders */
 .record-stat[data-position="MF1"] {
-  top: 230px;
+  top: 200px;
   left: calc(50%); 
 }
 
 .record-stat[data-position="MF2"] {
-  top: 330px; 
+  top: 310px; 
   left: calc(50%); 
 }
 
 /* Half-Forwards */
 .record-stat[data-position="RHF"] {
-  top: 460px; 
+  top: 380px; 
   left: calc(69%)
 }
 
 .record-stat[data-position="CHF"] {
-  top: 280px; 
+  top: 260px; 
   left: calc(69%)
 }
 
@@ -1889,12 +1928,12 @@ button#record-opposition-team-point:hover {
 
 /* Full-Forwards */
 .record-stat[data-position="RCF"] {
-  top: 460px; 
+  top: 380px; 
   left: calc(86%);
 }
 
 .record-stat[data-position="FF"] {
-  top: 280px; 
+  top: 260px; 
   left: calc(86%);
 }
 
@@ -1902,12 +1941,45 @@ button#record-opposition-team-point:hover {
   top: 80px; 
   left: calc(86%);
 }
+
+.record-stat-btn {
+ 
+  width: 60px; 
+  height: 60px;
+  font-size: 11px; 
+  position: absolute; 
+ 
+}
  
 
   .back-to-record-games-btn,
   .dashboard-btn,
   .logout-btn {
-    padding: 4px 9px;
+    padding: 2px 5px;
   }
+
+  #pitch-container {
+    max-width: 80%;
+    margin-left: 10px;
+    margin-top: 40px;
+   
+  }
+
+  #score-recording {
+  margin-left: 5px;
+  }
+
+  form#home-score-form,
+form#opposition-score-form {
+  width: 80%; 
+  
 }
 
+h1#record-stats-heading {
+  margin-top: 40px;
+}
+
+
+}
+
+}
