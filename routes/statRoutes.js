@@ -10,4 +10,7 @@ router.use(authController.protect);
 // Route to save a player stat
 router.post("/saveStat", statController.saveStat);
 
+// Route to end a game
+router.post("/endGame/:gameSetupId", statController.endGame);
+
 module.exports = router;

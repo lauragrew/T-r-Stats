@@ -12,11 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function handleRecordStat(event) {
-    const playerId = event.target.dataset.playerId;
-    const position = event.target.dataset.position;
+    const button = event.target.closest(".record-stat-btn");
+    if (!button) return;
+
+    const playerId = button.dataset.playerId;
+    const position = button.dataset.position;
+    const playerNumber = button.querySelector(".player-number").textContent;
 
     const gameSetupId = getUrlParameter("gameSetupId");
-
     const selectedGameSetupId = gameSetupId;
 
     const statDropdown = document.createElement("select");
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     Swal.fire({
-      title: `Record Stat for ${position}`,
+      title: `Record Stat for ${position} - No. ${playerNumber}`,
       html: statDropdown,
       confirmButtonText: "Save",
       showCancelButton: true,
@@ -67,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         playerId,
         position,
         statType,
+        date: new Date(), // Add the current date
       });
 
       if (response.status === 200) {
@@ -86,10 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const playerName = playerSetup.playerName; // Get the player's name from playerSetup
+        const playerNumber = playerSetup.playerNumber; // Get the player's number from player
         Swal.fire({
           icon: "success",
           title: "Stat Saved!",
-          text: `You recorded a ${statType} for ${playerName} at position ${position}.`,
+          text: `You recorded a ${statType} for ${playerName} at position ${position} - No. ${playerNumber}`,
         });
       } else {
         Swal.fire({

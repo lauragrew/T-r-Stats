@@ -39,6 +39,9 @@ block content
                     option(value=player._id, data-playername=`${player.firstName} ${player.lastName}`)= `${player.firstName} ${player.lastName}`
                 input(type="hidden", class="playerId", id=`playerId_${position}`, value="")
                 input(type="hidden", class="playerName", id=`playerName_${position}`, value="")
+                label(for=`playerNumber_${position}`) Player Number (1-30)
+                input(type="number", class="playerNumber", id=`playerNumber_${position}`, name="playerNumber", min="1", max="30", placeholder="Player Number")
+
 
               // Display the selected player's name
               .selected-player-container
@@ -100,6 +103,7 @@ block content
         const position = event.target.closest('.player-setup-item').getAttribute('data-position');
 
         const selectedPlayerDisplay = document.querySelector(`.selected-player-name[data-position="${position}"]`);
+        const playerNumberInput = document.querySelector(`#playerNumber_${position}`);
 
         // Show the placeholder option and hide the selected player's option
         const playerOptions = event.target.querySelectorAll('option');
@@ -114,7 +118,7 @@ block content
         // Update the selected player's name display
         if (selectedPlayer) {
           const selectedPlayerOption = event.target.options[event.target.selectedIndex];
-          const selectedPlayerName = selectedPlayerOption.dataset.playername; // Get player's full name from the dataset
+          const selectedPlayerName = selectedPlayerOption.dataset.playername;
           selectedPlayerDisplay.textContent = selectedPlayerName;
         } else {
           selectedPlayerDisplay.textContent = "-- Select Player --";
@@ -124,9 +128,13 @@ block content
         document.querySelector(`#playerId_${position}`).value = selectedPlayer;
         document.querySelector(`#playerName_${position}`).value = selectedPlayerDisplay.textContent;
 
+        // Update the player number
+        playerNumberInput.value = selectedPlayer ? selectedPlayerOption.dataset.playernumber : '';
+
         // Log the selected player's ID and name
         console.log(`Selected Player ID for position ${position}:`, selectedPlayer);
         console.log(`Selected Player Name for position ${position}:`, selectedPlayerDisplay.textContent);
+        console.log(`Selected Player Number for position ${position}:`, playerNumberInput.value);
       }
 
       // Add event listener to the squad dropdown
@@ -144,9 +152,10 @@ block content
           const position = item.getAttribute("data-position");
           const playerId = document.querySelector(`#playerId_${position}`).value;
           const playerName = document.querySelector(`#playerName_${position}`).value;
+          const playerNumber = document.querySelector(`#playerNumber_${position}`).value;
 
-          if (playerId && playerName) {
-            playerSetup.push({ position, playerId, playerName });
+          if (playerId && playerName && playerNumber) {
+            playerSetup.push({ position, playerId, playerName, playerNumber });
           }
         });
 
@@ -189,6 +198,3 @@ block content
           console.error("Error submitting form:", error);
         }
       });
-
-  
-

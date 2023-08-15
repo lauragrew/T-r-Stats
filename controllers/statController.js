@@ -56,3 +56,16 @@ exports.viewStats = catchAsync(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// function to end a game
+exports.endGame = catchAsync(async (req, res) => {
+  const { gameSetupId } = req.params;
+
+  // Update the game setup to mark it as ended
+  await GameSetup.findByIdAndUpdate(gameSetupId, { ended: true });
+
+  console.log(`Game setup ${gameSetupId} marked as ended.`); // Add this line
+
+  // Respond with success
+  res.json({ success: true, message: "Game ended successfully." });
+});
