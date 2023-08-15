@@ -16,7 +16,7 @@ html(lang="en")
 
       // Navigation buttons
       div#navigation-buttons
-        a.back-to-record-games-btn.btn.btn-secondary(href="/viewStats") Back to Game Setups
+        a.back-to-game-setups-btn.btn.btn-secondary(href="/viewStats") Back to Game Setups
         a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
         a.back-to-record-stats-btn.btn.btn-secondary(href=`/recordStats?gameSetupId=${gameSetup._id}`) Back to Record Stats
         a.logout-btn.btn.btn-secondary(href="/logout") Logout
@@ -53,20 +53,23 @@ html(lang="en")
               table#player-stats-table
                 thead
                   tr
-                    th Player
+                    th Player No. 
+                    th Player Name
                     each statType in statTypes
                       th(class=statType)= statType
                 tbody
                   each playerSetup in gameSetup.playerSetup
                     tr
+                      td(class="player-number")= playerSetup.playerNumber
                       td(class="player-name")= playerSetup.playerName
                       each statType in statTypes
                         - const playerStat = playerSetup.stats.find(s => s.statType === statType)
                         td(class=statType)= playerStat ? playerStat.count : ''
-
+                        
                 // Add the row for displaying stat totals
                 tfoot
-                  tr
+                  tr 
+                    th
                     th Total
                     each total in statTotals
                       th= total

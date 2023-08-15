@@ -930,6 +930,28 @@ h1 {
   background-color: black;
 }
 
+/* Example CSS styles for label and input */
+.player-info label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.player-info input.playerNumber {
+  width: 110px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: none;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+
+
+
+
+
 /* recordGame page specific styles */
 #record-game-page {
   display: flex;
@@ -1089,6 +1111,10 @@ h1 {
   display: block;
 }
 
+.game-setup-card.ended {
+  display: none;
+}
+
 
 
 /*recordStats page specific styles */
@@ -1150,6 +1176,8 @@ h1 {
     -50%
   ); 
 }
+
+
 
 .record-stat-btn:hover {
   background-color: #b30502;
@@ -1333,7 +1361,7 @@ button#record-opposition-team-point:hover {
 }
 
 
-.back-to-record-games-btn,
+.back-to-game-setups-btn,
 .dashboard-btn,
 .logout-btn,
 .view-game-stats-btn,
@@ -1351,7 +1379,7 @@ button#record-opposition-team-point:hover {
   text-decoration: none;
 }
 
-.back-to-record-games-btn:hover,
+.back-to-game-setups-btn:hover,
 .dashboard-btn:hover,
 .logout-btn:hover,
 .view-game-stats-btn:hover,
@@ -1359,6 +1387,27 @@ button#record-opposition-team-point:hover {
   background-color: #060606;
   color: #07910b;
 }
+
+#end-game-btn{
+  display: block;
+  padding: 8px 15px;
+  background-color: #d51a1a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  margin-right: 7px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+#end-game-btn:hover{
+  background-color: #060606;
+  color: #d51a1a;
+}
+
+
 
 #record-stats-heading {
   margin-top: 20px; 
@@ -1380,7 +1429,8 @@ button#record-opposition-team-point:hover {
 
 #start-timer-btn,
 #pause-timer-btn,
-#reset-timer-btn {
+#reset-timer-btn,
+#end-game-btn {
   padding: 5px 15px;
   border-radius: 5px;
   font-size: 14px;
@@ -1394,7 +1444,7 @@ button#record-opposition-team-point:hover {
 }
 
 #pause-timer-btn {
-  background-color: #e95625;
+  background-color: #e93925;
   color: #000;
   border: none;
 }

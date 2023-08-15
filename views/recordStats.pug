@@ -18,7 +18,8 @@ body
 
     // Navigation buttons
     #navigation-buttons
-      a.back-to-record-games-btn.btn.btn-secondary(href="/recordGames") Back to Record Games
+      // Add this button below the timer section or wherever you prefer
+      button#end-game-btn.btn.btn-danger(type="button", data-game-setup-id=gameSetupData._id) End Game
       a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
       a.view-game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetupData._id}`) Game Stats
       a.logout-btn.btn.btn-secondary(href="/logout") Logout
@@ -76,6 +77,7 @@ body
         div#timer
           | 00:00
 
+
       // Pitch image container
       div#pitch-container
         // Replace "path_to_pitch_image" with the correct image path
@@ -86,7 +88,16 @@ body
           // Dynamically generate buttons for each player's position
           each playerSetup in gameSetupData.playerSetup
             // Add appropriate class for each player's position
-            div.record-stat-btn.btn.btn-primary(data-player-id=playerSetup.playerId data-position=playerSetup.position class=`record-stat ${playerSetup.position}`) Record Stat for #{playerSetup.position}
+            div.record-stat-btn.btn.btn-primary(
+              data-player-id=playerSetup.playerId 
+              data-position=playerSetup.position 
+              class=`record-stat ${playerSetup.position}`
+            )
+              span.record-stat-text Record Stat for #{playerSetup.position} - No.#{playerSetup.playerNumber}
+              span.player-number(style="display: none;") #{playerSetup.playerNumber}
+
+
+  
 
   // Add any additional JavaScript specific to the recordStats page here
   script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js")
@@ -94,3 +105,4 @@ body
   script(type="module", src="/js/recordStats.js")
   script(type="module", src="/js/score.js")
   script(type="module", src="/js/statTimer.js")
+  script(type="module", src="/js/endGame.js")
