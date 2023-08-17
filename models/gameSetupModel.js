@@ -22,6 +22,10 @@ const playerStatsSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  date: {
+    type: Date,
+    default: Date.now, // Set the default date to the current date and time
+  },
 });
 
 const playerSetupSchema = new mongoose.Schema({
@@ -55,6 +59,12 @@ const playerSetupSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  playerNumber: {
+    type: Number,
+    min: 1,
+    max: 30,
+    required: true,
+  },
   stats: [playerStatsSchema], // Array to store player stats
 });
 
@@ -73,6 +83,10 @@ const gameSetupSchema = new mongoose.Schema({
     required: true,
   },
   playerSetup: [playerSetupSchema], // Array to store player setups including stats
+  ended: {
+    type: Boolean,
+    default: false, // Default value is set to false (not ended)
+  },
 });
 
 const GameSetup = mongoose.model("GameSetup", gameSetupSchema);

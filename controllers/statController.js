@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 
 // Function to save a player's stat
 exports.saveStat = catchAsync(async (req, res) => {
-  const { gameSetupId, playerId, position, statType } = req.body;
+  const { gameSetupId, playerId, position, statType, date } = req.body;
 
   try {
     const gameSetup = await GameSetup.findById(gameSetupId);
@@ -26,6 +26,8 @@ exports.saveStat = catchAsync(async (req, res) => {
       stat.count += 1;
     } else {
       playerSetup.stats.push({ statType, count: 1 });
+      // Add the new stat entry with the specified date
+      //playerSetup.stats.push({ statType, count: 1, date });
     }
 
     await gameSetup.save();

@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         playerId,
         position,
         statType,
+        //date: "2023-07-09T18:48:31.680+00:00", // Specify the desired date here
         date: new Date(), // Add the current date
       });
 
