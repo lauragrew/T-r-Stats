@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Rate Limiting Middleware: The express-rate-limit middleware is used to limit the number of requests from a single IP within a specific time window.
 const limiter = rateLimit({
-  max: 100,
+  max: 3000,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour",
 });
