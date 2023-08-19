@@ -21,8 +21,6 @@ html(lang="en")
         a.back-to-record-stats-btn.btn.btn-secondary(href=`/recordStats?gameSetupId=${gameSetup._id}`) Back to Record Stats
         a.logout-btn.btn.btn-secondary(href="/logout") Logout
         
-       
-
       // Specific content for the Game Stats page
       div#game-stats-page
         div#game-stats-container
@@ -65,12 +63,14 @@ html(lang="en")
                       each statType in statTypes
                         - const playerStat = playerSetup.stats.find(s => s.statType === statType)
                         td(class=statType)= playerStat ? playerStat.count : ''
-                        
-                // Add the row for displaying stat totals
-                tfoot
-                  tr 
-                    th
-                    th Total
-                    each total in statTotals
-                      th= total
+                      td
+                       // Button to view the player's chart
+                       a.btn.btn-primary(href=`/viewPlayerChart/${playerSetup._id}`) View Chart
+
+                     
+
+
+
+             
+
 

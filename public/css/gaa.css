@@ -1365,7 +1365,8 @@ button#record-opposition-team-point:hover {
 .dashboard-btn,
 .logout-btn,
 .view-game-stats-btn,
-.back-to-record-stats-btn {
+.back-to-record-stats-btn,
+#back-button {
   display: block;
   padding: 8px 15px;
   background-color: #07910b;
@@ -1383,7 +1384,8 @@ button#record-opposition-team-point:hover {
 .dashboard-btn:hover,
 .logout-btn:hover,
 .view-game-stats-btn:hover,
-.back-to-record-stats-btn:hover {
+.back-to-record-stats-btn:hover,
+#back-button:hover {
   background-color: #060606;
   color: #07910b;
 }
@@ -1545,6 +1547,71 @@ button#record-opposition-team-point:hover {
   font-size: 32px;
   color: #212121;
   margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* gaa.css */
+.btn-primary {
+  background-color:  #28a745;
+  border-color: #0e0f0e;
+  text-decoration: none; /* Remove underlining */
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 3px;
+}
+
+.btn-primary:hover {
+  background-color: #040404;
+  border-color: #060607;
+}
+
+
+/* viewPlayerChart specific styles */
+#chart-container {
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 50%; /* Adjust this value as needed */
+  max-width: 1000px; /* Optional: Add a maximum width to prevent it from becoming too wide */
+}
+
+#player-stats-chart {
+  max-width: 100%;
+  height: auto;
+}
+
+
+#player-info {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #83e4db;
+  border-radius: 5px;
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: thin solid rgb(179, 177, 177);
+}
+
+.player-info-row {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.player-info-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.player-info-value {
+  margin: 0;
 }
 
 

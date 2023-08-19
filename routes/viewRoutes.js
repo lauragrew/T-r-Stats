@@ -57,7 +57,16 @@ router.get(
 // route for viewing the gamesetups to then get the stats
 router.get("/viewStats", viewsController.viewStats);
 
-// router for viewing the specific stats for a gamesetup
+// route for viewing the specific stats for a gamesetup
 router.get("/gameStats/:gameSetupId", viewsController.viewGameStats);
+
+// route for fetching a specific player's stats for chart view
+router.get("/viewPlayerChart/:playerSetupId", viewsController.viewPlayerChart);
+
+//route for fetching player stats
+router.get(
+  "/fetchPlayerStats/:playerSetupId",
+  viewsController.fetchPlayerStats
+);
 
 module.exports = router;

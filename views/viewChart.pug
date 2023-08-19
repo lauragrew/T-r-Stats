@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= "Game Stats - Chart View"
+    // CSS link
+    link(rel="stylesheet", href="/css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    // Include Chart.js library
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  body
+    div#container
+      // logo
+      div#logo TírStats
+
+      // Navigation buttons
+      div#navigation-buttons
+        a.back-to-game-stats-btn.btn.btn-secondary(href="/viewStats") Back to Game Stats
+        a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
+        a.back-to-record-stats-btn.btn.btn-secondary(href=`/recordStats?gameSetupId=${gameSetup._id}`) Back to Record Stats
+        a.logout-btn.btn.btn-secondary(href="/logout") Logout
+
+      // Display the chart canvas
+      div#chart-container
+        canvas#player-stats-chart
+
+      // Additional script tag to include your chart creation script
+      script(src="/js/viewChart.js")

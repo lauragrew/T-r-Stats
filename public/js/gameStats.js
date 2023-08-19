@@ -1,5 +1,3 @@
-// gameStats.js
-
 // JavaScript function to update stat cell content
 function updateStatCell(playerId, statType, count) {
   const cell = document.getElementById(`${playerId}-${statType}`);

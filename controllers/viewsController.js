@@ -3,7 +3,6 @@ const Squad = require("../models/squadModel");
 const Player = require("../models/playerModel");
 const GameSetup = require("../models/gameSetupModel");
 const { fetchGameSetupById } = require("../controllers/gameSetupController");
-const Stat = require("../models/statModel");
 
 // function to view the statsMain page
 exports.getStatsMain = (req, res) => {
@@ -277,3 +276,90 @@ exports.viewGameStats = catchAsync(async (req, res) => {
     res.status(500).render("error", { message: "Failed to fetch game setup." });
   }
 });
+
+exports.viewPlayerChart = async (req, res) => {
+  const playerSetupId = req.params.playerSetupId;
+
+  try {
+    // Fetch the player setup based on the provided ID
+    const gameSetup = await GameSetup.findOne({
+      "playerSetup._id": playerSetupId,
+    });
+
+    if (!gameSetup) {
+      return res.status(404).json({ message: "Player setup not found." });
+    }
+
+    // Find the player setup within the game setup
+    const playerSetup = gameSetup.playerSetup.find((ps) =>
+      ps._id.equals(playerSetupId)
+    );
+
+    if (!playerSetup) {
+      return res.status(404).json({ message: "Player setup not found." });
+    }
+
+    // Calculate chart data for the player's stats
+    const statTypes = Array.from(
+      new Set(playerSetup.stats.map((stat) => stat.statType))
+    );
+
+    const chartData = statTypes.map((statType) => {
+      const playerStat = playerSetup.stats.find((s) => s.statType === statType);
+      const count = playerStat ? playerStat.count : 0;
+      return {
+        label: statType,
+        data: [count], // For a single player, there's only one data point per stat type
+      };
+    });
+
+    // Render the Pug template and pass chartData as a local variable
+    res.render("viewPlayerChart", { chartData, playerSetup }); // Make sure "viewPlayerChart" is the correct Pug template name
+    // Make sure "viewPlayerChart" is the correct Pug template name
+  } catch (error) {
+    console.error("Error fetching player setup:", error);
+    res.status(500).json({ message: "Failed to fetch player setup." });
+  }
+};
+
+exports.fetchPlayerStats = async (req, res) => {
+  const playerSetupId = req.params.playerSetupId;
+
+  try {
+    const gameSetup = await GameSetup.findOne({
+      "playerSetup._id": playerSetupId,
+    });
+
+    if (!gameSetup) {
+      return res.status(404).json({ message: "Player setup not found." });
+    }
+
+    // Find the player setup within the game setup
+    const playerSetup = gameSetup.playerSetup.find((ps) =>
+      ps._id.equals(playerSetupId)
+    );
+
+    if (!playerSetup) {
+      return res.status(404).json({ message: "Player setup not found." });
+    }
+
+    // Calculate chart data for the player's stats
+    const statTypes = Array.from(
+      new Set(playerSetup.stats.map((stat) => stat.statType))
+    );
+
+    const chartData = statTypes.map((statType) => {
+      const playerStat = playerSetup.stats.find((s) => s.statType === statType);
+      const count = playerStat ? playerStat.count : 0;
+      return {
+        label: statType,
+        data: [count], // For a single player, there's only one data point per stat type
+      };
+    });
+
+    res.json({ chartData });
+  } catch (error) {
+    console.error("Error fetching player stats:", error);
+    res.status(500).json({ message: "Failed to fetch player stats." });
+  }
+};
