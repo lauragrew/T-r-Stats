@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= "Player Stats Chart"
+    // CSS link
+    link(rel="stylesheet", href="/css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    // Include Chart.js library
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  body
+    div#container
+      // logo
+      div#logo TírStats
+
+      // Navigation buttons
+      div#navigation-buttons
+        // Inside your Pug template
+        button#back-button.btn.btn-secondary(type="button") Back to Game Stats
+        a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
+        a.logout-btn.btn.btn-secondary(href="/logout") Logout
+
+      // Display the player's information
+      //Display the player's information
+      div#player-info
+        .player-info-row
+          p.player-info-label Player Name:
+          p.player-info-value #{playerSetup.playerName}
+        .player-info-row
+          p.player-info-label Position:
+          p.player-info-value #{playerSetup.position}
+        .player-info-row
+          p.player-info-label Player Number:
+          p.player-info-value #{playerSetup.playerNumber}
+
+      // Display the player's chart canvas
+      div#chart-container
+        div#chart-info-container
+          canvas#player-stats-chart
+
+      // Hidden input field for playerSetupId
+      input#player-setup-id(type="hidden", value=playerSetup._id)
+
+      // Additional script tag to include your chart creation script
+      script(src="/js/viewPlayerChart.js")

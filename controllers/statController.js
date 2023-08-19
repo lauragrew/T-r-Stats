@@ -71,3 +71,24 @@ exports.endGame = catchAsync(async (req, res) => {
   // Respond with success
   res.json({ success: true, message: "Game ended successfully." });
 });
+
+// Function to fetch a specific player's stats
+exports.fetchPlayerStats = async (req, res) => {
+  const playerId = req.params.playerId;
+
+  try {
+    const playerSetup = await PlayerSetup.findById(playerId);
+
+    if (!playerSetup) {
+      return res.status(404).json({ message: "Player setup not found." });
+    }
+
+    const statTypes = playerSetup.stats.map((stat) => stat.statType);
+    const statsCounts = playerSetup.stats.map((stat) => stat.count);
+
+    res.status(200).json({ statTypes, statsCounts });
+  } catch (error) {
+    console.error("Error fetching player's stats:", error);
+    res.status(500).json({ message: "Failed to fetch player's stats." });
+  }
+};
