@@ -363,3 +363,51 @@ exports.fetchPlayerStats = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch player stats." });
   }
 };
+
+exports.viewTotalStatsChart = catchAsync(async (req, res) => {
+  const gameSetupId = req.params.gameSetupId;
+
+  try {
+    // Fetch the game setup based on the provided ID
+    const gameSetup = await GameSetup.findById(gameSetupId);
+
+    if (!gameSetup) {
+      return res.status(404).json({ message: "Game setup not found." });
+    }
+
+    // Calculate totals for each stat type
+    const statTypes = Array.from(
+      new Set(
+        gameSetup.playerSetup.flatMap((playerSetup) =>
+          playerSetup.stats.map((stat) => stat.statType)
+        )
+      )
+    );
+    const statTotals = statTypes.map((statType) => {
+      return gameSetup.playerSetup.reduce((acc, playerSetup) => {
+        const playerStat = playerSetup.stats.find(
+          (s) => s.statType === statType
+        );
+        return acc + (playerStat ? playerStat.count : 0);
+      }, 0);
+    });
+
+    // Fetch selected team name (assuming setup.selectedTeam is an ObjectId)
+    let selectedTeamName = null;
+    if (gameSetup.selectedTeam) {
+      const selectedTeam = await Squad.findById(gameSetup.selectedTeam);
+      selectedTeamName = selectedTeam ? selectedTeam.name : null;
+    }
+
+    // Render the "viewTotalStatsChart" page with the statTotals data
+    res.render("viewTotalStatsChart", {
+      gameSetup, // Pass the gameSetup data
+      selectedTeamName, // Replace with the actual selected team name
+      statTotals,
+      statTypes,
+    });
+  } catch (error) {
+    console.error("Error fetching game setup:", error);
+    res.status(500).render("error", { message: "Failed to fetch game setup." });
+  }
+});
