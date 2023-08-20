@@ -1589,7 +1589,7 @@ button#record-opposition-team-point:hover {
 #player-info {
   margin-top: 20px;
   padding: 10px;
-  background-color: #83e4db;
+  background-color: #07910b;
   border-radius: 5px;
   position: fixed;
   top: 15%;
@@ -1614,6 +1614,24 @@ button#record-opposition-team-point:hover {
   margin: 0;
 }
 
+
+/* viewTotalStatsChart specific styles */
+
+
+#game-setup-info-center {
+  text-align: center; /* Center the game setup info */
+  margin-left:38%;
+  margin-top: 70px;
+}
+
+#game-setup-info-center .opposition-info {
+  font-size: 24px; /* Adjust the font size for the opposition name and team name */
+  margin-bottom: 10px; /* Add some space below the opposition name and team name */
+}
+
+#game-setup-info-center .description {
+  font-size: 16px; /* Adjust the font size for the game description */
+}
 
 
 

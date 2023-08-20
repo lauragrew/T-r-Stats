@@ -66,8 +66,19 @@ html(lang="en")
                       td
                        // Button to view the player's chart
                        a.btn.btn-primary(href=`/viewPlayerChart/${playerSetup._id}`) View Chart
+                // Add a row for the total counts
+                tr
+                  td(colspan=2) Total Counts
+                  each statTotal in statTotals
+                    td= statTotal
+                  td
+                    // Button to view the total stats chart
+                    a#view-total-chart-button.btn.btn-primary(href=`/viewTotalStatsChart/${gameSetup._id}`) View Total Chart
 
-                     
+    // Add the script for the statTotals data
+    script.
+      const statTotals = !{JSON.stringify(statTotals)};
+
 
 
 

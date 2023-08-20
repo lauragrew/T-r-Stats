@@ -4,7 +4,7 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title= "Player Stats Chart"
+    title Total Stats Chart
     // CSS link
     link(rel="stylesheet", href="/css/gaa.css")
     // Font Awesome CDN
@@ -23,26 +23,22 @@ html(lang="en")
         a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
         a.logout-btn.btn.btn-secondary(href="/logout") Logout
 
-      
-      //Display the player's information
-      div#player-info
-        .player-info-row
-          p.player-info-label Player Name:
-          p.player-info-value #{playerSetup.playerName}
-        .player-info-row
-          p.player-info-label Position:
-          p.player-info-value #{playerSetup.position}
-        .player-info-row
-          p.player-info-label Player Number:
-          p.player-info-value #{playerSetup.playerNumber}
+      // Display game setup information at the top
+      div#game-setup-info-center
+       h1 Total Stats Chart
+        h2= `${gameSetup.oppositionName} - ${selectedTeamName}`
+        p= gameSetup.gameDescription
 
-      // Display the player's chart canvas
+      // Display the total stats chart canvas
       div#chart-container
-        div#chart-info-container
-          canvas#player-stats-chart
+        canvas#total-stats-chart
+        
 
-      // Hidden input field for playerSetupId
-      input#player-setup-id(type="hidden", value=playerSetup._id)
+      // Hidden input field for statTotals data
+      input#stat-totals-data(type="hidden", value=JSON.stringify(statTotals))
 
-      // Additional script tag to include your chart creation script
-      script(src="/js/viewPlayerChart.js")
+      // Hidden input field for statTypes data
+      input#stat-types-data(type="hidden", value=JSON.stringify(statTypes))
+
+      // Include the JavaScript file to render the chart
+      script(src="/js/viewTotalStatsChart.js")

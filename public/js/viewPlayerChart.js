@@ -32,8 +32,8 @@ function createChart(chartData) {
         {
           label: "Stats",
           data: chartData.map((dataPoint) => dataPoint.data[0]),
-          backgroundColor: "rgba(75, 192, 192, 0.6)",
-          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "#28a745",
+          borderColor: "#28a745",
           borderWidth: 1,
         },
       ],
@@ -54,13 +54,11 @@ function createChart(chartData) {
   });
 }
 
-// Inside your viewPlayerChart.js script
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
   const backButton = document.getElementById("back-button");
 
-  if (backButton) {
-    backButton.addEventListener("click", () => {
-      window.history.back(); // Navigate back to the previous page
-    });
-  }
+  backButton.addEventListener("click", function () {
+    // Navigate back to the previous page
+    history.back();
+  });
 });
