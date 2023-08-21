@@ -13,4 +13,7 @@ router.post("/", gameSetupController.saveGameSetup);
 // Route for deleting a game setup by its ID
 router.delete("/:gameSetupId", gameSetupController.deleteGameSetup);
 
+// Route for fetching game setups by date range
+router.get("/by-date", gameSetupController.getGameSetupsByDateRange);
+
 module.exports = router;

@@ -59,14 +59,17 @@ exports.viewStats = catchAsync(async (req, res) => {
   }
 });
 
-// function to end a game
+// function to end a game and remove it from record games
 exports.endGame = catchAsync(async (req, res) => {
   const { gameSetupId } = req.params;
 
-  // Update the game setup to mark it as ended
-  await GameSetup.findByIdAndUpdate(gameSetupId, { ended: true });
+  // Get the current date and time
+  const endDate = new Date();
 
-  console.log(`Game setup ${gameSetupId} marked as ended.`); // Add this line
+  // Update the game setup to mark it as ended and set the end date
+  await GameSetup.findByIdAndUpdate(gameSetupId, { ended: true, endDate });
+
+  console.log(`Game setup ${gameSetupId} marked as ended on ${endDate}.`);
 
   // Respond with success
   res.json({ success: true, message: "Game ended successfully." });

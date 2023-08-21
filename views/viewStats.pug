@@ -4,6 +4,10 @@ block content
   // Specific content for the View Stats page
   div#record-game-page
     div#record-game-container
+      // View Stat Trends Button
+      a.btn.btn-primary.stat-trend-button(href="/viewStatTrends") View Stat Trends
+
+
       h1 All Game Setups 
 
       // Check if there are any game setups to display
@@ -26,7 +30,6 @@ block content
               // Game Stats Button
               a.game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetup._id}`) Game Stats
 
-
               // Hidden Player List
               div.player-list.hidden(id="playerList_" + gameSetup._id)
                 each playerSetup in gameSetup.playerSetup
@@ -34,3 +37,4 @@ block content
                     span.player-position= playerSetup.position
                     |  &nbsp; 
                     span.player-name= playerSetup.playerName
+

@@ -69,4 +69,13 @@ router.get(
   viewsController.fetchPlayerStats
 );
 
+// route for viewing the total stats chart page
+router.get(
+  "/viewTotalStatsChart/:gameSetupId",
+  viewsController.viewTotalStatsChart
+);
+
+// route to view the stat trends
+router.get("/viewStatTrends", viewsController.viewStatTrends);
+
 module.exports = router;

@@ -1473,8 +1473,26 @@ button#record-opposition-team-point:hover {
   text-align: center;
 }
 
+/* viewStats specific styles */
+  
+.stat-trend-button   {
+  background-color:  #28a745;
+  border-color: #0e0f0e;
+  text-decoration: none; /* Remove underlining */
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 3px;
+  margin-left: 80%;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-
+.stat-trend-button :hover {
+  background-color: #040404;
+  border-color: #060607;
+}
 
 
 /* viewGameStats specific styles */
@@ -1553,21 +1571,6 @@ button#record-opposition-team-point:hover {
   display: none;
 }
 
-/* gaa.css */
-.btn-primary {
-  background-color:  #28a745;
-  border-color: #0e0f0e;
-  text-decoration: none; /* Remove underlining */
-  color: #ffffff;
-  font-size: 14px;
-  border-radius: 3px;
-}
-
-.btn-primary:hover {
-  background-color: #040404;
-  border-color: #060607;
-}
-
 
 /* viewPlayerChart specific styles */
 #chart-container {
@@ -1616,8 +1619,6 @@ button#record-opposition-team-point:hover {
 
 
 /* viewTotalStatsChart specific styles */
-
-
 #game-setup-info-center {
   text-align: center; /* Center the game setup info */
   margin-left:38%;
@@ -1632,6 +1633,57 @@ button#record-opposition-team-point:hover {
 #game-setup-info-center .description {
   font-size: 16px; /* Adjust the font size for the game description */
 }
+
+ /* viewStatsTrends page specific styles */
+ #view-stat-trends-page{
+  margin-top: 8%;
+  width: 100%;
+ }
+
+#view-trends-btn{
+  background-color:  #28a745;
+  border-color: #0e0f0e;
+  text-decoration: none; /* Remove underlining */
+  color: #ffffff;
+  border-radius: 3px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 5px;
+ 
+}
+
+
+
+#chart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px; /* Set the height to your desired value */
+  overflow: hidden; /* Hide any overflow beyond the wrapper */
+  text-align: center; /* Center the content horizontally */
+}
+
+#stat-trends-chart {
+  max-width: 90%; /* Make sure the chart doesn't exceed the screen width */
+  max-height: 60vh; /* Limit the chart's height to 60% of the viewport height */
+}
+
+
+.stat-trends-title {
+  font-size: 28px; /* Adjust the font size as needed */
+  margin-top: 10px; /* Adjust the margin as needed */
+  text-align: center; /* Center the title horizontally */
+}
+
+.date-range-form {
+  text-align: center; /* Center the form content horizontally */
+  margin-top: 20px; /* Adjust the margin as needed */
+  margin-bottom: 15px;
+}
+
+
 
 
 

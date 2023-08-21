@@ -70,3 +70,20 @@ exports.fetchGameSetupById = async (gameSetupId) => {
     throw new Error("Error fetching game setup data");
   }
 };
+
+exports.getGameSetupsByDateRange = async (req, res) => {
+  try {
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
+
+    const gameSetups = await GameSetup.find({
+      ended: true, // Filter only the ended game setups
+      endDate: { $gte: startDate, $lte: endDate },
+    });
+
+    res.status(200).json(gameSetups);
+  } catch (error) {
+    console.error("Error fetching game setups:", error);
+    res.status(500).json({ error: "Failed to fetch game setups." });
+  }
+};

@@ -87,6 +87,10 @@ const gameSetupSchema = new mongoose.Schema({
     type: Boolean,
     default: false, // Default value is set to false (not ended)
   },
+  endDate: {
+    type: Date,
+    default: null, // Default value is set to null
+  },
 });
 
 const GameSetup = mongoose.model("GameSetup", gameSetupSchema);

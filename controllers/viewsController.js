@@ -411,3 +411,48 @@ exports.viewTotalStatsChart = catchAsync(async (req, res) => {
     res.status(500).render("error", { message: "Failed to fetch game setup." });
   }
 });
+
+// function to view the stat trends
+
+exports.viewStatTrends = catchAsync(async (req, res) => {
+  try {
+    // Fetch all game setups that have been ended and have an end date
+    const gameSetups = await GameSetup.find({
+      ended: true,
+      endDate: { $exists: true },
+    });
+
+    // Extract stat data for each game setup
+    const gameSetupStats = gameSetups.map((setup) => {
+      const totalStats = setup.playerSetup.reduce((acc, player) => {
+        const playerTotalStats = player.stats.reduce((playerAcc, stat) => {
+          const existingStat = playerAcc.find(
+            (s) => s.statType === stat.statType
+          );
+          if (existingStat) {
+            existingStat.count += stat.count;
+          } else {
+            playerAcc.push({ ...stat });
+          }
+          return playerAcc;
+        }, []);
+        return playerTotalStats;
+      }, []);
+
+      return {
+        gameSetup: setup,
+        totalStats: totalStats,
+      };
+    });
+
+    res.render("viewStatTrends", {
+      title: "Stat Trends",
+      gameSetupStats,
+    });
+  } catch (error) {
+    console.error("Error fetching game setups:", error);
+    res
+      .status(500)
+      .render("error", { message: "Failed to fetch game setups." });
+  }
+});

@@ -1,0 +1,62 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= "Stat Trends"
+    // CSS link
+    link(rel="stylesheet", href="/css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    // Include Chart.js library
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  body
+    div#container
+      // logo
+      div#logo TírStats
+
+      // Navigation buttons
+      div#navigation-buttons
+        button#back-button.btn.btn-secondary(type="button") Back to Game Setups
+        a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
+        a.logout-btn.btn.btn-secondary(href="/logout") Logout
+
+      div#view-stat-trends-page
+        div#view-stat-trends-container
+          h1(class="stat-trends-title") Stat Trends
+
+          form(class="date-range-form")
+            label(for="start-date") Start Date:
+            input#start-date(type="date", name="start-date")
+            label(for="end-date") End Date:
+            input#end-date(type="date", name="end-date")
+            label(for="stat-select") Select Stat: 
+            select#stat-select.form-control
+              option(value="Tackle") Tackle
+              option(value="Save") Save
+              option(value="Turnover for") Turnover for
+              option(value="Turnover against") Turnover against
+              option(value="Goal") Goal
+              option(value="Point") Point
+              option(value="Free conceded") Free conceded
+              option(value="Dropped short") Dropped short
+              option(value="Wide") Wide
+              option(value="Kickout won") Kickout won
+              option(value="Kickout lost") Kickout lost
+
+            button#view-trends-btn.btn.btn-primary(type="button") View Trends
+
+          // Include the script for chart rendering
+          script(src="/js/viewStatTrends.js")
+
+          // Add a canvas element for the chart
+        div#chart-wrapper
+          canvas#stat-trends-chart(width="800", height="500")
+
+
+        
+
+
+
+    // Additional scripts and includes
