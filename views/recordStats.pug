@@ -1,100 +1,93 @@
+doctype html
 html(lang="en")
-head
-  meta(charset="UTF-8")
-  meta(http-equiv="X-UA-Compatible", content="IE=edge")
-  meta(name="viewport", content="width=device-width, initial-scale=1.0")
-  title= title
-  // CSS link
-  link(rel="stylesheet", href="/css/gaa.css")
-  // Font Awesome CDN
-  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
-  // Add the link to the custom CSS file for RecordStats page
-  link(rel="stylesheet", href="/css/gaa.css")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title
+    // CSS link
+    link(rel="stylesheet", href="/css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    // Add the link to the custom CSS file for RecordStats page
+    link(rel="stylesheet", href="/css/gaa.css")
 
-body
-  #container
-    // logo
-    #logo TírStats
+  body
+    #container
+      // logo
+      #logo TírStats
 
-    // Navigation buttons
-    #navigation-buttons
-      // Add this button below the timer section or wherever you prefer
-      button#end-game-btn.btn.btn-danger(type="button", data-game-setup-id=gameSetupData._id) End Game
-      a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
-      a.view-game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetupData._id}`) Game Stats
-      a.logout-btn.btn.btn-secondary(href="/logout") Logout
+      // Navigation buttons
+      #navigation-buttons
+        // Add this button below the timer section or wherever you prefer
+        button#end-game-btn.btn.btn-danger(type="button", data-game-setup-id=gameSetupData._id) End Game
+        a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
+        a.view-game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetupData._id}`) Game Stats
+        a.logout-btn.btn.btn-secondary(href="/logout") Logout
 
-    
-    // Score display
-    #score-display
-      div#home-score
-       h2= selectedTeamName 
-       p#home-score-text 0:0
-      div#opposition-score(style="margin-right: 10px") 
-      div#opposition-score
-       h2 #{gameSetupData.oppositionName}
-       p#opposition-score-text 0:0
+      // Score display
+      #score-display
+        div#home-score
+          h2= selectedTeamName 
+          p#home-score-text 0:0
+        div#opposition-score(style="margin-right: 10px") 
+        div#opposition-score
+          h2 #{gameSetupData.oppositionName}
+          p#opposition-score-text 0:0
 
+      // Score recording form
+      div#score-recording
+        form#home-score-form
+          label(for="home-goals") #{selectedTeamName}
+          button#record-selected-team-goal.btn.btn-primary(type="button") Record Goal
+          button#record-selected-team-point.btn.btn-primary(type="button") Record Point
+          button#reset-home-team-scores.btn.btn-danger(type="button") Reset #{selectedTeamName} Score
 
+        form#opposition-score-form
+          br 
+          label(for="opposition-goals") #{gameSetupData.oppositionName} 
+          button#record-opposition-team-goal.btn.btn-primary(type="button") Record Goal
+          button#record-opposition-team-point.btn.btn-primary(type="button") Record Point
+          button#reset-opposition-team-scores.btn.btn-danger(type="button") Reset #{gameSetupData.oppositionName} Score
 
-    
-    // Score recording form
-    div#score-recording
-      form#home-score-form
-        label(for="home-goals") #{selectedTeamName}
-        button#record-selected-team-goal.btn.btn-primary(type="button") Record Goal
-        button#record-selected-team-point.btn.btn-primary(type="button") Record Point
-        button#reset-home-team-scores.btn.btn-danger(type="button") Reset #{selectedTeamName} Score
+      // CONTENT
+      // Specific content for the Record Stats page
+      div#record-stats-page
+        // Heading
+        h1#record-stats-heading Record Game Stats
 
-      form#opposition-score-form
-        br 
-        label(for="opposition-goals") #{gameSetupData.oppositionName} 
-        button#record-opposition-team-goal.btn.btn-primary(type="button") Record Goal
-        button#record-opposition-team-point.btn.btn-primary(type="button") Record Point
-        button#reset-opposition-team-scores.btn.btn-danger(type="button") Reset #{gameSetupData.oppositionName} Score
+        // Timer section
+        div#timer-section
+          label(for="half-duration-dropdown") Choose Half Duration:
+          select#half-duration-dropdown
+            option(value="30") 30 mins
+            option(value="35") 35 mins
 
+          button#start-timer-btn.btn.btn-primary(type="button") Start/Restart Timer
+          button#pause-timer-btn.btn.btn-secondary(type="button") Pause Timer
+          button#reset-timer-btn.btn.btn-secondary(type="button") Reset Timer
 
+          // Timer display
+          div#timer
+            | 00:00
 
+        // Pitch image container
+        div#pitch-container
+          // Replace "path_to_pitch_image" with the correct image path
+          img.pitch-image(src="/img/pitch.jpg", alt="Pitch Image")
 
-    // CONTENT
-    // Specific content for the Record Stats page
-    div#record-stats-page
-      // Heading
-      h1#record-stats-heading Record Game Stats
-
-      // Timer section
-      div#timer-section
-        label(for="half-duration-dropdown") Choose Half Duration:
-        select#half-duration-dropdown
-          option(value="30") 30 mins
-          option(value="35") 35 mins
-
-        button#start-timer-btn.btn.btn-primary(type="button") Start/Restart Timer
-        button#pause-timer-btn.btn.btn-secondary(type="button") Pause Timer
-        button#reset-timer-btn.btn.btn-secondary(type="button") Reset Timer
-
-        // Timer display
-        div#timer
-          | 00:00
-
-
-      // Pitch image container
-      div#pitch-container
-        // Replace "path_to_pitch_image" with the correct image path
-        img.pitch-image(src="/img/pitch.jpg", alt="Pitch Image")
-
-        // Buttons container
-        div#buttons-container
-          // Dynamically generate buttons for each player's position
-          each playerSetup in gameSetupData.playerSetup
-            // Add appropriate class for each player's position
-            div.record-stat-btn.btn.btn-primary(
-              data-player-id=playerSetup.playerId 
-              data-position=playerSetup.position 
-              class=`record-stat ${playerSetup.position}`
-            )
-              span.record-stat-text Record Stat for #{playerSetup.position} - No.#{playerSetup.playerNumber}
-              span.player-number(style="display: none;") #{playerSetup.playerNumber}
+          // Buttons container
+          div#buttons-container
+            // Dynamically generate buttons for each player's position
+            each playerSetup in gameSetupData.playerSetup
+              // Add appropriate class for each player's position
+              div.record-stat-btn.btn.btn-primary(
+                data-player-id=playerSetup.playerId 
+                data-position=playerSetup.position 
+                class=`record-stat ${playerSetup.position}`
+              )
+                span.record-stat-text No. #{playerSetup.playerNumber}
+                span.player-number(style="display: none;") #{playerSetup.playerNumber}
 
 
   

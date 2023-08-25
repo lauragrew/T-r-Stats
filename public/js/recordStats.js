@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     Swal.fire({
-      title: `Record Stat for ${position} - No. ${playerNumber}`,
+      title: `Record Stat for No. ${playerNumber}`,
       html: statDropdown,
       confirmButtonText: "Save",
       showCancelButton: true,

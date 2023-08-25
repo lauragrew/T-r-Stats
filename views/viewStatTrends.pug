@@ -45,6 +45,11 @@ html(lang="en")
               option(value="Kickout won") Kickout won
               option(value="Kickout lost") Kickout lost
 
+            // Add a squad selection dropdown
+            label(for="team-select") Select Your Team:
+            select#team-select(name="team-select")
+              option(value="") -- Select Team --
+
             button#view-trends-btn.btn.btn-primary(type="button") View Trends
 
           // Include the script for chart rendering
@@ -53,8 +58,3 @@ html(lang="en")
           // Add a canvas element for the chart
         div#chart-wrapper
           canvas#stat-trends-chart(width="800", height="500")
-
-
-        
-
-
