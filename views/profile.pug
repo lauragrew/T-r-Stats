@@ -1,0 +1,22 @@
+extends statsBase
+
+block content
+  .profile-page
+    .profile-welcome
+      h1.welcome-smaller Welcome to Your Profile, #{user.firstName}!
+
+    .sections-container
+      .profile-section
+        h2.profile-section-title Update Password
+        form.update-password-form(action="/api/v1/users/updateMyPassword", method="PATCH")
+          label(for="currentPassword") Current Password:
+          input.profile-input-field(type="password", id="currentPassword", name="passwordCurrent", required)
+
+          label(for="newPassword") New Password:
+          input.profile-input-field(type="password", id="newPassword", name="password", required, minlength="8")
+
+          label(for="confirmPassword") Confirm New Password:
+          input.profile-input-field(type="password", id="confirmPassword", name="passwordConfirm", required, minlength="8")
+
+          input.profile-btn-update(type="submit", value="Update")
+

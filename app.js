@@ -10,6 +10,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // import custom modules
 const AppError = require("./utils/appError");
@@ -35,6 +36,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10kb" }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+// Allow requests from localhost:3000
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // Helmet Security Middleware: The helmet() middleware is used to enhance security headers
 app.use(

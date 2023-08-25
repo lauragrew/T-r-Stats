@@ -3,32 +3,41 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
 exports.saveGameSetup = catchAsync(async (req, res) => {
-  console.log("Received request body:", req.body);
+  try {
+    console.log("Received request body:", req.body);
 
-  const { oppositionName, gameDescription, selectedTeam, playerSetup } =
-    req.body;
+    const { oppositionName, gameDescription, selectedTeam, playerSetup } =
+      req.body;
 
-  console.log("Received playerSetup data:", playerSetup); // Log the playerSetup data
+    console.log("Received playerSetup data:", playerSetup); // Log the playerSetup data
 
-  // Convert the playerSetup data to JSON format if it's coming as a string from the frontend
-  const parsedPlayerSetup = JSON.parse(playerSetup);
+    // Convert the playerSetup data to JSON format if it's coming as a string from the frontend
+    const parsedPlayerSetup = JSON.parse(playerSetup);
 
-  // Create a new GameSetup object with the parsed playerSetup data
-  const gameSetup = new GameSetup({
-    oppositionName,
-    gameDescription,
-    selectedTeam,
-    playerSetup: parsedPlayerSetup, // Save the parsed playerSetup data
-  });
+    // Capture the user's ID from the session or authentication token
+    const userId = req.user._id; // Adjust this based on your authentication method
 
-  console.log("New GameSetup object:", gameSetup); // Log the gameSetup object before saving
+    // Create a new GameSetup object with the user's ID and parsed playerSetup data
+    const gameSetup = new GameSetup({
+      user: userId,
+      oppositionName,
+      gameDescription,
+      selectedTeam,
+      playerSetup: parsedPlayerSetup,
+    });
 
-  const savedGameSetup = await gameSetup.save();
+    console.log("New GameSetup object:", gameSetup); // Log the gameSetup object before saving
 
-  console.log("Saved GameSetup object:", savedGameSetup); // Log the savedGameSetup object
+    const savedGameSetup = await gameSetup.save();
 
-  // Redirect to the "recordGames" page after successful game setup creation
-  res.redirect("/recordGames");
+    console.log("Saved GameSetup object:", savedGameSetup); // Log the savedGameSetup object
+
+    // Redirect to the "recordGames" page after successful game setup creation
+    res.redirect("/recordGames");
+  } catch (error) {
+    console.error("Error saving game setup:", error);
+    res.status(500).render("error", { message: "Failed to save game setup." });
+  }
 });
 
 // function to delete a game setup

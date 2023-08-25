@@ -24,6 +24,17 @@ exports.getStatsLogin = (req, res) => {
   });
 };
 
+exports.getForgotPassword = async (req, res) => {
+  res.render("forgotPassword", {
+    title: "Tír Stats | Forgot Password",
+  });
+};
+
+exports.getResetPassword = (req, res) => {
+  const { token } = req.params;
+  res.render("resetPassword", { resetToken: token });
+};
+
 // function to view the dashboard page
 exports.getDashboard = async (req, res) => {
   res.status(200).render("dashboard", {
@@ -133,10 +144,38 @@ exports.getGameSetup = async (req, res, next) => {
 };
 // function to view the recordGames
 
+// exports.getRecordGames = catchAsync(async (req, res) => {
+//   try {
+//     // Fetch the game setups from the database
+//     const gameSetups = await GameSetup.find().populate("playerSetup.playerId");
+
+//     // Fetch selected team names
+//     const selectedTeamNames = await Promise.all(
+//       gameSetups.map(async (setup) => {
+//         if (setup.selectedTeam) {
+//           const selectedTeam = await Squad.findById(setup.selectedTeam);
+//           return selectedTeam ? selectedTeam.name : null;
+//         }
+//         return null;
+//       })
+//     );
+
+//     // Render the "recordGames" template with game setups and selected team names
+//     res.render("recordGames", { gameSetups, selectedTeamNames });
+//   } catch (error) {
+//     console.error("Error fetching game setups:", error);
+//     res
+//       .status(500)
+//       .render("error", { message: "Failed to fetch game setups." });
+//   }
+// });
+
 exports.getRecordGames = catchAsync(async (req, res) => {
   try {
-    // Fetch the game setups from the database
-    const gameSetups = await GameSetup.find().populate("playerSetup.playerId");
+    // Fetch the game setups created by the logged-in user
+    const gameSetups = await GameSetup.find({ user: req.user._id }).populate(
+      "playerSetup.playerId"
+    );
 
     // Fetch selected team names
     const selectedTeamNames = await Promise.all(
@@ -158,25 +197,6 @@ exports.getRecordGames = catchAsync(async (req, res) => {
       .render("error", { message: "Failed to fetch game setups." });
   }
 });
-
-// function to view the recordStats page
-// exports.getRecordStats = catchAsync(async (req, res) => {
-//   try {
-//     // Retrieve the game setup ID
-//     const { gameSetupId } = req.query;
-
-//     // Fetch the game setup data by its ID
-//     const gameSetupData = await fetchGameSetupById(gameSetupId);
-
-//     res.render("recordStats", {
-//       title: "Record Game Stats",
-//       gameSetupData,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "Error fetching game setup data" });
-//   }
-// });
 
 // Function to view the recordStats page
 exports.getRecordStats = catchAsync(async (req, res) => {
@@ -203,10 +223,11 @@ exports.getRecordStats = catchAsync(async (req, res) => {
 });
 
 // function for viewing game setups in the viewStats page
+// Function for viewing game setups in the viewStats page
 exports.viewStats = catchAsync(async (req, res) => {
   try {
-    // Fetch the game setups from the database
-    const gameSetups = await GameSetup.find();
+    // Fetch the game setups created by the logged-in user
+    const gameSetups = await GameSetup.find({ user: req.user._id });
 
     // Fetch selected team names
     const selectedTeamNames = await Promise.all(
@@ -455,4 +476,9 @@ exports.viewStatTrends = catchAsync(async (req, res) => {
       .status(500)
       .render("error", { message: "Failed to fetch game setups." });
   }
+});
+
+// Profile Page
+exports.getProfilePage = catchAsync(async (req, res) => {
+  res.render("profile", { user: req.user });
 });

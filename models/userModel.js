@@ -15,14 +15,14 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please enter your email"],
-    unique: true,
+    unique: true, // email cant be used again to signup
     lowercase: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
   photo: String,
   role: {
     type: String,
-    enum: ["user", "guide", "lead-guide", "admin", "coach"],
+    enum: ["user", "admin", "coach"],
     default: "user",
   },
   password: {
@@ -35,7 +35,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please confirm your password"],
     validate: {
-      // This only works on CREATE and SAVE!!! (user.Create or user.Save)
+      // This only works on CREAT OR SAVE!! (user.Create or user.Save) -
+      // This function compares the value of the passwordConfirm field (el) element with the value of the actual password (this.password). If they match, the validation passes. If they don't match, the validation fails.
       validator: function (el) {
         return el === this.password;
       },
@@ -52,18 +53,20 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// if the password has not been modified, the next() middleware will be called (pre - between entering and saving)
+// pre-save middleware function defined on the userSchema. This middleware function is executed before a new user document is saved or an existing user document is updated in the database. It performs actions on the user data before saving it.
 
+// This middleware function ensures that the user's password is hashed before it's saved to the database and clears the passwordConfirm field to prevent storing the confirmation password. Important so plain text passows are not stored.
 userSchema.pre("save", async function (next) {
   // only run this if the password has been modified
   if (!this.isModified("password")) return next();
-  // has the password with cost of 12
+  // hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);
   // delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
 });
 
+// this middleware ensures that the passwordChangedAt field is updated when a user changes their password or when a new user is created.
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password") || this.isNew) return next();
 
@@ -85,6 +88,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+// this function is used to enhance security by checking if a user's password has been changed after a JWT was issued, and potentially invalidating the JWT if the password has been updated.
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
@@ -98,6 +102,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
+// this function generates a random token, hashes it, stores it along with an expiration timestamp, and returns the original token. It's an important part of the password reset process to ensure security and validity of the reset token.
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto

@@ -364,6 +364,52 @@ body {
   outline: none;
 }
 
+
+/* forgotPassword page specific styles */
+/* styles for the reset password form */
+.reset-password-form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.reset-password-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.form__input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form__button {
+  background-color: #07910b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+
+
+
+
 /* Dashboard page specific styles */
 #dashboard-container {
   display: flex;
@@ -1683,6 +1729,60 @@ button#record-opposition-team-point:hover {
   margin-bottom: 15px;
 }
 
+
+ /* profile page specific styles */
+/* Add this CSS to your existing stylesheet */
+
+/* Style for the entire profile page */
+.profile-page {
+  padding: 20px;
+  max-width: 500px; /* Adjust as needed */
+  margin: 0 auto;
+  margin-top: 25px;
+}
+
+/* Style for each profile section */
+.profile-section {
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  font-size: 14px;
+}
+
+/* Style for profile section titles */
+.profile-section-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Style for profile input fields */
+.profile-input-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Style for profile buttons */
+.profile-btn-update,
+.profile-btn-delete {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.profile-welcome h1 {
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  margin-top: 65px;
+}
 
 
 
