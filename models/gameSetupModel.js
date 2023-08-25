@@ -69,6 +69,10 @@ const playerSetupSchema = new mongoose.Schema({
 });
 
 const gameSetupSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Adjust the model name as per your User model
+  },
   oppositionName: {
     type: String,
     required: true,

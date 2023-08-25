@@ -106,3 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("view-trends-btn")
     .addEventListener("click", renderStatTrendsChart);
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const backButton = document.getElementById("back-button");
+
+  backButton.addEventListener("click", function () {
+    // Navigate back to the previous page
+    history.back();
+  });
+});

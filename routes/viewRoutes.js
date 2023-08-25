@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/", viewsController.getStatsMain);
 router.get("/statsSignup1", viewsController.getStatsSignup1);
 router.get("/statsLogin", viewsController.getStatsLogin);
+router.get("/forgotPassword", viewsController.getForgotPassword);
 
 // Authentication middleware - routes below this need to be logged in
 router.use(authController.isLoggedIn);
@@ -55,7 +56,7 @@ router.get(
 );
 
 // route for viewing the gamesetups to then get the stats
-router.get("/viewStats", viewsController.viewStats);
+router.get("/viewStats", authController.protect, viewsController.viewStats);
 
 // route for viewing the specific stats for a gamesetup
 router.get("/gameStats/:gameSetupId", viewsController.viewGameStats);
@@ -76,6 +77,13 @@ router.get(
 );
 
 // route to view the stat trends
-router.get("/viewStatTrends", viewsController.viewStatTrends);
+router.get(
+  "/viewStatTrends",
+  authController.protect,
+  viewsController.viewStatTrends
+);
+
+// Profile Page
+router.get("/profile", authController.protect, viewsController.getProfilePage);
 
 module.exports = router;

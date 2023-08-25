@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const sendEmail = require("../utils/email");
 
-// function to sign a JWN token
+// function to call the signToken function with a user's ID, generate a JWT with the user's ID, signs it using the secret key, and sets an expiration time for the token. The JWT can then be sent to the user and used for authentication
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -41,9 +41,43 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
 };
 
 // signup function
+// exports.signup = catchAsync(async (req, res, next) => {
+//   const { firstName, lastName, email, password, passwordConfirm } = req.body;
+//   // check if the passwords match
+//   if (password !== passwordConfirm) {
+//     return res.status(400).json({
+//       status: "error",
+//       error: "Passwords do not match",
+//     });
+//   }
+
+//   try {
+//     // create a new user in the database
+//     const newUser = await User.create({
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//       passwordConfirm,
+//     });
+//     // create and send the JWT token
+//     createSendToken(newUser, 201, res, "/dashboard");
+//   } catch (err) {
+//     // Pass the error message to the frontend if one occurs
+//     const errorMessages = err.message.split(":");
+//     const errorMessage = errorMessages[errorMessages.length - 1].trim();
+
+//     res.status(400).json({
+//       status: "error",
+//       error: errorMessage,
+//     });
+//   }
+// });
+
 exports.signup = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password, passwordConfirm } = req.body;
-  // check if the passwords match
+
+  // Check if the passwords match
   if (password !== passwordConfirm) {
     return res.status(400).json({
       status: "error",
@@ -52,7 +86,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 
   try {
-    // create a new user in the database
+    // Create a new user in the database
     const newUser = await User.create({
       firstName,
       lastName,
@@ -60,16 +94,22 @@ exports.signup = catchAsync(async (req, res, next) => {
       password,
       passwordConfirm,
     });
-    // create and send the JWT token
+
+    // Create and send the JWT token
     createSendToken(newUser, 201, res, "/dashboard");
   } catch (err) {
-    // Pass the error message to the frontend if one occurs
-    const errorMessages = err.message.split(":");
-    const errorMessage = errorMessages[errorMessages.length - 1].trim();
+    // Check if the error is due to duplicate email
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
+      return res.status(400).json({
+        status: "error",
+        error: "Email address is already in use",
+      });
+    }
 
+    // For other errors, send a generic error message
     res.status(400).json({
       status: "error",
-      error: errorMessage,
+      error: "An error occurred during signup",
     });
   }
 });
@@ -102,7 +142,7 @@ exports.logout = (req, res) => {
   res.status(200).json({ status: "success", redirectUrl: "/" });
 };
 
-// middleware function for protecting routes
+// middleware function for protecting routes - user must be logged in to access certain routes
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check if it's there
   let token;
@@ -171,11 +211,12 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 
-// function to restrict access based on user roles
+// function to restrict access based on user roles (admin - can only perform certain actions on the app)
+// could be used if there is an admin role or lead coach and other coaches sign up as users. only the admin or lead coach can delete other users for example or do certain funtions
 exports.restrictTo =
   (...roles) =>
   (req, res, next) => {
-    // roles is an array ['user', 'coach'] role = user
+    // roles is an array in the userModel ['user', 'coach'] role = user
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
@@ -200,7 +241,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     "host"
   )}/api/v1/users/resetPassword/${resetToken}`;
 
-  const message = `Forgot your password? Submin a PATCH request with your new password and passwordConfirm to ${resetURL}.\nIf you didnt forget your password, please ignore this email.`;
+  const message = `Forgot your password? Your reset token is: ${resetURL}\nPlease copy and paste this token on the reset password page.\nIf you didn't forget your password, please ignore this email.`;
 
   try {
     await sendEmail({
@@ -210,7 +251,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     });
     res.status(200).json({
       status: "success",
-      message: "Token sent to email",
+      message: "Token sent to email, please copy & paste the URL",
     });
   } catch (err) {
     user.passwordResetToken = undefined;
@@ -254,18 +295,40 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
-// function to update password
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  // 1) Get user from collection
-  const user = await User.findById(req.user.id).select("+password");
-  // 2) Check if posted current password is correct
-  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
-    return next(new AppError("Password does not match", 401));
+  // Verify token from the request header
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  try {
+    // Logging the received token
+    console.log("Received Token:", token);
+
+    // Verify and decode the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded Payload:", decoded);
+
+    // Find the user by ID and select the password field
+    const user = await User.findById(decoded.id).select("+password");
+
+    // Check if the current password provided in the request is correct
+    if (
+      !(await user.correctPassword(req.body.passwordCurrent, user.password))
+    ) {
+      return next(new AppError("Current password is incorrect", 401));
+    }
+
+    // Update the password and passwordConfirm fields
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+
+    // Save the user document
+    await user.save();
+
+    // Log the user in and send a JWT token
+    createSendToken(user, 200, res); // Replace with your logic to send JWT token
+  } catch (err) {
+    // Logging token verification error
+    console.error("Token Verification Error:", err);
+    return next(new AppError("Token is invalid or has expired", 400));
   }
-  // 3) Update the password
-  user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
-  await user.save();
-  // 4) Log the user in, send JWT
-  createSendToken(user, 200, res);
 });

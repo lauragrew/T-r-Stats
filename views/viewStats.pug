@@ -4,9 +4,10 @@ block content
   // Specific content for the View Stats page
   div#record-game-page
     div#record-game-container
-      // View Stat Trends Button
-      a.btn.btn-primary.stat-trend-button(href="/viewStatTrends") View Stat Trends
-
+      // Conditionally render the View Stat Trends Button
+      if gameSetups.length > 0
+        // View Stat Trends Button
+        a.btn.btn-primary.stat-trend-button(href="/viewStatTrends") View Stat Trends
 
       h1 All Game Setups 
 
@@ -37,4 +38,3 @@ block content
                     span.player-position= playerSetup.position
                     |  &nbsp; 
                     span.player-name= playerSetup.playerName
-
