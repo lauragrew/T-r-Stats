@@ -80,14 +80,17 @@ exports.fetchGameSetupById = async (gameSetupId) => {
   }
 };
 
+// In your controller
 exports.getGameSetupsByDateRange = async (req, res) => {
   try {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
+    const selectedTeamId = req.query.selectedTeam; // Get the selected team ID from query parameter
 
     const gameSetups = await GameSetup.find({
-      ended: true, // Filter only the ended game setups
+      ended: true,
       endDate: { $gte: startDate, $lte: endDate },
+      selectedTeam: selectedTeamId, // Filter by selected team ID
     });
 
     res.status(200).json(gameSetups);

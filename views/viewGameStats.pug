@@ -30,7 +30,6 @@ html(lang="en")
           h2.game-info= `${selectedTeamName} vs ${gameSetup.oppositionName}`
           p.game-description= gameSetup.gameDescription
           
-
           // Check if there are any player setups to display
           if gameSetup.playerSetup.length === 0
             p No player setups found.
@@ -65,24 +64,36 @@ html(lang="en")
                         - const playerStat = playerSetup.stats.find(s => s.statType === statType)
                         td(class=statType)= playerStat ? playerStat.count : ''
                       td
-                       // Button to view the player's chart
-                       a.btn.btn-primary(href=`/viewPlayerChart/${playerSetup._id}`) View Chart
-                // Add a row for the total counts
-                tr
-                  td(colspan=2) Total Counts
-                  each statTotal in statTotals
-                    td= statTotal
-                  td
-                    // Button to view the total stats chart
-                    a#view-total-chart-button.btn.btn-primary(href=`/viewTotalStatsChart/${gameSetup._id}`) View Total Chart
+                        // Button to view the player's chart
+                        a.btn.btn-primary.view-chart-button(href=`/viewPlayerChart/${playerSetup._id}`)
+                          i.fas.fa-chart-bar
+                          
+                  // Add a row for the total counts
+                  tr
+                    td Total Stats
+                    td
+                    each statTotal in statTotals
+                      td= statTotal
+
+            div.button-container
+              // Button to export CSV
+              button#export-csv-btn.btn.btn-primary.btn-export-csv(type="button", data-game-info=gameInfo)
+                i.fas.fa-file-csv
+                | Export to CSV
+
+              // Add spacing between buttons
+              span.button-space
+
+
+              // Button to view the total stats chart
+              a#view-total-chart-button.btn.btn-primary.btn-view-chart(href=`/viewTotalStatsChart/${gameSetup._id}`)
+                i.fas.fa-chart-bar
+                | View Total Stats Chart
+
+
 
     // Add the script for the statTotals data
     script.
       const statTotals = !{JSON.stringify(statTotals)};
 
-
-
-
-             
-
-
+    script(src="/js/exportCsv.js")

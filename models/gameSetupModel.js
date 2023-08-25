@@ -22,10 +22,6 @@ const playerStatsSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  date: {
-    type: Date,
-    default: Date.now, // Set the default date to the current date and time
-  },
 });
 
 const playerSetupSchema = new mongoose.Schema({

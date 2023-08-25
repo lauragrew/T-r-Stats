@@ -286,11 +286,14 @@ exports.viewGameStats = catchAsync(async (req, res) => {
     });
 
     // view the "viewGameStats" page with the game setup data, selected team name, and stat totals
+    // Inside the `viewGameStats` route handler
     res.render("viewGameStats", {
       gameSetup,
       selectedTeamName,
       statTypes,
       statTotals,
+      // Add the game setup information here
+      gameInfo: `${selectedTeamName} vs ${gameSetup.oppositionName}\n${gameSetup.gameDescription}`,
     });
   } catch (error) {
     console.error("Error fetching game setup:", error);
@@ -434,14 +437,17 @@ exports.viewTotalStatsChart = catchAsync(async (req, res) => {
 });
 
 // function to view the stat trends
-
 exports.viewStatTrends = catchAsync(async (req, res) => {
   try {
-    // Fetch all game setups that have been ended and have an end date
+    const currentUser = res.locals.user; // Get the currently logged-in user
+
+    // Fetch game setups that belong to the current user and have an end date
     const gameSetups = await GameSetup.find({
+      user: currentUser._id, // Assuming user reference in the GameSetup model
       ended: true,
       endDate: { $exists: true },
     });
+    console.log(gameSetups);
 
     // Extract stat data for each game setup
     const gameSetupStats = gameSetups.map((setup) => {

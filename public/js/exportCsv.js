@@ -1,4 +1,3 @@
-// exportCsv.js
 document.addEventListener("DOMContentLoaded", function () {
   const exportBtn = document.getElementById("export-csv-btn");
   if (exportBtn) {
@@ -7,11 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function exportToCsv() {
+  const gameInfo = document.querySelector(".game-info").textContent;
   const csvContent = generateCsvContent();
+
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "player_stats.csv";
+  link.download = `${gameInfo}_stats.csv`;
   link.style.display = "none";
   document.body.appendChild(link);
   link.click();
@@ -34,4 +35,12 @@ function generateCsvContent() {
   const csvRows = [headers].concat(rowsData);
 
   return csvRows.map((row) => row.join(",")).join("\n");
+}
+
+function getFilenameFromGameInfo(gameInfo) {
+  const [selectedTeamVsOpposition, gameDescription] = gameInfo.split("\n");
+  const [selectedTeamName, oppositionTeamName] =
+    selectedTeamVsOpposition.split(" vs ");
+
+  return `${selectedTeamName}_${oppositionTeamName}_${gameDescription}_stats.csv`;
 }

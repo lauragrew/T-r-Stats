@@ -22,6 +22,7 @@ router
 router.use(authController.protect);
 
 // Routes that do not require admin role
+router.get("/logout", authController.logout);
 router.patch("/updateMyPassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
 router.patch("/updateMe", userController.updateMe);
