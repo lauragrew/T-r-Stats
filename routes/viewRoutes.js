@@ -9,6 +9,7 @@ router.get("/", viewsController.getStatsMain);
 router.get("/statsSignup1", viewsController.getStatsSignup1);
 router.get("/statsLogin", viewsController.getStatsLogin);
 router.get("/forgotPassword", viewsController.getForgotPassword);
+router.get("/about", viewsController.getAboutPage);
 
 // Authentication middleware - routes below this need to be logged in
 router.use(authController.isLoggedIn);
@@ -85,5 +86,19 @@ router.get(
 
 // Profile Page
 router.get("/profile", authController.protect, viewsController.getProfilePage);
+
+// Profile Page
+router.get(
+  "/updatePassword",
+  authController.protect,
+  viewsController.getUpdatePassword
+);
+
+// Profile Page
+router.get(
+  "/instructions",
+  authController.protect,
+  viewsController.getInstruction
+);
 
 module.exports = router;

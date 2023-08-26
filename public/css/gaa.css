@@ -255,6 +255,39 @@ body {
   left: 26%;
 }
 
+/* About page specific styles */
+
+
+/* About Section */
+.about-section {
+  display: flex;
+  align-items: center; /* Vertically center align */
+  justify-content: center; /* Horizontally center align */
+  min-height: 60vh; /* Set a minimum height to push content to the middle */
+  background-color: #f5f5f5;
+  padding: 30px;
+  text-align: center;
+  margin-top: 12%;
+  margin-left: 23%;
+  max-width: 750px;
+}
+
+
+.about-section h1 {
+  color: #3498db;
+  font-size: 36px;
+
+}
+
+
+.about-section p.intro {
+  color: #666;
+  font-size: 18px;
+  margin-top: 20px; /* Add margin-top to create space */
+  
+}
+
+
 /* Signup page specific styles */
 .signup-form {
   max-width: 600px;
@@ -262,6 +295,7 @@ body {
   padding: 30px;
   background-color: #f2f2f2;
   border-radius: 5px;
+  
 }
 
 .signup-form .form__group {
@@ -365,7 +399,6 @@ body {
 }
 
 
-/* forgotPassword page specific styles */
 /* styles for the reset password form */
 .reset-password-form-container {
   max-width: 400px;
@@ -405,7 +438,16 @@ body {
   cursor: pointer;
 }
 
+.forgot-password-link {
+  text-decoration: none;
+  color: #1e1f1f;
+  transition: color 0.3s ease-in-out;
+  
+}
 
+.forgot-password-link:hover {
+  color:  #07910b;
+}
 
 
 
@@ -976,7 +1018,7 @@ h1 {
   background-color: black;
 }
 
-/* Example CSS styles for label and input */
+
 .player-info label {
   font-weight: bold;
   margin-bottom: 4px;
@@ -1659,8 +1701,6 @@ button#record-opposition-team-point:hover {
 
 
 
-
-
 /* viewPlayerChart specific styles */
 #chart-container {
   position: fixed;
@@ -1773,19 +1813,17 @@ button#record-opposition-team-point:hover {
 }
 
 
- /* profile page specific styles */
-/* Add this CSS to your existing stylesheet */
-
-/* Style for the entire profile page */
-.profile-page {
+ 
+/* Style for the updatePassword page */
+.updatePassword-page {
   padding: 20px;
   max-width: 500px; /* Adjust as needed */
   margin: 0 auto;
   margin-top: 25px;
 }
 
-/* Style for each profile section */
-.profile-section {
+
+.updatePassword-section {
   margin-bottom: 10px;
   padding: 5px;
   border: 1px solid #ccc;
@@ -1794,14 +1832,14 @@ button#record-opposition-team-point:hover {
   font-size: 14px;
 }
 
-/* Style for profile section titles */
-.profile-section-title {
+
+.updatePassword-section-title {
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
-/* Style for profile input fields */
-.profile-input-field {
+
+.updatePassword-input-field {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
@@ -1811,9 +1849,8 @@ button#record-opposition-team-point:hover {
 }
 
 /* Style for profile buttons */
-.profile-btn-update,
-.profile-btn-delete {
-  background-color: #007bff;
+.updatePassword-btn-update {
+  background-color:#07910b;
   color: #fff;
   border: none;
   padding: 8px 12px;
@@ -1822,13 +1859,40 @@ button#record-opposition-team-point:hover {
   font-size: 14px;
 }
 
-.profile-welcome h1 {
+.updatePassword-welcome h1 {
   font-size: 1.5rem; /* Adjust the font size as needed */
   margin-top: 65px;
 }
 
 
 
+/* Style for the instruction page */
+.instructions-section {
+  background-color:  #e9e9eb;
+  padding: 20px;
+  text-align: center;
+  margin-top: 8%;
+  margin-left:0%;
+  max-width: 100%;
+}
+
+.instructions-section h1 {
+  color: #3498db;
+  font-size: 24px;
+ 
+}
+
+.instructions-section p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.instructions-section h2 {
+  color: #3498db;
+  font-size: 20px;
+  margin-top: 20px;
+}
 
 @media (max-width: 1440px) {
   /* CSS rules for MacBook Air screens */
@@ -1880,12 +1944,12 @@ button#record-opposition-team-point:hover {
 
   #line1,
   #line2 {
-    height: 100px;
+    height: 80px;
     width: 60px;
   }
 
   #line2 {
-    height: 40px;
+    height: 30px;
     left: 26%;
   }
 
@@ -1915,6 +1979,7 @@ button#record-opposition-team-point:hover {
   .signup-form {
     max-width: 350px;
     padding: 14px;
+   
   }
   .signup-form input[type="text"],
   .signup-form input[type="email"],
@@ -2024,6 +2089,15 @@ button#record-opposition-team-point:hover {
     height: 40px;
     left: 26%;
   }
+
+  /* About Section */
+.about-section {
+  
+  margin-top: 14%;
+  margin-left: 18%;
+  
+}
+
   #dashboard-container {
     margin-left: 20%; /* Center the container on iPad mini screens */
   }
@@ -2153,6 +2227,15 @@ h1#record-stats-heading {
   #content h1 {
     font-size: 30px;
   }
+
+  
+  /* About Section */
+.about-section {
+  
+  margin-top: 18%;
+  margin-left: 13%;
+  
+}
 
   #dashboard-container {
     margin-left: 20%; /* Center the container on iPad mini screens */

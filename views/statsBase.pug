@@ -18,7 +18,7 @@ html(lang="en")
       #navbar
         ul.navbar-links
           li: a(href="/dashboard") Home
-          li: a(href="#") About
+          li: a(href="/about") About
           li: a(href="#") Contact
 
         if user
@@ -51,14 +51,7 @@ html(lang="en")
         a(href="#")
           i.fab.fa-twitter
 
-      // pagination - use JavaScript function for the back button
-      #pagination
-        // left arrow
-        a(href="javascript:history.go(-1)", id="back-btn")
-          i.fas.fa-angle-left
-        // right arrow
-        a(href="javascript:history.forward()")
-          i.fas.fa-angle-right
+    
 
       // lines
       #line1

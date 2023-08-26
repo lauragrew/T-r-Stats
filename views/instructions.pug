@@ -1,0 +1,59 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= "Stat Trends"
+    // CSS link
+    link(rel="stylesheet", href="/css/gaa.css")
+    // Font Awesome CDN
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    // Include Chart.js library
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  body
+    div#container
+      // logo
+      div#logo TírStats
+
+      // navbar
+      #navbar
+        ul.navbar-links
+          li: a(href="/dashboard") Home
+          li: a(href="/profile") Profile
+          li: a(href="#") Contact
+
+      // ABOUT SECTION
+     
+
+      // CONTENT
+      block content
+        .instructions-section
+          h1 Instructions for Using TírStats
+          p Whether you're a coach or a statistician, these instructions will guide users through our app effectively.
+
+          // Add instructions here
+          h2 Dashboard
+          p The Dashboard contains the main buttons to help the user navigate around the TírStats app. When the user press the 'Home' button you will be brought back to this page.
+
+          h2 View Squads
+          p To create a squad, navigate to the "View Squads" section and click the "Create Squad" button and enter the squad name. Click on the squad name and click the 'Add Players' button to add players the squad. You can also view or delete previously created squads and players.
+
+          h2 Game Setup
+          p Enter the opposition name and description for the game. Click on "Select your squad" dropdown to select a squad and click on each "Player Position" dropdown to assign players to positions. The user can also assign each player a number 1-30. After entering all information click "Save Game Setup", and be redirected to the Record Games page.
+
+          h2 Record Games
+          p View all of your game setups here, click "View Players" to see the list of players and positions. The "Delete" button will delete the gamesetup. "Record Game Stats" button will redirect you to a page where you can record the game stats. 
+
+          h2 Record Game Stats
+          p To record stats, click on a button on the pitch based on the player number you want to record the stat for E.g player jersey No.6. The user is prompted to select a stat from the dropdown menu and click "Save" to save the stat or "Cancel". During the game click "Game Stats" in the top right corner to view the currently saved game stats. Click "End Game" to finish the game and no longer be able to record stats on this game, and be redirected to the View Stats page. The Timer function can help keep track of game time which can be paused and reset. The score function can be used to keep track of the match score for both teams. 
+
+          h2 View Stats
+          p All ended games are stored in the View Stats. The user can view players, delete the game setup or click "View Stats" to view the stats table. Here you can click the "chart" symbol to view stats in chart or graphy format. Click "View Total Stats chart" to see the total stats and click "Export to CSV" to export the stat table. Click "View Stat Trends" to be able to select a date range, a specific stat and a team and click "View Trends" to see stat trends over time for the selected team.
+
+          h2 Profile
+          p View instructions, update password or delete account here.
+
+
+
+     
