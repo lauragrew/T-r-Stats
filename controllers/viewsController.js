@@ -35,6 +35,12 @@ exports.getResetPassword = (req, res) => {
   res.render("resetPassword", { resetToken: token });
 };
 
+exports.getAboutPage = async (req, res) => {
+  res.render("about", {
+    title: "Tír Stats | About",
+  });
+};
+
 // function to view the dashboard page
 exports.getDashboard = async (req, res) => {
   res.status(200).render("dashboard", {
@@ -488,3 +494,15 @@ exports.viewStatTrends = catchAsync(async (req, res) => {
 exports.getProfilePage = catchAsync(async (req, res) => {
   res.render("profile", { user: req.user });
 });
+
+// Update Password Page
+exports.getUpdatePassword = catchAsync(async (req, res) => {
+  res.render("updatePassword", { user: req.user });
+});
+
+// function to view the instruction page
+exports.getInstruction = (req, res) => {
+  res.status(200).render("instructions", {
+    title: "Tír Stats | Instructions ",
+  });
+};

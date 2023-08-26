@@ -31,12 +31,13 @@ const signup = async (
     });
     // if successful show a message to the user and then redirect to the dashboard
     if (res.data.status === "success") {
-      alert("Signed up successfully");
+      alert("You have been signed up successfully!"); // Change the alert message
       const redirectUrl = res.data.data.redirectUrl;
       window.setTimeout(() => {
         location.assign(redirectUrl);
       }, 1500);
     }
+
     // handle any errors
   } catch (err) {
     if (err.response && err.response.data && err.response.data.error) {

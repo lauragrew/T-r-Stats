@@ -62,10 +62,8 @@ async function fetchTotalStatCounts(gameSetups, statType) {
 }
 
 // Function to render the stat trends line chart
-async function renderStatTrendsChart(gameSetups) {
+async function renderStatTrendsChart(gameSetups, squads) {
   const selectedStat = document.getElementById("stat-select").value;
-
-  console.log("Selected stat:", selectedStat);
 
   try {
     const totalStatCounts = await fetchTotalStatCounts(
@@ -73,7 +71,20 @@ async function renderStatTrendsChart(gameSetups) {
       selectedStat
     );
 
-    const dates = gameSetups.map((gameSetup) => new Date(gameSetup.endDate));
+    const selectedTeamId = document.getElementById("team-select").value;
+    const selectedTeam = squads.find((squad) => squad._id === selectedTeamId);
+    const selectedTeamName = selectedTeam ? selectedTeam.name : "Unknown Team";
+
+    const gameNames = gameSetups.map((gameSetup) => {
+      const gameDate = new Date(gameSetup.endDate);
+
+      const year = gameDate.getFullYear().toString().slice(-2); // Get the last two digits of the year
+      const month = (gameDate.getMonth() + 1).toString().padStart(2, "0"); // Add leading zero if single-digit month
+      const day = gameDate.getDate().toString().padStart(2, "0"); // Add leading zero if single-digit day
+
+      const formattedDate = `${day}/${month}/${year}`;
+      return `${selectedTeamName} vs ${gameSetup.oppositionName} (${formattedDate})`;
+    });
 
     const chartData = [
       {
@@ -94,7 +105,7 @@ async function renderStatTrendsChart(gameSetups) {
     window.myChart = new Chart(ctx, {
       type: "line",
       data: {
-        labels: dates,
+        labels: gameNames, // Use game names as labels
         datasets: chartData,
       },
       options: {
@@ -117,12 +128,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const viewTrendsButton = document.getElementById("view-trends-btn");
   const teamSelect = document.getElementById("team-select");
 
-  // Add event listener to the "Back" button
-  backButton.addEventListener("click", () => {
-    // Navigate back to the previous page
-    history.back();
-  });
-
   // Fetch user squads and populate the dropdown
   const squads = await fetchUserSquads();
   squads.forEach((squad) => {
@@ -132,28 +137,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     teamSelect.appendChild(option);
   });
 
+  // Add event listener to the "Back" button
+  backButton.addEventListener("click", () => {
+    // Navigate back to the previous page
+    history.back();
+  });
+
   // Add event listener to the "View Trends" button
   viewTrendsButton.addEventListener("click", async () => {
     const startDate = document.getElementById("start-date").value;
     const endDate = document.getElementById("end-date").value;
-    const selectedStat = document.getElementById("stat-select").value;
-    const selectedTeam = document.getElementById("team-select").value;
-
-    console.log("Selected startDate:", startDate);
-    console.log("Selected endDate:", endDate);
-    console.log("Selected stat:", selectedStat);
-    console.log("Selected team:", selectedTeam);
 
     try {
+      const selectedTeamId = document.getElementById("team-select").value;
       const gameSetups = await fetchGameSetups(
         startDate,
         endDate,
-        selectedTeam
+        selectedTeamId
       );
 
       console.log("Fetched gameSetups:", gameSetups);
 
-      renderStatTrendsChart(gameSetups);
+      renderStatTrendsChart(gameSetups, squads);
     } catch (error) {
       console.error("Error fetching game setups:", error);
     }
