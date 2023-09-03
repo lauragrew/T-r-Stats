@@ -62,14 +62,17 @@ const sendErrorProd = (err, res) => {
   }
 };
 
+const isTestEnv = process.env.NODE_ENV === "test";
+const isDevelopmentEnv = process.env.NODE_ENV === "development";
+
 // Main error handling middleware function
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
   // Check the environment to determine how to handle the error
-  if (process.env.NODE_ENV === "development") {
-    sendErrorDev(err, res); // In development, send detailed error response
+  if (isDevelopmentEnv || isTestEnv) {
+    sendErrorDev(err, res); // In development or test, send detailed error response
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
 

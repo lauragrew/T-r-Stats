@@ -60,10 +60,18 @@ router.get(
 router.get("/viewStats", authController.protect, viewsController.viewStats);
 
 // route for viewing the specific stats for a gamesetup
-router.get("/gameStats/:gameSetupId", viewsController.viewGameStats);
+router.get(
+  "/gameStats/:gameSetupId",
+  authController.protect,
+  viewsController.viewGameStats
+);
 
 // route for fetching a specific player's stats for chart view
-router.get("/viewPlayerChart/:playerSetupId", viewsController.viewPlayerChart);
+router.get(
+  "/viewPlayerChart/:playerSetupId",
+  authController.protect,
+  viewsController.viewPlayerChart
+);
 
 //route for fetching player stats
 router.get(
@@ -74,6 +82,7 @@ router.get(
 // route for viewing the total stats chart page
 router.get(
   "/viewTotalStatsChart/:gameSetupId",
+  authController.protect,
   viewsController.viewTotalStatsChart
 );
 

@@ -25,6 +25,9 @@ block content
           option(value="") -- Select Squad --
           each squad in squads
             option(value=squad._id)= squad.name
+        // Add a div to display the squad selection error
+        div.error-message(id="squadError", style="display: none; color: red; margin-top: 5px;")
+          Please select a squad.
 
         // Virtual scroller for player selection
         .players-list
@@ -41,7 +44,6 @@ block content
                 input(type="hidden", class="playerName", id=`playerName_${position}`, value="")
                 label(for=`playerNumber_${position}`) Player Number (1-30)
                 input(type="number", class="playerNumber", id=`playerNumber_${position}`, name="playerNumber", min="1", max="30", placeholder="Player Number")
-
 
               // Display the selected player's name
               .selected-player-container
@@ -165,6 +167,14 @@ block content
       // Add event listener to the form's submit event
       document.querySelector("#gameSetupForm").addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent the default form submission
+
+        // Check if a squad has been selected
+        const selectedSquad = document.querySelector("#selectedTeam").value;
+        if (!selectedSquad) {
+          const squadError = document.querySelector("#squadError");
+          squadError.style.display = "block"; // Show the error message
+          return; // Stop further processing
+        }
 
         // Collect the playerSetup data
         const playerSetup = collectPlayerSetup();
