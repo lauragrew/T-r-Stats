@@ -1,20 +1,25 @@
-// Importing required modules
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" }); // Load default environment variables
+dotenv.config({ path: "./test.env" }); // Load test environment variables
 
-// Loading Environment Variables: The dotenv.config() method is used to load environment variables from the config.env file.
-dotenv.config({ path: "./config.env" });
+// Rest of your code...
 
-// Importing express app
 const app = require("./app");
 
-// Database connection setup
-const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
-);
+let DB = process.env.DATABASE; // Default to main database URI
+console.log("Using development database");
+if (process.env.NODE_ENV === "test") {
+  console.log("Running in TEST environment");
+  DB = process.env.TEST_DB_URI; // Use test database URI for tests
+}
 
-// connecting to the mongoose database and success message
+// If the database URI contains <PASSWORD>, replace it with the actual password
+DB = DB.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
+
+console.log("Environment:", process.env.NODE_ENV);
+console.log("Database URI:", DB);
+
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -24,13 +29,14 @@ mongoose
   })
   .then(() => console.log("DB connection successful"));
 
-// Server setup and listening on port 3000 with message displayed
-const port = process.env.PORT || 3000;
+// Set the PORT variable based on the environment
+const port =
+  process.env.NODE_ENV === "test"
+    ? process.env.TEST_PORT
+    : process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
-
-// Unhandled rejection and uncaught exception handlers - logs errors
 process.on("unhandledRejection", (err) => {
   console.log("UNHANDLED REJECTION ... SHUTDOWN 🔥");
   console.log(err.name, err.message);

@@ -1,7 +1,6 @@
 const Squad = require("../models/squadModel");
 const catchAsync = require("../utils/catchAsync");
 
-// function to create a new squad
 exports.createSquad = catchAsync(async (req, res) => {
   const { name } = req.body;
 
@@ -13,19 +12,33 @@ exports.createSquad = catchAsync(async (req, res) => {
   if (existingSquad) {
     // A squad with the same name exists but is owned by another user - error message
     return res.status(400).json({
+      status: "error",
       error: "A squad with that name already exists for another user",
     });
   }
 
-  // Create a new squad
-  const newSquad = await Squad.create({
-    name,
-    user: req.user._id, // I am storing the user ID in the req.user object after authentication
-  });
+  try {
+    // Create a new squad
+    const newSquad = await Squad.create({
+      name,
+      user: req.user._id, // Storing the user ID in the req.user object after authentication
+    });
 
-  // Populate the user field with the user data (name and id)
-  await newSquad.populate("user", "firstName lastName").execPopulate();
-  res.redirect("/viewSquads");
+    // Populate the user field with the user data (name and id)
+    await newSquad.populate("user", "firstName lastName").execPopulate();
+
+    // Send a success response
+    res.status(201).json({
+      status: "success",
+      data: newSquad,
+    });
+  } catch (error) {
+    // Handle other errors
+    res.status(500).json({
+      status: "error",
+      error: "You already have a squad with this name",
+    });
+  }
 });
 
 // function to get all squads created by the logged-in user

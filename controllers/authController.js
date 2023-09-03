@@ -40,40 +40,6 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
   });
 };
 
-// signup function
-// exports.signup = catchAsync(async (req, res, next) => {
-//   const { firstName, lastName, email, password, passwordConfirm } = req.body;
-//   // check if the passwords match
-//   if (password !== passwordConfirm) {
-//     return res.status(400).json({
-//       status: "error",
-//       error: "Passwords do not match",
-//     });
-//   }
-
-//   try {
-//     // create a new user in the database
-//     const newUser = await User.create({
-//       firstName,
-//       lastName,
-//       email,
-//       password,
-//       passwordConfirm,
-//     });
-//     // create and send the JWT token
-//     createSendToken(newUser, 201, res, "/dashboard");
-//   } catch (err) {
-//     // Pass the error message to the frontend if one occurs
-//     const errorMessages = err.message.split(":");
-//     const errorMessage = errorMessages[errorMessages.length - 1].trim();
-
-//     res.status(400).json({
-//       status: "error",
-//       error: errorMessage,
-//     });
-//   }
-// });
-
 exports.signup = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password, passwordConfirm } = req.body;
 
@@ -116,6 +82,10 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 // login function
 exports.login = catchAsync(async (req, res, next) => {
+  // Inside authController.login
+  console.log("Inside authController.login");
+  console.log("req.body:", req.body);
+
   const { email, password } = req.body;
 
   // 1) Check if email and password exist
@@ -126,10 +96,18 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email }).select("+password");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
+    console.log("Incorrect email or password");
     return next(new AppError("Incorrect email or password", 401));
+
+    // Add these console.log statements to check the response data
+    console.log("Before sending response");
+    console.log("Response Status Code:", res.statusCode);
+    console.log("Response JSON Data:", res.jsonData);
   }
   // 3) If user exists & password is correct, create and send a token back to the client
   createSendToken(user, 200, res, "/dashboard");
+  // Add this console.log statement to check if the response was sent
+  console.log("After sending response");
 });
 
 // logout function
