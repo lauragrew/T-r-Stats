@@ -17,7 +17,7 @@ block content
           label(for="gameDescription") Game Description:
           textarea(name="gameDescription", rows="2", required)= gameSetup && gameSetup.gameDescription
 
-      // Squad and player selection section
+      // squad and player selection section
       .squad-player-section.form-section
         h2 Squad and Player Selection
         label(for="selectedTeam") Select Your Squad:
@@ -25,15 +25,15 @@ block content
           option(value="") -- Select Squad --
           each squad in squads
             option(value=squad._id)= squad.name
-        // Add a div to display the squad selection error
+        // div to display the squad selection error
         div.error-message(id="squadError", style="display: none; color: red; margin-top: 5px;")
           Please select a squad.
 
-        // Virtual scroller for player selection
+        // virtual scroller for player selection
         .players-list
           each position in playerPositions
             .player-setup-item(data-position=position)
-              // Display the selected player's position and dropdown in a flexbox
+              // display the selected player's position and dropdown in a flexbox
               .player-info
                 span.selected-player-position Position: #{position}
                 select.custom-dropdown(id=`selectedPlayer_${position}`, onchange="selectPlayer(event)")
@@ -45,52 +45,52 @@ block content
                 label(for=`playerNumber_${position}`) Player Number (1-30)
                 input(type="number", class="playerNumber", id=`playerNumber_${position}`, name="playerNumber", min="1", max="30", placeholder="Player Number")
 
-              // Display the selected player's name
+              // display the selected player's name
               .selected-player-container
                 span.selected-player-name(data-position=position) -- Select Player --
 
-        // Save button moved to the bottom of this section
+        // save button moved to the bottom of this section
         .button-container
           button.save-button(type="submit") Save Game Setup
 
-        // Hidden input field for playerSetup data
+        // hidden input field for playerSetup data
         input(type="hidden", name="playerSetup", id="playerSetup", value="")
 
-  // Script section
+  // script section
   block scripts
     // Pass the squads data to the updatePlayersDropdown function
     script.
-      const squads = !{JSON.stringify(squads)}; // Convert the squads object to a JavaScript variable
+      const squads = !{JSON.stringify(squads)}; // convert the squads object to a JavaScript variable
 
       async function updatePlayersDropdown() {
         const selectedSquadId = document.querySelector("#selectedTeam").value;
-        console.log("Selected Squad ID:", selectedSquadId); // Log the selected squad ID
+        console.log("Selected Squad ID:", selectedSquadId); // log the selected squad ID
 
         const playerDropdowns = document.querySelectorAll('.custom-dropdown');
         playerDropdowns.forEach((dropdown) => {
           dropdown.querySelectorAll('option').forEach((option, index) => {
             if (index === 0) {
-              option.textContent = "-- Select Player --"; // Set the default text for the first option
-              option.selected = true; // Select the "-- Select Player --" option by default
+              option.textContent = "-- Select Player --";
+              option.selected = true; // "-- Select Player --" option by default in dropdown menu
             } else {
-              option.style.display = "none"; // Hide all other player options
+              option.style.display = "none"; // hide all other player options
             }
           });
         });
 
         if (selectedSquadId) {
           try {
-            // Fetch the players associated with the selected squad
+            // get the players associated with the selected squad
             const response = await fetch(`/api/v1/players?squad=${selectedSquadId}`);
             const playersData = await response.json();
 
-            // Add players to the respective player dropdowns
+            // add players to the respective player dropdowns
             playerDropdowns.forEach((dropdown) => {
               playersData.data.players.forEach((player) => {
                 const fullName = `${player.firstName} ${player.lastName}`;
                 const option = new Option(fullName, player._id, false, false);
-                option.dataset.playername = fullName; // Store player's full name in the dataset
-                dropdown.add(option); // Append options to the correct dropdown
+                option.dataset.playername = fullName; // save player's full name 
+                dropdown.add(option); // append options to the correct dropdown
               });
             });
           } catch (error) {
@@ -99,7 +99,7 @@ block content
         }
       }
 
-      // Custom dropdown function
+      // custom dropdown function
       function selectPlayer(event) {
         const selectedPlayer = event.target.value;
         const position = event.target.closest('.player-setup-item').getAttribute('data-position');
@@ -107,17 +107,17 @@ block content
         const selectedPlayerDisplay = document.querySelector(`.selected-player-name[data-position="${position}"]`);
         const playerNumberInput = document.querySelector(`#playerNumber_${position}`);
 
-        // Show the placeholder option and hide the selected player's option
+        // show the placeholder option and hide the selected player's option
         const playerOptions = event.target.querySelectorAll('option');
         playerOptions.forEach((option) => {
           if (option.value === selectedPlayer) {
-            option.style.display = 'none'; // Hide the selected player's option
+            option.style.display = 'none'; // hide the selected player's option
           } else {
-            option.style.display = 'block'; // Show all other player options
+            option.style.display = 'block'; // show all other player options
           }
         });
 
-        // Update the selected player's name display
+        // update the selected player's name display
         if (selectedPlayer) {
           const selectedPlayerOption = event.target.options[event.target.selectedIndex];
           const selectedPlayerName = selectedPlayerOption.dataset.playername;
@@ -126,26 +126,26 @@ block content
           selectedPlayerDisplay.textContent = "-- Select Player --";
         }
 
-        // Store the selected player's ID and name in hidden input fields
+        // store the selected player's ID and name in hidden input fields
         document.querySelector(`#playerId_${position}`).value = selectedPlayer;
         document.querySelector(`#playerName_${position}`).value = selectedPlayerDisplay.textContent;
 
-        // Update the player number
+        // update the player number
         playerNumberInput.value = selectedPlayer ? selectedPlayerOption.dataset.playernumber : '';
 
-        // Log the selected player's ID and name
+        // log the selected player's ID and name
         console.log(`Selected Player ID for position ${position}:`, selectedPlayer);
         console.log(`Selected Player Name for position ${position}:`, selectedPlayerDisplay.textContent);
         console.log(`Selected Player Number for position ${position}:`, playerNumberInput.value);
       }
 
-      // Add event listener to the squad dropdown
+      // add event listener to the squad dropdown
       document.querySelector("#selectedTeam").addEventListener("change", updatePlayersDropdown);
 
-      // Manually trigger the change event to populate player dropdowns on initial load
+      // manually trigger the change event to populate player dropdowns on initial load
       document.querySelector("#selectedTeam").dispatchEvent(new Event("change"));
 
-      // Collect playerSetup data
+      // collect playerSetup data
       function collectPlayerSetup() {
         const playerSetup = [];
         const playerItems = document.querySelectorAll(".player-setup-item");
@@ -164,26 +164,26 @@ block content
         return playerSetup;
       }
 
-      // Add event listener to the form's submit event
+      // add event listener to the form's submit event
       document.querySelector("#gameSetupForm").addEventListener("submit", async (event) => {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault(); // prevents default submit
 
-        // Check if a squad has been selected
+        // check if a squad has been selected
         const selectedSquad = document.querySelector("#selectedTeam").value;
         if (!selectedSquad) {
           const squadError = document.querySelector("#squadError");
-          squadError.style.display = "block"; // Show the error message
-          return; // Stop further processing
+          squadError.style.display = "block"; // show the error message
+          return; 
         }
 
-        // Collect the playerSetup data
+        // collect the playerSetup data
         const playerSetup = collectPlayerSetup();
 
-        // Update the value of the hidden input field with the collected playerSetup data
+        // update the value of the hidden input field with the collected playerSetup data
         document.querySelector("#playerSetup").value = JSON.stringify(playerSetup);
 
         try {
-          // Submit the form using fetch API
+          // submit the form using fetch API POST req
           const response = await fetch("/api/v1/gameSetups", {
             method: "POST",
             headers: {
@@ -198,10 +198,10 @@ block content
           });
 
           if (response.ok) {
-            // If the form submission is successful, redirect to the Record Game page
+            // if the form submission is successful, redirect to the Record Game page
             window.location.href = "/recordGames";
           } else {
-            // If the form submission fails, display an error message
+            // if the form submission fails, display an error message to the user
             console.error("Failed to save game setup.");
           }
         } catch (error) {

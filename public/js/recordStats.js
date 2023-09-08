@@ -1,16 +1,16 @@
-// Define the getUrlParameter function to extract URL parameters
+// define the getUrlParameter function to extract URL parameters
 function getUrlParameter(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
 }
-
+// event listender for the record-stat button
 document.addEventListener("DOMContentLoaded", () => {
   const recordStatButtons = document.querySelectorAll(".record-stat");
 
   recordStatButtons.forEach((button) => {
     button.addEventListener("click", handleRecordStat);
   });
-
+  // when button is clicked, get the playerID and position
   async function handleRecordStat(event) {
     const button = event.target.closest(".record-stat-btn");
     if (!button) return;
@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameSetupId = getUrlParameter("gameSetupId");
     const selectedGameSetupId = gameSetupId;
 
+    // create a dropdown select element (statDropdown) allowing user to select a stat type
     const statDropdown = document.createElement("select");
     statDropdown.classList.add("stat-dropdown");
     statDropdown.innerHTML = `
@@ -39,7 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <option value="Kickout lost">Kickout lost</option>
       <!-- Add more stat types as needed -->
     `;
-
+    // use sweet alert library to display a modal telling the user to select a stat type
+    // the selected game setup id is taken from the getURLparamerts function above
     Swal.fire({
       title: `Record Stat for No. ${playerNumber}`,
       html: statDropdown,
@@ -57,12 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!result.isConfirmed) {
         return;
       }
-
+      // if the user selects a stat and clicks confirm the fucntion called the saveStatToServer function
       const { gameSetupId, statType } = result.value;
       saveStatToServer(gameSetupId, playerId, position, statType);
     });
   }
 
+  // fucntion to save a stat by sending a POST requestto saveStats including the data below
   async function saveStatToServer(gameSetupId, playerId, position, statType) {
     try {
       const response = await axios.post("/api/v1/stats/saveStat", {
@@ -70,12 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
         playerId,
         position,
         statType,
-        //date: "2023-07-09T18:48:31.680+00:00", // Specify the desired date here
-        date: new Date(), // Add the current date
+        //date: "2023-07-09T18:48:31.680+00:00", // used for manually adding the date
+        date: new Date(),
       });
 
       if (response.status === 200) {
-        // Find the playerSetup in the gameSetup for the specific player
+        // find the playerSetup in the gameSetup for the specific player
         const gameSetup = response.data.gameSetup;
         const playerSetup = gameSetup.playerSetup.find(
           (player) => player.playerId === playerId
@@ -90,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        const playerName = playerSetup.playerName; // Get the player's name from playerSetup
-        const playerNumber = playerSetup.playerNumber; // Get the player's number from player
+        const playerName = playerSetup.playerName; // get the player's name from playerSetup
+        const playerNumber = playerSetup.playerNumber; // get the player's number from player
         Swal.fire({
           icon: "success",
           title: "Stat Saved!",

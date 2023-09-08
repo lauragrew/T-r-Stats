@@ -1,3 +1,5 @@
+// JS to listen for the create squad button submit and create a new squad
+
 document.addEventListener("DOMContentLoaded", () => {
   const createSquadForm = document.getElementById("create-squad-form");
   const errorMessage = document.getElementById("error-message");

@@ -1,7 +1,5 @@
-console.log("app.js is being loaded...");
 // importing required modules
 require("dotenv").config();
-
 const path = require("path");
 const express = require("express");
 const methodOverride = require("method-override");
@@ -11,7 +9,6 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
-const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
@@ -68,19 +65,19 @@ app.use(mongoSanitize());
 // Cross-Site Scripting (XSS) Protection Middleware: The xss-clean middleware is used to prevent XSS attacks by sanitizing user input
 app.use(xss());
 
-// *** HTTP Parameter Pollution (HPP) Protection Middleware: The hpp middleware prevents HTTP parameter pollution attacks by whitelisting specific query parameters. (need to change these) ***
-app.use(
-  hpp({
-    whitelist: [
-      "duration",
-      "ratingsQuantity",
-      "difficulty",
-      "price",
-      "ratingsAverage",
-      "maxGroupSize",
-    ],
-  })
-);
+// // *** HTTP Parameter Pollution (HPP) Protection Middleware: The hpp middleware prevents HTTP parameter pollution attacks by whitelisting specific query parameters. (need to change these) ***
+// app.use(
+//   hpp({
+//     whitelist: [
+//       "duration",
+//       "ratingsQuantity",
+//       "difficulty",
+//       "price",
+//       "ratingsAverage",
+//       "maxGroupSize",
+//     ],
+//   })
+// );
 
 // Request Timestamp Middleware: A custom middleware adds the current request timestamp to req.requestTime
 app.use((req, res, next) => {

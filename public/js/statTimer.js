@@ -1,55 +1,55 @@
-// Timer variables
+// timer variables
 let timerInterval;
 let timerPaused = false;
 let remainingTime = 30 * 60; // Initial time in seconds (30 minutes)
 
-// Start/Restart Timer Button click event
+// start/restart timer button click event
 const startTimerBtn = document.getElementById("start-timer-btn");
 startTimerBtn.addEventListener("click", () => {
-  // Reset the timer to the selected half duration
+  // reset the timer to the selected half duration
   const selectedDuration = document.getElementById(
     "half-duration-dropdown"
   ).value;
   remainingTime = selectedDuration * 60;
   timerPaused = false;
 
-  // Update the timer display
+  // update the timer display
   updateTimerDisplay();
 
-  // Start the timer interval
+  // start the timer
   clearInterval(timerInterval);
   timerInterval = setInterval(updateTimer, 1000);
 });
 
-// Pause Timer Button click event
+// pause timer button click
 const pauseTimerBtn = document.getElementById("pause-timer-btn");
 pauseTimerBtn.addEventListener("click", () => {
   timerPaused = !timerPaused;
 
-  // If the timer is paused, clear the timer interval
+  // if the timer is paused, clear the timer
   if (timerPaused) {
     clearInterval(timerInterval);
   } else {
-    // If the timer is resumed, restart the timer interval
+    // if the timer is resumed, restart the timer
     timerInterval = setInterval(updateTimer, 1000);
   }
 });
 
-// Timer Reset Button click event
+// timer reset button click
 const resetTimerBtn = document.getElementById("reset-timer-btn");
 resetTimerBtn.addEventListener("click", () => {
-  // Reset the timer to the selected half duration
+  // reset the timer to the selected half duration
   const selectedDuration = document.getElementById(
     "half-duration-dropdown"
   ).value;
   remainingTime = selectedDuration * 60;
   timerPaused = false;
 
-  // Update the timer display
+  // update the timer display
   updateTimerDisplay();
 });
 
-// Function to update the timer display
+// function to update the timer display
 function updateTimerDisplay() {
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
@@ -59,12 +59,12 @@ function updateTimerDisplay() {
   document.getElementById("timer").textContent = formattedTime;
 }
 
-// Function to update the timer
+// function to update the timer
 function updateTimer() {
   if (!timerPaused) {
     remainingTime--;
 
-    // If the timer reaches 0, stop the interval and show a message
+    // if the timer reaches 0, stop the interval and show a message
     if (remainingTime <= 0) {
       clearInterval(timerInterval);
       Swal.fire({
@@ -74,7 +74,7 @@ function updateTimer() {
       });
     }
 
-    // Update the timer display
+    // update the timer display
     updateTimerDisplay();
   }
 }

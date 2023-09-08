@@ -261,9 +261,9 @@ body {
 /* About Section */
 .about-section {
   display: flex;
-  align-items: center; /* Vertically center align */
-  justify-content: center; /* Horizontally center align */
-  min-height: 60vh; /* Set a minimum height to push content to the middle */
+  align-items: center; 
+  justify-content: center;
+  min-height: 60vh; 
   background-color: #f5f5f5;
   padding: 30px;
   text-align: center;
@@ -283,7 +283,7 @@ body {
 .about-section p.intro {
   color: #666;
   font-size: 18px;
-  margin-top: 20px; /* Add margin-top to create space */
+  margin-top: 20px; 
   
 }
 
@@ -462,7 +462,7 @@ body {
   background-color: #e9e9eb;
 }
 
-/* Styles for the heading of dashboard */
+
 h1 {
   font-size: 40px;
   margin-bottom: 20px;
@@ -1036,10 +1036,6 @@ h1 {
 }
 
 
-
-
-
-
 /* recordGame page specific styles */
 #record-game-page {
   display: flex;
@@ -1394,16 +1390,14 @@ h1 {
   margin: 8px 0;
 }
 
-
-/* Styles for the score recording buttons */
 #score-recording {
   position: absolute;
   top: 160px; 
   right: 10px;
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: flex-start; /* Align items to the start of the container */
-  gap: 10px; /* Add spacing between the forms */
+  flex-direction: column; 
+  align-items: flex-start;
+  gap: 10px; 
 }
 
 form#home-score-form,
@@ -1566,7 +1560,7 @@ button#record-opposition-team-point:hover {
 .stat-trend-button   {
   background-color:  #28a745;
   border-color: #0e0f0e;
-  text-decoration: none; /* Remove underlining */
+  text-decoration: none;
   color: #ffffff;
   font-size: 14px;
   border-radius: 3px;
@@ -1606,7 +1600,7 @@ button#record-opposition-team-point:hover {
   margin-left: 30px;
 }
 
-/* Table styling for player stats */
+/* table styling for player stats */
 #player-stats-table {
   border-collapse: collapse;
   width: 100%;
@@ -1659,7 +1653,7 @@ button#record-opposition-team-point:hover {
   display: none;
 }
 
-/* Custom styles for the Export CSV button */
+/* specific styles for the export CSV button */
 .btn-export-csv {
   background-color: #007bff;
   color: white;
@@ -1674,7 +1668,7 @@ button#record-opposition-team-point:hover {
   background-color: #0056b3;
 }
 
-/* Custom styles for the View Chart button */
+/* specific styles for the view chart button */
 .btn-view-chart {
   
   background-color: #28a745;
@@ -1690,15 +1684,14 @@ button#record-opposition-team-point:hover {
 .btn-view-chart:hover {
   background-color: #1f8136;
 }
-/* Apply spacing below the table */
+
 .button-container {
-  margin-top: 20px; /* You can adjust the value to control the spacing */
-}
-/* Apply spacing between buttons */
-.button-space {
-  margin: 0 10px; /* You can adjust the horizontal margin value */
+  margin-top: 20px; 
 }
 
+.button-space {
+  margin: 0 10px; 
+}
 
 
 /* viewPlayerChart specific styles */
@@ -1708,8 +1701,8 @@ button#record-opposition-team-point:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  width: 50%; /* Adjust this value as needed */
-  max-width: 1000px; /* Optional: Add a maximum width to prevent it from becoming too wide */
+  width: 50%; 
+  max-width: 1000px;  
 }
 
 #player-stats-chart {
@@ -1749,18 +1742,18 @@ button#record-opposition-team-point:hover {
 
 /* viewTotalStatsChart specific styles */
 #game-setup-info-center {
-  text-align: center; /* Center the game setup info */
+  text-align: center; 
   margin-left:38%;
   margin-top: 70px;
 }
 
 #game-setup-info-center .opposition-info {
-  font-size: 24px; /* Adjust the font size for the opposition name and team name */
-  margin-bottom: 10px; /* Add some space below the opposition name and team name */
+  font-size: 24px; 
+  margin-bottom: 10px; 
 }
 
 #game-setup-info-center .description {
-  font-size: 16px; /* Adjust the font size for the game description */
+  font-size: 16px; 
 }
 
  /* viewStatsTrends page specific styles */
@@ -1772,7 +1765,7 @@ button#record-opposition-team-point:hover {
 #view-trends-btn{
   background-color:  #28a745;
   border-color: #0e0f0e;
-  text-decoration: none; /* Remove underlining */
+  text-decoration: none; 
   color: #ffffff;
   border-radius: 3px;
   padding: 5px;
@@ -1789,35 +1782,35 @@ button#record-opposition-team-point:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 450px; /* Set the height to your desired value */
-  overflow: hidden; /* Hide any overflow beyond the wrapper */
-  text-align: center; /* Center the content horizontally */
+  height: 450px; 
+  overflow: hidden; 
+  text-align: center; 
 }
 
 #stat-trends-chart {
-  max-width: 90%; /* Make sure the chart doesn't exceed the screen width */
-  max-height: 60vh; /* Limit the chart's height to 60% of the viewport height */
+  max-width: 90%; 
+  max-height: 60vh; 
 }
 
 
 .stat-trends-title {
-  font-size: 28px; /* Adjust the font size as needed */
-  margin-top: 10px; /* Adjust the margin as needed */
-  text-align: center; /* Center the title horizontally */
+  font-size: 28px; 
+  margin-top: 10px; 
+  text-align: center;
 }
 
 .date-range-form {
-  text-align: center; /* Center the form content horizontally */
-  margin-top: 20px; /* Adjust the margin as needed */
+  text-align: center; 
+  margin-top: 20px; 
   margin-bottom: 15px;
 }
 
 
  
-/* Style for the updatePassword page */
+/* specific style for the updatePassword page */
 .updatePassword-page {
   padding: 20px;
-  max-width: 500px; /* Adjust as needed */
+  max-width: 500px; 
   margin: 0 auto;
   margin-top: 25px;
 }
@@ -1848,7 +1841,7 @@ button#record-opposition-team-point:hover {
   font-size: 14px;
 }
 
-/* Style for profile buttons */
+
 .updatePassword-btn-update {
   background-color:#07910b;
   color: #fff;
@@ -1860,13 +1853,13 @@ button#record-opposition-team-point:hover {
 }
 
 .updatePassword-welcome h1 {
-  font-size: 1.5rem; /* Adjust the font size as needed */
+  font-size: 1.5rem;
   margin-top: 65px;
 }
 
 
 
-/* Style for the instruction page */
+/* specific style for the instruction page */
 .instructions-section {
   background-color:  #e9e9eb;
   padding: 20px;
@@ -1908,7 +1901,7 @@ button#record-opposition-team-point:hover {
     position: absolute;
     top: calc(70% - 120px);
     right: 8%;
-    transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+    transform: translateY(-50%) rotate(20deg); 
     z-index: 999;
   }
 
@@ -1966,7 +1959,7 @@ button#record-opposition-team-point:hover {
   }
 
   #dashboard-container {
-    margin-left: 20%; /* Center the container on iPad mini screens */
+    margin-left: 20%; 
   }
   /* Styles for the dashboard boxes */
   .dashboard-box {
@@ -1990,7 +1983,7 @@ button#record-opposition-team-point:hover {
 
   #squad-container {
     max-width: 800px;
-    margin: 100px auto 0; /* Updated: Added 100px top margin to move it down */
+    margin: 100px auto 0; 
     padding: 20px;
   }
   /* createSquad specific styles */
@@ -2024,10 +2017,6 @@ button#record-opposition-team-point:hover {
   form#opposition-score-form {
   width: 90%; 
  
-  
-
-
-
 
 
 }
@@ -2047,7 +2036,7 @@ button#record-opposition-team-point:hover {
     position: absolute;
     top: calc(55% - 20px);
     right: 9%;
-    transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+    transform: translateY(-50%) rotate(20deg); 
     z-index: 999;
   }
 
@@ -2099,7 +2088,7 @@ button#record-opposition-team-point:hover {
 }
 
   #dashboard-container {
-    margin-left: 20%; /* Center the container on iPad mini screens */
+    margin-left: 20%;
   }
   /* Styles for the dashboard boxes */
   .dashboard-box {
@@ -2121,7 +2110,7 @@ button#record-opposition-team-point:hover {
   }
   #squad-container {
     max-width: 800px;
-    margin: 100px auto 0; /* Updated: Added 100px top margin to move it down */
+    margin: 100px auto 0; 
     padding: 20px;
   }
   .squad-card {
@@ -2137,7 +2126,6 @@ button#record-opposition-team-point:hover {
 
    /* recordStats page specific styles */
 
-  
   .back-to-record-games-btn,
   .dashboard-btn,
   .logout-btn {
@@ -2180,7 +2168,7 @@ h1#record-stats-heading {
     position: absolute;
     top: calc(55% - 20px);
     right: 7%;
-    transform: translateY(-50%) rotate(20deg); /* Adjust the rotation angle as needed */
+    transform: translateY(-50%) rotate(20deg); 
     z-index: 999;
   }
 
@@ -2238,7 +2226,7 @@ h1#record-stats-heading {
 }
 
   #dashboard-container {
-    margin-left: 20%; /* Center the container on iPad mini screens */
+    margin-left: 20%; 
   }
   /* Styles for the dashboard boxes */
   .dashboard-box {
@@ -2260,7 +2248,7 @@ h1#record-stats-heading {
   }
   #squad-container {
     max-width: 800px;
-    margin: 100px auto 0; /* Updated: Added 100px top margin to move it down */
+    margin: 100px auto 0; 
     padding: 16px;
   }
   .squad-card {
@@ -2274,7 +2262,6 @@ h1#record-stats-heading {
     margin-right: 150px;
   }
  /* recordStats page specific styles */
-
 
 /* Goalkeeper */
 .record-stat[data-position="GK"] {

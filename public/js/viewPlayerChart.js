@@ -1,7 +1,7 @@
-console.log("viewPlayerChart.js loaded");
+// JS function to view a specific player chart
 
+// wait for player chart symbol to be clicked
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM content loaded");
   const playerSetupIdElement = document.getElementById("player-setup-id");
 
   if (playerSetupIdElement) {
@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// function to get data from the fetchPlayerStats fucntion which gets the individual player stats
 async function fetchData(playerSetupId) {
   try {
     const response = await fetch(`/fetchPlayerStats/${playerSetupId}`);
@@ -21,7 +22,7 @@ async function fetchData(playerSetupId) {
     throw error;
   }
 }
-
+// funciton to create the chart using chart.js. recieved chartData from above fucntion
 function createChart(chartData) {
   const ctx = document.getElementById("player-stats-chart").getContext("2d");
   new Chart(ctx, {
@@ -54,11 +55,11 @@ function createChart(chartData) {
   });
 }
 
+// fucniton to go back to previous page
 document.addEventListener("DOMContentLoaded", function () {
   const backButton = document.getElementById("back-button");
 
   backButton.addEventListener("click", function () {
-    // Navigate back to the previous page
     history.back();
   });
 });

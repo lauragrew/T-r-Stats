@@ -1,32 +1,32 @@
 extends statsBase
 
 block content
-  // Add a container for the player scroller
+  //  container for the player scroller
   #players-container.scroller-container
     .heading-container
       h1 View Players for #{squad.name}
 
-    // Add a virtual scroller container to limit the visible area
+    //  virtual scroller container to limit the visible area
     .scroller
       each player in players
-        // Display player details here
+        // display player details 
         .player-card
           .player-details
             p.player-name= player.firstName + " " + player.lastName
-            // Add more player details here as needed
+            
 
-          // Add a form for each player to handle the delete request
+          // form for each player to handle the delete request
           form(action=`/api/v1/players/${player._id}`, method="DELETE", class="delete-player-form", data-player-id=player._id, data-squad-id=squad._id)
             button.delete-button(type="submit") Delete Player
 
     if players.length === 0
-      // Display a message when there are no players in the squad
+      // display a message when there are no players in the squad
       .no-players
         p You currently have no players in this squad. Please add one.
 
-    // Add a button to add a player to the squad
+    // add a button to add a player to the squad
     a.add-player-button(href=`/addPlayerProfile/${squad._id}`) Add Player
 
-  // Add a container for the "Back to View Squad" button
+  // add a container for the "Back to View Squad" button
   .back-button-container
     a.back-to-view-squad-button.btn.btn-custom(href="/viewSquads") Back to View Squad

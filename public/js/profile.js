@@ -16,7 +16,7 @@ const updatePassword = async (passwordCurrent, password, passwordConfirm) => {
   }
 };
 
-// Function to update user details
+// function to update user details
 const updateDetails = async (firstName, lastName, email) => {
   try {
     const res = await axios.patch("/updateMe", {
@@ -26,9 +26,8 @@ const updateDetails = async (firstName, lastName, email) => {
     });
 
     if (res.data.status === "success") {
-      // User details updated successfully
+      // user details updated successfully
       alert("User details updated successfully");
-      // You can add more logic here like updating UI
     }
   } catch (err) {
     alert("Error updating details: " + err.response.data.message);

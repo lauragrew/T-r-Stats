@@ -1,9 +1,11 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const Tour = require("../../models/tourModel");
+const Player = require("../../models/tourModel");
 const User = require("../../models/userModel");
-const Review = require("../../models/reviewModel");
+const Squad = require("../../models/reviewModel");
+
+// file for bulk adding users, players or squads if required (didnt really use this in the end as most data was added thorugh user input)
 
 dotenv.config({ path: "./config.env" });
 
@@ -12,7 +14,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-// connecting to the hostaed database
+// connecting to the database
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -22,18 +24,18 @@ mongoose
   .then(() => console.log("DB connection successful"));
 
 //read json file
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, "utf-8"));
+const squads = JSON.parse(fs.readFileSync(`${__dirname}/squads.json`, "utf-8"));
 const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, "utf-8"));
-const reviews = JSON.parse(
-  fs.readFileSync(`${__dirname}/reviews.json`, "utf-8")
+const players = JSON.parse(
+  fs.readFileSync(`${__dirname}/players.json`, "utf-8")
 );
 
 // import data into database
 const importData = async () => {
   try {
-    await Tour.create(tours);
+    await Squad.create(squads);
     await User.create(users, { validateBeforeSave: false });
-    await Review.create(reviews);
+    await Player.create(players);
     console.log("Data imported successfully");
   } catch (err) {
     console.log(err);
@@ -44,9 +46,9 @@ const importData = async () => {
 // delete all data from collection
 const deleteData = async () => {
   try {
-    await Tour.deleteMany();
+    await Squad.deleteMany();
     await User.deleteMany();
-    await Review.deleteMany();
+    await Player.deleteMany();
     console.log("Data deleted successfully");
   } catch (err) {
     console.log(err);

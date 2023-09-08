@@ -6,13 +6,13 @@ async function deleteSquad(squadId) {
     const confirmed = confirm("Are you sure you want to delete this squad?");
     if (!confirmed) return;
 
-    // Send a delete request to delete the squad
+    // send a delete request to delete the squad
     const response = await fetch(`/api/v1/squads/${squadId}`, {
       method: "DELETE",
     });
 
     if (response.ok) {
-      // If the deletion is successful, reload the page to update the squad list
+      // if the deletion is successful, reload the page to update the squad list
       window.location.reload();
       // handle errors
     } else {

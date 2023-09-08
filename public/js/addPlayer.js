@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const addPlayerForm = document.getElementById("add-player-form");
 
   if (addPlayerForm) {
-    // Add a submit event listener to the form
+    // add a submit event listener to the form
     addPlayerForm.addEventListener("submit", () => {
-      // Check if success-message element exists
+      // check if success-message element exists
       const successMessage = document.getElementById("success-message");
       if (successMessage) {
         // hide the success message

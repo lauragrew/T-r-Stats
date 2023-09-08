@@ -1,5 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+// Generic funcitons created that could be used for different controllers such as user/squads/players (get one player/squad/user, delete one player/squad/user)
+// Importted using handler factory (exports.getUser = factory.getOne(User))
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {

@@ -1,6 +1,6 @@
 const webdriver = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
-const login = require("./login"); // Import the login function
+const login = require("./login");
 
 async function runLoginAndDashboardTest() {
   const options = new chrome.Options();

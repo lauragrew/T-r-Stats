@@ -48,11 +48,8 @@ exports.getDashboard = async (req, res) => {
   });
 };
 
-// // function to view the viewSquads page
+// // function to view the viewSquads page (const squads = await Squad.find({ user: req.user._id }) used to find the currently logged in user using the protect middlware req.user)
 exports.getViewSquads = catchAsync(async (req, res) => {
-  console.log("Inside getViewSquads route handler");
-  console.log("Authenticated User:", req.user);
-
   const squads = await Squad.find({ user: req.user._id }).populate(
     "user",
     "firstName lastName"
@@ -68,9 +65,7 @@ exports.getViewSquads = catchAsync(async (req, res) => {
 exports.getViewPlayers = catchAsync(async (req, res) => {
   const { id } = req.params;
 
-  console.log(id); // check the squad ID is correct
-
-  // Find the squad by ID
+  // dind the squad by ID
   const squad = await Squad.findById(id);
 
   if (!squad) {
@@ -78,10 +73,10 @@ exports.getViewPlayers = catchAsync(async (req, res) => {
     return res.status(404).json({ error: "Squad not found" });
   }
 
-  // Find the players associated with the squad
+  // find the players associated with the squad
   const players = await Player.find({ squad: id });
 
-  // View the "viewPlayers" page and pass both squad and players data to it
+  // view the "viewPlayers" page and pass both squad and players data to it
   res.render("viewPlayers", { squad, players });
 });
 
@@ -93,7 +88,6 @@ exports.getCreateSquad = (req, res) => {
 // function to view the addPlayerProfile page
 exports.getAddPlayerProfile = (req, res) => {
   const squadId = req.params.squadId;
-  console.log(squadId); // checking the value of squadId is correct
 
   res.render("addPlayerProfile", { squadId });
 };
@@ -101,10 +95,10 @@ exports.getAddPlayerProfile = (req, res) => {
 // function to view the gameSetup page
 exports.getGameSetup = async (req, res, next) => {
   try {
-    // Fetch the squads associated with the current user
+    // get the squads associated with the current user
     const squads = await Squad.find({ user: req.user._id }).exec();
 
-    // Fetch the player positions and other relevant data needed for the view
+    // get the player positions and other relevant data needed for the view
     const playerPositions = [
       "GK",
       "LB",
@@ -123,13 +117,13 @@ exports.getGameSetup = async (req, res, next) => {
       "RCF",
     ];
 
-    // Fetch the gameSetup data based on the gamesetup ID (req.params.id)
+    // get the gameSetup data based on the gamesetup ID (req.params.id)
     const gameSetup = await GameSetup.findById(req.params.id).exec();
 
-    // Get the selected squad's players to populate the player dropdowns
+    // get the selected squad's players to populate the player dropdowns
     let players = [];
     if (gameSetup && gameSetup.selectedTeam) {
-      // Fetch players by squad ID directly within the getGameSetup function
+      // get players by squad ID directly within the getGameSetup function
       players = await Player.find({ squad: gameSetup.selectedTeam }).exec();
     }
 
@@ -148,42 +142,16 @@ exports.getGameSetup = async (req, res, next) => {
     });
   }
 };
-// function to view the recordGames
 
-// exports.getRecordGames = catchAsync(async (req, res) => {
-//   try {
-//     // Fetch the game setups from the database
-//     const gameSetups = await GameSetup.find().populate("playerSetup.playerId");
-
-//     // Fetch selected team names
-//     const selectedTeamNames = await Promise.all(
-//       gameSetups.map(async (setup) => {
-//         if (setup.selectedTeam) {
-//           const selectedTeam = await Squad.findById(setup.selectedTeam);
-//           return selectedTeam ? selectedTeam.name : null;
-//         }
-//         return null;
-//       })
-//     );
-
-//     // Render the "recordGames" template with game setups and selected team names
-//     res.render("recordGames", { gameSetups, selectedTeamNames });
-//   } catch (error) {
-//     console.error("Error fetching game setups:", error);
-//     res
-//       .status(500)
-//       .render("error", { message: "Failed to fetch game setups." });
-//   }
-// });
-
+// function to get the recordGame page
 exports.getRecordGames = catchAsync(async (req, res) => {
   try {
-    // Fetch the game setups created by the logged-in user
+    // get the game setups created by the logged-in user (protect middleware)
     const gameSetups = await GameSetup.find({ user: req.user._id }).populate(
       "playerSetup.playerId"
     );
 
-    // Fetch selected team names
+    // get selected team names
     const selectedTeamNames = await Promise.all(
       gameSetups.map(async (setup) => {
         if (setup.selectedTeam) {
@@ -194,7 +162,7 @@ exports.getRecordGames = catchAsync(async (req, res) => {
       })
     );
 
-    // Render the "recordGames" template with game setups and selected team names
+    // view the "recordGames" page with game setups and selected team names
     res.render("recordGames", { gameSetups, selectedTeamNames });
   } catch (error) {
     console.error("Error fetching game setups:", error);
@@ -207,13 +175,13 @@ exports.getRecordGames = catchAsync(async (req, res) => {
 // Function to view the recordStats page
 exports.getRecordStats = catchAsync(async (req, res) => {
   try {
-    // Retrieve the game setup ID
+    // get the game setup ID
     const { gameSetupId } = req.query;
 
-    // Fetch the game setup data by its ID
+    // get the game setup data by its ID
     const gameSetupData = await fetchGameSetupById(gameSetupId);
 
-    // Fetch the selected team name
+    // get the selected team name
     const selectedTeam = await Squad.findById(gameSetupData.selectedTeam);
     const selectedTeamName = selectedTeam ? selectedTeam.name : "";
 
@@ -228,14 +196,13 @@ exports.getRecordStats = catchAsync(async (req, res) => {
   }
 });
 
-// function for viewing game setups in the viewStats page
 // Function for viewing game setups in the viewStats page
 exports.viewStats = catchAsync(async (req, res) => {
   try {
-    // Fetch the game setups created by the logged-in user
+    // get the game setups created by the logged-in user (protect middleware)
     const gameSetups = await GameSetup.find({ user: req.user._id });
 
-    // Fetch selected team names
+    // get selected team names
     const selectedTeamNames = await Promise.all(
       gameSetups.map(async (setup) => {
         if (setup.selectedTeam) {
@@ -246,7 +213,7 @@ exports.viewStats = catchAsync(async (req, res) => {
       })
     );
 
-    // Render the "viewStats" template with game setups and selected team names
+    // view the "viewStats" page with game setups and selected team names
     res.render("viewStats", { gameSetups, selectedTeamNames });
   } catch (error) {
     console.error("Error fetching game setups:", error);
@@ -256,25 +223,26 @@ exports.viewStats = catchAsync(async (req, res) => {
   }
 });
 
+// funciton to view the game stats page
 exports.viewGameStats = catchAsync(async (req, res) => {
   const gameSetupId = req.params.gameSetupId;
 
   try {
-    // Fetch the game setup based on the provided ID
+    // get the game setup based on the provided ID
     const gameSetup = await GameSetup.findById(gameSetupId);
 
     if (!gameSetup) {
       return res.status(404).json({ message: "Game setup not found." });
     }
 
-    // Fetch selected team name (assuming setup.selectedTeam is an ObjectId)
+    // get selected team name (setup.selectedTeam object)
     let selectedTeamName = null;
     if (gameSetup.selectedTeam) {
       const selectedTeam = await Squad.findById(gameSetup.selectedTeam);
       selectedTeamName = selectedTeam ? selectedTeam.name : null;
     }
 
-    // Calculate totals for each stat type
+    // calculate totals for each stat type
     const statTypes = Array.from(
       new Set(
         gameSetup.playerSetup.flatMap((playerSetup) =>
@@ -292,13 +260,13 @@ exports.viewGameStats = catchAsync(async (req, res) => {
     });
 
     // view the "viewGameStats" page with the game setup data, selected team name, and stat totals
-    // Inside the `viewGameStats` route handler
+
     res.render("viewGameStats", {
       gameSetup,
       selectedTeamName,
       statTypes,
       statTotals,
-      // Add the game setup information here
+      // add the game setup information here
       gameInfo: `${selectedTeamName} vs ${gameSetup.oppositionName}\n${gameSetup.gameDescription}`,
     });
   } catch (error) {
@@ -306,12 +274,12 @@ exports.viewGameStats = catchAsync(async (req, res) => {
     res.status(500).render("error", { message: "Failed to fetch game setup." });
   }
 });
-
+// fucntion to view the individual player charts
 exports.viewPlayerChart = async (req, res) => {
   const playerSetupId = req.params.playerSetupId;
 
   try {
-    // Fetch the player setup based on the provided ID
+    // get the player setup based on the provided ID
     const gameSetup = await GameSetup.findOne({
       "playerSetup._id": playerSetupId,
     });
@@ -320,7 +288,7 @@ exports.viewPlayerChart = async (req, res) => {
       return res.status(404).json({ message: "Player setup not found." });
     }
 
-    // Find the player setup within the game setup
+    // find the player setup within the game setup
     const playerSetup = gameSetup.playerSetup.find((ps) =>
       ps._id.equals(playerSetupId)
     );
@@ -329,7 +297,7 @@ exports.viewPlayerChart = async (req, res) => {
       return res.status(404).json({ message: "Player setup not found." });
     }
 
-    // Calculate chart data for the player's stats
+    // calculate chart data for the player's stats
     const statTypes = Array.from(
       new Set(playerSetup.stats.map((stat) => stat.statType))
     );
@@ -339,19 +307,18 @@ exports.viewPlayerChart = async (req, res) => {
       const count = playerStat ? playerStat.count : 0;
       return {
         label: statType,
-        data: [count], // For a single player, there's only one data point per stat type
+        data: [count],
       };
     });
 
-    // Render the Pug template and pass chartData as a local variable
-    res.render("viewPlayerChart", { chartData, playerSetup }); // Make sure "viewPlayerChart" is the correct Pug template name
-    // Make sure "viewPlayerChart" is the correct Pug template name
+    // view the player chart page and pass chartData
+    res.render("viewPlayerChart", { chartData, playerSetup });
   } catch (error) {
     console.error("Error fetching player setup:", error);
     res.status(500).json({ message: "Failed to fetch player setup." });
   }
 };
-
+// function th get player stats
 exports.fetchPlayerStats = async (req, res) => {
   const playerSetupId = req.params.playerSetupId;
 
@@ -364,7 +331,7 @@ exports.fetchPlayerStats = async (req, res) => {
       return res.status(404).json({ message: "Player setup not found." });
     }
 
-    // Find the player setup within the game setup
+    // find the player setup within the game setup
     const playerSetup = gameSetup.playerSetup.find((ps) =>
       ps._id.equals(playerSetupId)
     );
@@ -373,7 +340,7 @@ exports.fetchPlayerStats = async (req, res) => {
       return res.status(404).json({ message: "Player setup not found." });
     }
 
-    // Calculate chart data for the player's stats
+    // calculate chart data for the player's stats
     const statTypes = Array.from(
       new Set(playerSetup.stats.map((stat) => stat.statType))
     );
@@ -383,7 +350,7 @@ exports.fetchPlayerStats = async (req, res) => {
       const count = playerStat ? playerStat.count : 0;
       return {
         label: statType,
-        data: [count], // For a single player, there's only one data point per stat type
+        data: [count],
       };
     });
 
@@ -393,19 +360,19 @@ exports.fetchPlayerStats = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch player stats." });
   }
 };
-
+// funciton to view the total stats chart
 exports.viewTotalStatsChart = catchAsync(async (req, res) => {
   const gameSetupId = req.params.gameSetupId;
 
   try {
-    // Fetch the game setup based on the provided ID
+    // get the game setup based on the provided ID
     const gameSetup = await GameSetup.findById(gameSetupId);
 
     if (!gameSetup) {
       return res.status(404).json({ message: "Game setup not found." });
     }
 
-    // Calculate totals for each stat type
+    // calculate totals for each stat type
     const statTypes = Array.from(
       new Set(
         gameSetup.playerSetup.flatMap((playerSetup) =>
@@ -422,17 +389,17 @@ exports.viewTotalStatsChart = catchAsync(async (req, res) => {
       }, 0);
     });
 
-    // Fetch selected team name (assuming setup.selectedTeam is an ObjectId)
+    // get selected team name (setup.selectedTeam object))
     let selectedTeamName = null;
     if (gameSetup.selectedTeam) {
       const selectedTeam = await Squad.findById(gameSetup.selectedTeam);
       selectedTeamName = selectedTeam ? selectedTeam.name : null;
     }
 
-    // Render the "viewTotalStatsChart" page with the statTotals data
+    // view the "viewTotalStatsChart" page with the statTotals data
     res.render("viewTotalStatsChart", {
-      gameSetup, // Pass the gameSetup data
-      selectedTeamName, // Replace with the actual selected team name
+      gameSetup,
+      selectedTeamName,
       statTotals,
       statTypes,
     });
@@ -445,17 +412,18 @@ exports.viewTotalStatsChart = catchAsync(async (req, res) => {
 // function to view the stat trends
 exports.viewStatTrends = catchAsync(async (req, res) => {
   try {
-    const currentUser = res.locals.user; // Get the currently logged-in user
+    // get the currently logged-in user
+    const currentUser = res.locals.user;
 
-    // Fetch game setups that belong to the current user and have an end date
+    // get game setups that belong to the current user and have an end date
     const gameSetups = await GameSetup.find({
-      user: currentUser._id, // Assuming user reference in the GameSetup model
+      user: currentUser._id, // user referenced in gamesetups
       ended: true,
       endDate: { $exists: true },
     });
     console.log(gameSetups);
 
-    // Extract stat data for each game setup
+    // get stat data for each game setup
     const gameSetupStats = gameSetups.map((setup) => {
       const totalStats = setup.playerSetup.reduce((acc, player) => {
         const playerTotalStats = player.stats.reduce((playerAcc, stat) => {
@@ -477,7 +445,7 @@ exports.viewStatTrends = catchAsync(async (req, res) => {
         totalStats: totalStats,
       };
     });
-
+    // view the stat trends page
     res.render("viewStatTrends", {
       title: "Stat Trends",
       gameSetupStats,
@@ -490,12 +458,12 @@ exports.viewStatTrends = catchAsync(async (req, res) => {
   }
 });
 
-// Profile Page
+// function to view the profile Page
 exports.getProfilePage = catchAsync(async (req, res) => {
   res.render("profile", { user: req.user });
 });
 
-// Update Password Page
+// function to view the update Password Page
 exports.getUpdatePassword = catchAsync(async (req, res) => {
   res.render("updatePassword", { user: req.user });
 });

@@ -1,37 +1,37 @@
 extends statsBase
 
 block content
-  // Specific content for the View Stats page
+  // specific content for the View Stats page
   div#record-game-page
     div#record-game-container
-      // Conditionally render the View Stat Trends Button
+      // conditionally render the View Stat Trends Button
       if gameSetups.length > 0
         // View Stat Trends Button
         a.btn.btn-primary.stat-trend-button(href="/viewStatTrends") View Stat Trends
 
       h1 All Game Setups 
 
-      // Check if there are any game setups to display
+      // check if there are any game setups to display
       if gameSetups.length === 0
         p No game setups found.
       else
-        // Virtual Scroller Container with a unique ID
+        // virtual Scroller Container with a unique ID
         div#record-game-setup-container
           each gameSetup, index in gameSetups
             div.game-setup-card
-              // Game setup card content
+              // game setup card content
               h2= `${selectedTeamNames[index]} vs ${gameSetup.oppositionName}`
               p= gameSetup.gameDescription
-              // View Players Button
+              // view Players Button
               button.view-players-btn.btn.btn-primary(type="button", data-game-setup-id=gameSetup._id) View Players
-              // Add some space between buttons
+              // pace between buttons
               span.button-space
-              // Delete Button
+              // delete Button
               button.delete-btn.btn.btn-danger(type="button", onclick="deleteGameSetup('" + gameSetup._id + "')") Delete
-              // Game Stats Button
+              // dame Stats Button
               a.game-stats-btn.btn.btn-primary(href=`/gameStats/${gameSetup._id}`) Game Stats
 
-              // Hidden Player List
+              // hidden Player List
               div.player-list.hidden(id="playerList_" + gameSetup._id)
                 each playerSetup in gameSetup.playerSetup
                   p

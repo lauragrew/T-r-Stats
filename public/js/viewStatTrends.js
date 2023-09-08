@@ -1,4 +1,4 @@
-// Function to generate a random color
+// function to generate a random color
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -8,7 +8,7 @@ function getRandomColor() {
   return color;
 }
 
-// Function to fetch game setups data for stat trends
+// function to fetch game setups data for stat trends using the gameSetups/by-date function
 async function fetchGameSetups(startDate, endDate, selectedTeam) {
   try {
     const response = await fetch(
@@ -23,7 +23,7 @@ async function fetchGameSetups(startDate, endDate, selectedTeam) {
   }
 }
 
-// Function to fetch user squads
+// function to fetch user squads using the getmySquads function
 async function fetchUserSquads() {
   try {
     const response = await fetch("/api/v1/squads/mySquads");
@@ -35,7 +35,7 @@ async function fetchUserSquads() {
   }
 }
 
-// Function to fetch total stat counts
+// function to fetch total stat counts - gets an array of gameSetups and statTypes as parameters. iterate thorugh the game setups, players and their stats to get the total and returns array of the total counts for each gamesetup
 async function fetchTotalStatCounts(gameSetups, statType) {
   try {
     const totalStatCounts = [];
@@ -61,7 +61,7 @@ async function fetchTotalStatCounts(gameSetups, statType) {
   }
 }
 
-// Function to render the stat trends line chart
+// function to render the stat trends line chart using chart.js usig the fetchTotalStatCount fucntion from above
 async function renderStatTrendsChart(gameSetups, squads) {
   const selectedStat = document.getElementById("stat-select").value;
 
@@ -77,15 +77,18 @@ async function renderStatTrendsChart(gameSetups, squads) {
 
     const gameNames = gameSetups.map((gameSetup) => {
       const gameDate = new Date(gameSetup.endDate);
-
-      const year = gameDate.getFullYear().toString().slice(-2); // Get the last two digits of the year
-      const month = (gameDate.getMonth() + 1).toString().padStart(2, "0"); // Add leading zero if single-digit month
-      const day = gameDate.getDate().toString().padStart(2, "0"); // Add leading zero if single-digit day
+      // get the last two digits of the year
+      const year = gameDate.getFullYear().toString().slice(-2);
+      // add leading zero if single-digit month
+      const month = (gameDate.getMonth() + 1).toString().padStart(2, "0");
+      // add leading zero if single-digit day
+      const day = gameDate.getDate().toString().padStart(2, "0");
 
       const formattedDate = `${day}/${month}/${year}`;
+      // return chart data
       return `${selectedTeamName} vs ${gameSetup.oppositionName} (${formattedDate})`;
     });
-
+    // create chartData and game names for the chart
     const chartData = [
       {
         label: `${selectedStat} Trend`,
@@ -95,17 +98,17 @@ async function renderStatTrendsChart(gameSetups, squads) {
       },
     ];
 
-    // Destroy the previous chart instance if it exists
+    // destroy the previous chart instance if it exists
     if (window.myChart) {
       window.myChart.destroy();
     }
 
-    // Render the line chart using Chart.js
+    // view the line chart using Chart.js
     const ctx = document.getElementById("stat-trends-chart").getContext("2d");
     window.myChart = new Chart(ctx, {
       type: "line",
       data: {
-        labels: gameNames, // Use game names as labels
+        labels: gameNames,
         datasets: chartData,
       },
       options: {
@@ -122,13 +125,13 @@ async function renderStatTrendsChart(gameSetups, squads) {
     console.error("Error fetching total stat counts:", error);
   }
 }
-
+// event listeners for buttons
 document.addEventListener("DOMContentLoaded", async () => {
   const backButton = document.getElementById("back-button");
   const viewTrendsButton = document.getElementById("view-trends-btn");
   const teamSelect = document.getElementById("team-select");
 
-  // Fetch user squads and populate the dropdown
+  // fetch user squads and populate the dropdown
   const squads = await fetchUserSquads();
   squads.forEach((squad) => {
     const option = document.createElement("option");
@@ -137,13 +140,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     teamSelect.appendChild(option);
   });
 
-  // Add event listener to the "Back" button
+  // addd event listener to the "Back" button
   backButton.addEventListener("click", () => {
-    // Navigate back to the previous page
     history.back();
   });
 
-  // Add event listener to the "View Trends" button
+  // add event listener to the "View Trends" button
   viewTrendsButton.addEventListener("click", async () => {
     const startDate = document.getElementById("start-date").value;
     const endDate = document.getElementById("end-date").value;
