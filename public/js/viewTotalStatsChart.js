@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const statTotalsDataRaw = document.getElementById("stat-totals-data").value;
   const statTypesDataRaw = document.getElementById("stat-types-data").value;
 
-  // Parse the statTotals and statTypes data from the hidden input fields
+  // parse the statTotals and statTypes data from the hidden input fields
   const statTotals = JSON.parse(statTotalsDataRaw);
   const statTypes = JSON.parse(statTypesDataRaw);
 
-  // Create a chart using Chart.js
+  // create a chart using Chart.js
   const ctx = document.getElementById("total-stats-chart").getContext("2d");
   new Chart(ctx, {
     type: "bar",
@@ -22,17 +22,16 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       ],
     },
-    options: {
-      // Add your chart options here
-    },
+    options: {},
   });
 });
 
+// get back to the previous page
 document.addEventListener("DOMContentLoaded", function () {
   const backButton = document.getElementById("back-button");
 
   backButton.addEventListener("click", function () {
-    // Navigate back to the previous page
+    // navigate back to the previous page
     history.back();
   });
 });

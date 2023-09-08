@@ -1,4 +1,4 @@
-// this is signup fucntionality
+// JS signup funcion
 
 // selecting elements in statSignup1.pug by their IDs/Classes
 const signupForm = document.querySelector(".signup-form");

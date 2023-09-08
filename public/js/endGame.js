@@ -8,14 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await axios.post(`/api/v1/stats/endGame/${gameSetupId}`);
       if (response.data.success) {
-        // Display a success message
+        // display a success message
         Swal.fire({
           icon: "success",
           title: "Game Ended",
           text: "The game has been successfully ended. You can no longer record stats on this game.",
           confirmButtonText: "OK",
         }).then(() => {
-          // Redirect back to the recordGame page after ending the game
+          // redirect back to the recordGame page after ending the game
           window.location.href = "/recordGames";
         });
       } else {

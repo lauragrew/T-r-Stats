@@ -5,20 +5,16 @@ block content
     .heading-container
       h1 View Squads
 
-      // Add "Create New Squad" button to link to the form to create a new squad
+      // "Create New Squad" button to link to the form to create a new squad
       a.create-squad-button(href="/createSquad") Create New Squad
 
     if squads.length > 0
       each squad in squads
         .squad-card
           a(href=`/viewPlayers/${squad._id}`)= squad.name
-          // Add more squad details here as needed
-
-          // Add Delete Squad button
+        
+          // delete Squad button
           button.delete-squad-btn(type="button", onclick=`deleteSquad('${squad._id}')`) Delete Squad
-
-
-
 
     else
       .no-squads

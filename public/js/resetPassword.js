@@ -1,31 +1,33 @@
+// JS fucntion for reseting the password - not implemented yet
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded event fired"); // Debugging
+  console.log("DOMContentLoaded event fired");
 
   const resetForm = document.querySelector(".reset-password-form");
   if (!resetForm) {
-    console.error("Reset form not found."); // Debugging
+    console.error("Reset form not found.");
     return;
   }
 
   resetForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    console.log("Form submitted"); // Debugging
+    console.log("Form submitted");
 
     const password = resetForm.querySelector("#password").value;
     const passwordConfirm = resetForm.querySelector("#passwordConfirm").value;
     const tokenInput = resetForm.querySelector('input[name="token"]');
 
     if (!tokenInput) {
-      console.error("Token input not found."); // Debugging
+      console.error("Token input not found.");
       return;
     }
 
     const token = tokenInput.value;
 
-    console.log("Password:", password); // Debugging
-    console.log("Password Confirm:", passwordConfirm); // Debugging
-    console.log("Token:", token); // Debugging
+    console.log("Password:", password);
+    console.log("Password Confirm:", passwordConfirm);
+    console.log("Token:", token);
 
     try {
       // Send PATCH request to reset password
@@ -34,11 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
         passwordConfirm,
       });
 
-      console.log("Response:", res.data); // Debugging
+      console.log("Response:", res.data);
 
       if (res.data.status === "success") {
         alert("Password reset successfully!");
-        // Redirect to the dashboard or login page
+        // redirect to the dashboard or login page
         window.location.href = "/statsLogin";
       }
     } catch (err) {

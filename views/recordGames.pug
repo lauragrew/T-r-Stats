@@ -1,16 +1,16 @@
 extends statsBase
 
 block content
-  // Specific content for the Record Game page
+  // specific content for the Record Game page
   div#record-game-page
     div#record-game-container
       h1 Record Games
 
-      // Check if there are any game setups to display
+      // check if there are any game setups to display
       if gameSetups.length === 0
         p No game setups found.
       else
-        // Virtual Scroller Container with a unique ID
+        // virtual Scroller Container with a unique ID
         div#record-game-setup-container
           each gameSetup, index in gameSetups
             - if (!gameSetup.ended)
@@ -20,14 +20,14 @@ block content
                 p= gameSetup.gameDescription
                 // View Players Button
                 button.view-players-btn.btn.btn-primary(type="button", data-game-setup-id=gameSetup._id) View Players
-                // Add some space between buttons
+                // space between buttons
                 span.button-space
-                // Delete Button
+                // delete Button
                 button.delete-btn.btn.btn-danger(type="button", onclick="deleteGameSetup('" + gameSetup._id + "')") Delete
                 // Record Game Stats Button
                 button.record-stats-btn.btn.btn-primary(type="button", onclick="recordGameStats('" + gameSetup._id + "')") Record Game Stats
 
-                // Hidden Player List
+                // hidden Player List
                 div.player-list.hidden(id="playerList_" + gameSetup._id)
                   each playerSetup in gameSetup.playerSetup
                     p
@@ -35,5 +35,5 @@ block content
                       |  &nbsp; 
                       span.player-name= playerSetup.playerName
 
-        // Move the "Create New Game Setup" button outside the loop
+        // "Create New Game Setup" button outside the loop
         a.create-setup-button(href="/gameSetup") Create New Game Setup

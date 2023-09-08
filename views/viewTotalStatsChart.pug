@@ -16,29 +16,29 @@ html(lang="en")
       // logo
       div#logo TírStats
 
-      // Navigation buttons
+      // navigation buttons
       div#navigation-buttons
-        // Inside your Pug template
+        // inside your Pug template
         button#back-button.btn.btn-secondary(type="button") Back to Game Stats
         a.dashboard-btn.btn.btn-secondary(href="/dashboard") Dashboard
         a.logout-btn.btn.btn-secondary(href="/logout") Logout
 
-      // Display game setup information at the top
+      // display game setup information at the top
       div#game-setup-info-center
        h1 Total Stats Chart
         h2= `${gameSetup.oppositionName} - ${selectedTeamName}`
         p= gameSetup.gameDescription
 
-      // Display the total stats chart canvas
+      // display the total stats chart canvas
       div#chart-container
         canvas#total-stats-chart
         
 
-      // Hidden input field for statTotals data
+      // hidden input field for statTotals data
       input#stat-totals-data(type="hidden", value=JSON.stringify(statTotals))
 
-      // Hidden input field for statTypes data
+      // hidden input field for statTypes data
       input#stat-types-data(type="hidden", value=JSON.stringify(statTypes))
 
-      // Include the JavaScript file to render the chart
+      // additional JavaScript file to render the chart
       script(src="/js/viewTotalStatsChart.js")

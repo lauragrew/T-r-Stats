@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const sendEmail = require("../utils/email");
 
-// function to call the signToken function with a user's ID, generate a JWT with the user's ID, signs it using the secret key, and sets an expiration time for the token. The JWT can then be sent to the user and used for authentication
+// function to generate a JWT with the user's ID, signs it using the secret key (congif.env), and sets an expiration time for the token.
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -40,8 +40,12 @@ const createSendToken = (user, statusCode, res, redirectUrl) => {
   });
 };
 
+// function used to sign up a user
 exports.signup = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password, passwordConfirm } = req.body;
+
+  // Debugging console.log
+  console.log("Received email for signup:", email);
 
   // Check if the passwords match
   if (password !== passwordConfirm) {
@@ -80,7 +84,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 });
 
-// login function
+// fucntion to log in a user who has created an account
 exports.login = catchAsync(async (req, res, next) => {
   // Inside authController.login
   console.log("Inside authController.login");
@@ -98,21 +102,16 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     console.log("Incorrect email or password");
     return next(new AppError("Incorrect email or password", 401));
-
-    // Add these console.log statements to check the response data
-    console.log("Before sending response");
-    console.log("Response Status Code:", res.statusCode);
-    console.log("Response JSON Data:", res.jsonData);
   }
   // 3) If user exists & password is correct, create and send a token back to the client
   createSendToken(user, 200, res, "/dashboard");
-  // Add this console.log statement to check if the response was sent
+
   console.log("After sending response");
 });
 
-// logout function
+// function to log a user out
 exports.logout = (req, res) => {
-  // Clear the JWT token cookie to log the user out
+  // clear the JWT token cookie to log the user out
   res.cookie("jwt", "logged out", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
@@ -120,9 +119,9 @@ exports.logout = (req, res) => {
   res.status(200).json({ status: "success", redirectUrl: "/statsLogin" });
 };
 
-// middleware function for protecting routes - user must be logged in to access certain routes
+// middleware function for protecting routes - user must be authenticated to access certain routes
 exports.protect = catchAsync(async (req, res, next) => {
-  // 1) Getting token and check if it's there
+  // 1) Getting token
   let token;
   if (
     req.headers.authorization &&
@@ -139,7 +138,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 2) Verification of token - if someone has manipulated the token or is has expired
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // 3) if verifcation is successful, check if user still exists
+  // 3) if verifcation is successful, check if user still exists in the database
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
@@ -153,7 +152,7 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError("User recently changed password! Please log in again", 401)
     );
   }
-  // grant access to the protected route
+  // give access to the protected route
   req.user = currentUser;
   next();
 });
@@ -203,7 +202,7 @@ exports.restrictTo =
     next();
   };
 
-// function for forget password
+// function for forget password (not implemented yet on frontend)
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
@@ -242,7 +241,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-// function to reset password
+// function to reset password (not implemented on frontend)
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on token
   const hashedToken = crypto
@@ -267,35 +266,32 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  // 3) update the changedPasswordAt property of the user
-
-  // 4) log the user in , sent JWT
   createSendToken(user, 200, res);
 });
 
+// function to update the password (not implemented on frontend)
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  // Verify token from the request header
+  // Verify token from the req header
   const token = req.header("Authorization")?.replace("Bearer ", "");
 
   try {
-    // Logging the received token
     console.log("Received Token:", token);
 
     // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log("Decoded Payload:", decoded);
 
-    // Find the user by ID and select the password field
+    // Find the user by ID and select password field
     const user = await User.findById(decoded.id).select("+password");
 
-    // Check if the current password provided in the request is correct
+    // Check if the current password provided is correct
     if (
       !(await user.correctPassword(req.body.passwordCurrent, user.password))
     ) {
       return next(new AppError("Current password is incorrect", 401));
     }
 
-    // Update the password and passwordConfirm fields
+    // Update the password and passwordConfirm
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
 
@@ -303,10 +299,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     await user.save();
 
     // Log the user in and send a JWT token
-    createSendToken(user, 200, res); // Replace with your logic to send JWT token
+    createSendToken(user, 200, res);
   } catch (err) {
-    // Logging token verification error
-    console.error("Token Verification Error:", err);
     return next(new AppError("Token is invalid or has expired", 400));
   }
 });

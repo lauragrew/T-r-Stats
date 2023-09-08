@@ -1,6 +1,6 @@
-// updatePassword.js
+// updatePassword.js - not implemented
 
-// Function to update password
+// function to update password
 const updatePassword = async (
   passwordCurrent,
   newPassword,
@@ -11,7 +11,6 @@ const updatePassword = async (
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        // Add your authorization header with the token here
       },
       body: JSON.stringify({
         passwordCurrent,
@@ -24,20 +23,17 @@ const updatePassword = async (
 
     if (data.status === "success") {
       console.log("Password updated successfully");
-      // You can redirect the user or show a success message here
     } else {
       console.log("An error occurred:", data.error);
-      // Handle the error here, show error message, etc.
     }
   } catch (err) {
     console.error("An error occurred:", err);
-    // Handle the error here
   }
 };
-// Handle form submission
+// handle  update password form submission
 const form = document.querySelector(".update-password-form");
 form.addEventListener("submit", async (e) => {
-  e.preventDefault(); // Prevent default form submission
+  e.preventDefault();
 
   const passwordCurrent = document.getElementById("currentPassword").value;
   const newPassword = document.getElementById("newPassword").value;

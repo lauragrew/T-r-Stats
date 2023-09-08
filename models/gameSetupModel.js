@@ -61,13 +61,13 @@ const playerSetupSchema = new mongoose.Schema({
     max: 30,
     required: true,
   },
-  stats: [playerStatsSchema], // Array to store player stats
+  stats: [playerStatsSchema], // array to store player stats
 });
 
 const gameSetupSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Adjust the model name as per your User model
+    ref: "User",
   },
   oppositionName: {
     type: String,
@@ -82,14 +82,14 @@ const gameSetupSchema = new mongoose.Schema({
     ref: "Team",
     required: true,
   },
-  playerSetup: [playerSetupSchema], // Array to store player setups including stats
+  playerSetup: [playerSetupSchema], // array to store player setups including stats
   ended: {
     type: Boolean,
-    default: false, // Default value is set to false (not ended)
+    default: false, // default value is set to false (game is not ended)
   },
   endDate: {
     type: Date,
-    default: null, // Default value is set to null
+    default: null,
   },
 });
 

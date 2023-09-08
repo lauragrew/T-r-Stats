@@ -2,7 +2,7 @@ const Player = require("../models/playerModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
-// function to create a player
+// function to create a new player to a specific squad for the currently logged in user
 exports.createPlayer = catchAsync(async (req, res) => {
   const { firstName, lastName } = req.body;
   const squadId = req.params.squadId;
@@ -26,7 +26,7 @@ exports.deletePlayer = catchAsync(async (req, res) => {
   // find player and delete a player by ID
   await Player.findByIdAndDelete(playerId);
 
-  // Send a JSON response for successful deletion
+  // Send a success message to the user
   res.status(200).json({
     status: "success",
     data: null,

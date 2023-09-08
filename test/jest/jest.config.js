@@ -5,4 +5,5 @@ module.exports = {
   setupFilesAfterEnv: [],
   globalSetup: "./test/setup.js",
   globalTeardown: "./test/teardown.js",
+  testEnvironment: "jsdom",
 };
